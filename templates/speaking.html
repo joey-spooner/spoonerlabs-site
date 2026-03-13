@@ -2,9 +2,9 @@
 {% set active_page = 'speaking' %}
 
 {% block title %}Speaking — Spooner Labs{% endblock %}
-{% block description %}Invite me to speak on systems, technology, organizations, AI, and product thinking.{% endblock %}
+{% block description %}Invite me to speak on AI, change management, systems thinking, Kanban, and product development.{% endblock %}
 {% block og_title %}Speaking — Spooner Labs{% endblock %}
-{% block og_description %}Invite me to speak on systems, technology, organizations, AI, and product thinking.{% endblock %}
+{% block og_description %}Invite me to speak on AI, change management, systems thinking, Kanban, and product development.{% endblock %}
 
 {% block content %}
 <div class="container container--narrow">
@@ -12,11 +12,11 @@
   <header class="page-header">
     <p class="page-header__eyebrow">Speaking</p>
     <h1 class="page-header__title">Invite me to speak</h1>
-    <p class="page-header__desc">I speak at conferences, workshops, and team offsites on topics in systems, technology, organizations, and the places they intersect.</p>
+    <p class="page-header__desc">I speak at conferences, workshops, and team offsites on AI adoption, systems thinking, organizational agility, and product development. I've been doing it since 2004 and still find it worthwhile.</p>
   </header>
 
   <section class="section">
-    <p class="section__label">Topics I speak on</p>
+    <p class="section__label">Topics</p>
     <ul class="topic-list">
       {% for topic in speaking.topics %}
       <li>{{ topic }}</li>
@@ -24,16 +24,37 @@
     </ul>
   </section>
 
-  {% if speaking.highlights %}
   <section class="section">
-    <p class="section__label">Past talks and highlights</p>
-    <div class="prose">
-      {% for item in speaking.highlights %}
-      <p>{{ item }}</p>
+    <p class="section__label">Selected talks</p>
+    <div class="card-grid">
+      {% for talk in speaking.highlights %}
+      <div class="card">
+        <p class="card__title">{{ talk.title }}</p>
+        <p class="card__desc">{{ talk.venue }}{% if talk.location %}, {{ talk.location }}{% endif %}{% if talk.note %} — {{ talk.note }}{% endif %}</p>
+        <div class="card__meta">
+          <span class="tag">{{ talk.year }}</span>
+        </div>
+      </div>
       {% endfor %}
     </div>
   </section>
-  {% endif %}
+
+  <section class="section">
+    <p class="section__label">Full history</p>
+    {% for group in speaking.history %}
+    <div class="speaking-year">
+      <p class="speaking-year__label">{{ group.year }}</p>
+      <ul class="speaking-year__list">
+        {% for talk in group.talks %}
+        <li>
+          <span class="speaking-talk__title">{{ talk.title }}</span>
+          <span class="speaking-talk__meta">{{ talk.venue }}{% if talk.location %}, {{ talk.location }}{% endif %}{% if talk.note %} — {{ talk.note }}{% endif %}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </section>
 
   <section class="section">
     <p class="section__label">Get in touch</p>

@@ -1,11 +1,140 @@
 # Speaking page content
 
 topics:
-  - "Systems thinking"
-  - "AI and organizations"
-  - "Product thinking"
-  - "Technology strategy"
-  - "Building in public"
+  - "AI pipelines and organizational readiness"
+  - "Change management and AI adoption"
+  - "Kanban and flow-based methods"
+  - "Decision-making systems and feedback loops"
+  - "Agile at scale in government and enterprise"
+  - "Managing technical debt"
+  - "Customer discovery and product analysis"
 
 highlights:
-  - "[Placeholder — add highlights from your YouTube channel, past talks, or events you've spoken at.]"
+  - title: "Kanban at the US Department of Labor"
+    venue: "Kanban University Central Europe"
+    location: "Hamburg, Germany"
+    year: 2017
+  - title: "Going Agile at the Department of Labor"
+    venue: "Agile 2017 National Conference"
+    location: "Orlando, FL"
+    year: 2017
+  - title: "Thrive, Survive, or Die: An Adventure into the Kanban Cadences"
+    venue: "Lean Agile US"
+    location: "Fort Lauderdale, FL"
+    year: 2020
+    note: "with T. Hone"
+  - title: "Managing Technical Debt Using A Kanban System"
+    venue: "Department of Homeland Security"
+    location: "Washington, D.C."
+    year: 2019
+  - title: "No (Lab) Jacket Required: Designing Experiments for Learning"
+    venue: "Washington D.C. Business Agility Meetup"
+    location: "Washington, D.C."
+    year: 2020
+  - title: "Greater capability with fewer people: Modify your way of working"
+    venue: "Kanban University Global Summit"
+    location: "Alexandria, VA"
+    year: 2019
+
+history:
+  - year: 2020
+    talks:
+      - title: "Getting to Yes using the Kanban Method"
+        venue: "Kanban SoCal and Agile Denver Meetup"
+        location: "Virtual"
+      - title: "Thrive, Survive, or Die: An Adventure into the Kanban Cadences"
+        venue: "Lean Agile US"
+        location: "Fort Lauderdale, FL"
+        note: "with T. Hone"
+      - title: "No (Lab) Jacket Required: Designing Experiments for Learning"
+        venue: "Washington D.C. Business Agility Meetup"
+        location: "Washington, D.C."
+
+  - year: 2019
+    talks:
+      - title: "Managing Technical Debt Using A Kanban System"
+        venue: "Department of Homeland Security"
+        location: "Washington, D.C."
+      - title: "Thrive, Survive, or Die: An Adventure into the Kanban Cadences"
+        venue: "Agile 2018 National Conference"
+        location: "National Harbor, MD"
+        note: "with T. Hone"
+      - title: "Greater capability with fewer people: Modify your way of working"
+        venue: "Kanban University Global Summit"
+        location: "Alexandria, VA"
+
+  - year: 2018
+    talks:
+      - title: "Getting to Yes using the Kanban Method"
+        venue: "Department of Homeland Security"
+        location: "Washington, D.C."
+      - title: "Organizational principles to help manage your non-profit projects"
+        venue: "Baltimore Techies for Good"
+        location: "Columbia, MD"
+      - title: "Using the Kanban Method to make good decisions"
+        venue: "B'More Agile"
+        location: "Baltimore, MD"
+
+  - year: 2017
+    talks:
+      - title: "Kanban at the US Department of Labor"
+        venue: "Kanban University Central Europe"
+        location: "Hamburg, Germany"
+      - title: "Going Agile at the Department of Labor"
+        venue: "Agile 2017 National Conference"
+        location: "Orlando, FL"
+      - title: "CMMI and Kanban"
+        venue: "CMMI Capability Counts"
+        location: "Alexandria, VA"
+        note: "with K. Palmer"
+      - title: "Kanban and CMMI"
+        venue: "Kanban University North America"
+        location: "Tysons Corner, VA"
+        note: "with K. Palmer"
+      - title: "Kanban @ The Department of Labor"
+        venue: "Kanban University North America"
+        location: "Tysons Corner, VA"
+      - title: "Agile From The Inside — Success with Kanban at Department of Labor"
+        venue: "Agile Leadership Network DC Chapter"
+        location: "Vienna, VA"
+      - title: "Kanban in Context – Project Management and Business Analysis"
+        venue: "IIBADC Washington Business Analysts Meetup"
+        location: "Arlington, VA"
+      - title: "What happens after you put up your Kanban board?"
+        venue: "Agile NOVA Meetup"
+        location: "McLean, VA"
+      - title: "Managing a small business using the Kanban Method"
+        venue: "DC Enterprise Agilist Meetup"
+        location: "Washington, D.C."
+
+  - year: 2016
+    talks:
+      - title: "Using Kanban to measure and improve your team's performance"
+        venue: "DC Enterprise Agilist Meetup"
+        location: "Washington, D.C."
+
+  - year: 2014
+    talks:
+      - title: "Overcoming the Content Management Challenge: How AAAS is Taming the Beast"
+        venue: "Association Media & Publishing Annual Meeting"
+        location: "Washington, D.C."
+        note: "with M. Spinosa"
+
+  - year: 2013
+    talks:
+      - title: "Using Sketchboards in Support of Designing Active Learning Spaces"
+        venue: "UB Tech Conference"
+        location: "Orlando, FL"
+        note: "with T. Means"
+
+  - year: 2009
+    talks:
+      - title: "Web Site Analytics"
+        venue: "University of Florida Spring of Web"
+        location: "Gainesville, FL"
+
+  - year: 2004
+    talks:
+      - title: "Creating a Simple Website Management System Using .net Technologies"
+        venue: "Windows in Higher Education Conference"
+        location: "Redmond, WA"
