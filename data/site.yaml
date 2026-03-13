@@ -5,12 +5,7 @@ email: "hello@spoonerlabs.com"  # placeholder — update with real address
 url: "https://spoonerlabs.com"
 
 social:
-  - label: "GitHub"
-    url: "#"
-    note: "[placeholder]"
   - label: "LinkedIn"
-    url: "#"
-    note: "[placeholder]"
-  - label: "YouTube"
-    url: "#"
-    note: "[placeholder]"
+    url: "https://www.linkedin.com/in/joey-spooner/"
+  - label: "GitHub"
+    url: "https://github.com/joey-spooner"
