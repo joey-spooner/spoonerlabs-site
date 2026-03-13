@@ -45,6 +45,7 @@ def build():
     # ── Copy static assets ───────────────────────────────────
     shutil.copy(ROOT / "site.css", DIST_DIR / "site.css")
     shutil.copy(ROOT / "logo.svg", DIST_DIR / "logo.svg")
+    shutil.copy(ROOT / "favicon.svg", DIST_DIR / "favicon.svg")
 
     # Copy any other static assets if present
     for pattern in ("*.png", "*.jpg", "*.jpeg", "*.webp", "*.ico", "*.xml", "robots.txt", "sitemap.xml"):
