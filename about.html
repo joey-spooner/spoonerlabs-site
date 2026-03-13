@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Spooner Labs</title>
+  <meta name="description" content="About Spooner Labs — a personal site for exploring systems, technology, organizations, and adjacent ideas.">
+  <meta property="og:title" content="About — Spooner Labs">
+  <meta property="og:description" content="About Spooner Labs — a personal site for exploring systems, technology, organizations, and adjacent ideas.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="container">
+      <div class="site-nav__inner">
+        <a href="/" class="site-nav__logo"><img src="logo.svg" alt="Spooner Labs"></a>
+        <ul class="site-nav__links">
+          <li><a href="/experiments/">Experiments</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/speaking.html">Speaking</a></li>
+          <li><a href="/about.html" aria-current="page">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container container--narrow">
+
+      <header class="page-header">
+        <p class="page-header__eyebrow">About</p>
+        <h1 class="page-header__title">What this is</h1>
+      </header>
+
+      <div class="prose">
+        <!-- Placeholder — replace with your actual bio and site context -->
+        <p>Spooner Labs is a personal site for publishing experiments and thoughts in systems, technology, organizations, AI, product thinking, and adjacent topics.</p>
+
+        <p>The goal is simple: have a place to think out loud, document things worth sharing, and build in the open without the pressure of it all being polished.</p>
+
+        <h2>About me</h2>
+
+        <p>[Placeholder — add a short bio here. Who you are, what you work on, what you care about.]</p>
+
+        <h2>How this site works</h2>
+
+        <p>The site is intentionally simple: plain HTML, a single stylesheet, no build tooling, no framework. It deploys automatically from GitHub to Cloudflare Pages.</p>
+
+        <p>Experiments range from rough ideas to live tools. Projects are more complete things I've built or contributed to. Status tags are honest about where things are.</p>
+
+        <h2>Contact</h2>
+
+        <p>The best way to reach me is by email. See the <a href="/contact.html">contact page</a>.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__inner">
+        <p class="site-footer__copy">&copy; <span id="yr"></span> Spooner Labs</p>
+        <ul class="site-footer__links">
+          <li><a href="/experiments/">Experiments</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/speaking.html">Speaking</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
