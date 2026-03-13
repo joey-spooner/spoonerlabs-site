@@ -17,6 +17,9 @@ __pycache__/
 venv/
 env/
 
+# Node (just in case)
+node_modules/
+
 # Editor
 .vscode/
 .idea/

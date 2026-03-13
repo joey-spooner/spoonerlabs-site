@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% set active_page = 'about' %}
+
+{% block title %}About — Spooner Labs{% endblock %}
+{% block description %}About Spooner Labs — a personal site for exploring systems, technology, organizations, and adjacent ideas.{% endblock %}
+{% block og_title %}About — Spooner Labs{% endblock %}
+{% block og_description %}About Spooner Labs — a personal site for exploring systems, technology, organizations, and adjacent ideas.{% endblock %}
+
+{% block content %}
+<div class="container container--narrow">
+
+  <header class="page-header">
+    <p class="page-header__eyebrow">About</p>
+    <h1 class="page-header__title">What this is</h1>
+  </header>
+
+  <div class="prose">
+    <p>Spooner Labs is a personal site for publishing experiments and thoughts in systems, technology, organizations, AI, product thinking, and adjacent topics.</p>
+    <p>The goal is simple: have a place to think out loud, document things worth sharing, and build in the open without the pressure of it all being polished.</p>
+
+    <h2>About me</h2>
+    <p>[Placeholder — add a short bio here. Who you are, what you work on, what you care about.]</p>
+
+    <h2>How this site works</h2>
+    <p>The site is intentionally simple: plain HTML, a single stylesheet, no framework. It's built with a lightweight Python script and deploys automatically from GitHub to Cloudflare Pages.</p>
+    <p>Experiments range from rough ideas to live tools. Projects are more complete things I've built or contributed to. Status tags are honest about where things are.</p>
+
+    <h2>Contact</h2>
+    <p>The best way to reach me is by email. See the <a href="/contact.html">contact page</a>.</p>
+  </div>
+
+</div>
+{% endblock %}

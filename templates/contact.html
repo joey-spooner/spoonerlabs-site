@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Contact — Spooner Labs{% endblock %}
+{% block description %}Get in touch with Spooner Labs.{% endblock %}
+{% block og_title %}Contact — Spooner Labs{% endblock %}
+{% block og_description %}Get in touch with Spooner Labs.{% endblock %}
+
+{% block content %}
+<div class="container container--narrow">
+
+  <header class="page-header">
+    <p class="page-header__eyebrow">Contact</p>
+    <h1 class="page-header__title">Get in touch</h1>
+    <p class="page-header__desc">Email is the best way to reach me. I read everything and try to respond to things that are genuinely interesting or useful.</p>
+  </header>
+
+  <div class="contact-block">
+    <p class="contact-block__email">
+      <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+    </p>
+  </div>
+
+  <section class="section">
+    <p class="section__label">Elsewhere</p>
+    <ul class="prose">
+      {% for link in site.social %}
+      <li><a href="{{ link.url }}">{{ link.label }}</a>{% if link.note %} — {{ link.note }}{% endif %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+</div>
+{% endblock %}

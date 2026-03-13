@@ -1,0 +1,18 @@
+# Experiments
+# Each entry: title, description, category, status (live|in-progress|idea|archived), link (optional)
+
+- title: "Placeholder experiment"
+  description: "A short description of what this experiment is exploring and why it seemed worth doing."
+  category: "Systems"
+  status: "in-progress"
+
+- title: "Another placeholder"
+  description: "A short description of what this experiment is exploring and why it seemed worth doing."
+  category: "AI"
+  status: "idea"
+
+- title: "One more placeholder"
+  description: "A short description of what this experiment is exploring and why it seemed worth doing."
+  category: "Organizations"
+  status: "live"
+  link: "#"

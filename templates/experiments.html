@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% set active_page = 'experiments' %}
+
+{% block title %}Experiments — Spooner Labs{% endblock %}
+{% block description %}Ongoing and past experiments in systems, technology, organizations, AI, and adjacent topics.{% endblock %}
+{% block og_title %}Experiments — Spooner Labs{% endblock %}
+{% block og_description %}Ongoing and past experiments in systems, technology, organizations, AI, and adjacent topics.{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <header class="page-header">
+    <p class="page-header__eyebrow">Experiments</p>
+    <h1 class="page-header__title">Things worth trying</h1>
+    <p class="page-header__desc">A running log of experiments — some live, some in progress, some just ideas. Status is honest.</p>
+  </header>
+
+  {% set live = experiments | selectattr('status', 'eq', 'live') | list %}
+  {% set in_progress = experiments | selectattr('status', 'eq', 'in-progress') | list %}
+  {% set ideas = experiments | selectattr('status', 'eq', 'idea') | list %}
+  {% set archived = experiments | selectattr('status', 'eq', 'archived') | list %}
+
+  {% if live %}
+  <section class="section">
+    <p class="section__label">Live</p>
+    <div class="card-grid">
+      {% for exp in live %}
+      <{% if exp.link %}a href="{{ exp.link }}"{% else %}div{% endif %} class="card">
+        <p class="card__title">{{ exp.title }}</p>
+        <p class="card__desc">{{ exp.description }}</p>
+        <div class="card__meta">
+          <span class="tag tag--status-live">Live</span>
+          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
+        </div>
+      </{% if exp.link %}a{% else %}div{% endif %}>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if in_progress %}
+  <section class="section">
+    <p class="section__label">In progress</p>
+    <div class="card-grid">
+      {% for exp in in_progress %}
+      <{% if exp.link %}a href="{{ exp.link }}"{% else %}div{% endif %} class="card">
+        <p class="card__title">{{ exp.title }}</p>
+        <p class="card__desc">{{ exp.description }}</p>
+        <div class="card__meta">
+          <span class="tag tag--status-progress">In progress</span>
+          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
+        </div>
+      </{% if exp.link %}a{% else %}div{% endif %}>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if ideas %}
+  <section class="section">
+    <p class="section__label">Ideas</p>
+    <div class="card-grid">
+      {% for exp in ideas %}
+      <div class="card">
+        <p class="card__title">{{ exp.title }}</p>
+        <p class="card__desc">{{ exp.description }}</p>
+        <div class="card__meta">
+          <span class="tag tag--status-idea">Idea</span>
+          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if archived %}
+  <section class="section">
+    <p class="section__label">Archived</p>
+    <div class="card-grid">
+      {% for exp in archived %}
+      <div class="card">
+        <p class="card__title">{{ exp.title }}</p>
+        <p class="card__desc">{{ exp.description }}</p>
+        <div class="card__meta">
+          <span class="tag tag--status-archived">Archived</span>
+          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+{% endblock %}

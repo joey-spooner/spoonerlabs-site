@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% set active_page = 'projects' %}
+
+{% block title %}Projects — Spooner Labs{% endblock %}
+{% block description %}Projects built or contributed to — tools, products, and other things that exist in the world.{% endblock %}
+{% block og_title %}Projects — Spooner Labs{% endblock %}
+{% block og_description %}Projects built or contributed to — tools, products, and other things that exist in the world.{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <header class="page-header">
+    <p class="page-header__eyebrow">Projects</p>
+    <h1 class="page-header__title">Things I've built</h1>
+    <p class="page-header__desc">More complete work — tools, products, and things that exist and function in the world.</p>
+  </header>
+
+  {% set active = projects | rejectattr('status', 'eq', 'archived') | list %}
+  {% set archived = projects | selectattr('status', 'eq', 'archived') | list %}
+
+  {% if active %}
+  <section class="section">
+    <p class="section__label">Active</p>
+    <div class="card-grid">
+      {% for proj in active %}
+      <{% if proj.link %}a href="{{ proj.link }}"{% else %}div{% endif %} class="card">
+        <p class="card__title">{{ proj.title }}</p>
+        <p class="card__desc">{{ proj.description }}</p>
+        <div class="card__meta">
+          <span class="tag tag--status-{{ proj.status }}">{{ proj.status | title }}</span>
+          {% if proj.category %}<span class="tag">{{ proj.category }}</span>{% endif %}
+        </div>
+      </{% if proj.link %}a{% else %}div{% endif %}>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if archived %}
+  <section class="section">
+    <p class="section__label">Archived</p>
+    <div class="card-grid">
+      {% for proj in archived %}
+      <div class="card">
+        <p class="card__title">{{ proj.title }}</p>
+        <p class="card__desc">{{ proj.description }}</p>
+        <div class="card__meta">
+          <span class="tag tag--status-archived">Archived</span>
+          {% if proj.category %}<span class="tag">{{ proj.category }}</span>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+{% endblock %}

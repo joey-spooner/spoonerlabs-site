@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% set active_page = 'speaking' %}
+
+{% block title %}Speaking — Spooner Labs{% endblock %}
+{% block description %}Invite me to speak on systems, technology, organizations, AI, and product thinking.{% endblock %}
+{% block og_title %}Speaking — Spooner Labs{% endblock %}
+{% block og_description %}Invite me to speak on systems, technology, organizations, AI, and product thinking.{% endblock %}
+
+{% block content %}
+<div class="container container--narrow">
+
+  <header class="page-header">
+    <p class="page-header__eyebrow">Speaking</p>
+    <h1 class="page-header__title">Invite me to speak</h1>
+    <p class="page-header__desc">I speak at conferences, workshops, and team offsites on topics in systems, technology, organizations, and the places they intersect.</p>
+  </header>
+
+  <section class="section">
+    <p class="section__label">Topics I speak on</p>
+    <ul class="topic-list">
+      {% for topic in speaking.topics %}
+      <li>{{ topic }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  {% if speaking.highlights %}
+  <section class="section">
+    <p class="section__label">Past talks and highlights</p>
+    <div class="prose">
+      {% for item in speaking.highlights %}
+      <p>{{ item }}</p>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="section">
+    <p class="section__label">Get in touch</p>
+    <div class="prose">
+      <p>If you'd like to invite me to speak, send an email with some details about the event, audience, and topic you have in mind.</p>
+      <p class="mt-4">
+        <a href="mailto:{{ site.email }}" class="btn btn--primary">Send an inquiry</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

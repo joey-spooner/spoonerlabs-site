@@ -1,0 +1,13 @@
+# Projects
+# Each entry: title, description, category, status (live|in-progress|archived), link (optional)
+
+- title: "Placeholder project"
+  description: "A short description of what this project does and what problem it addresses."
+  category: "Tool"
+  status: "live"
+  link: "#"
+
+- title: "Placeholder archived project"
+  description: "A project that ran its course or was superseded by something else."
+  category: ""
+  status: "archived"
