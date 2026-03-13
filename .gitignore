@@ -1,8 +1,7 @@
 # Claude instructions — kept local only
 CLAUDE.md
 
-# Build output (once Python build script is added)
-dist/
+# Local build artifacts
 .build/
 
 # macOS

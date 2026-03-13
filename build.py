@@ -47,7 +47,7 @@ def build():
     shutil.copy(ROOT / "logo.svg", DIST_DIR / "logo.svg")
 
     # Copy any other static assets if present
-    for pattern in ("*.png", "*.jpg", "*.jpeg", "*.webp", "*.ico", "*.txt", "*.xml"):
+    for pattern in ("*.png", "*.jpg", "*.jpeg", "*.webp", "*.ico", "*.xml", "robots.txt", "sitemap.xml"):
         for f in ROOT.glob(pattern):
             shutil.copy(f, DIST_DIR / f.name)
 

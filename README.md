@@ -60,8 +60,15 @@ Fields for experiments and projects:
 
 ## Publishing
 
-Cloudflare Pages build settings:
-- **Build command:** `pip install -r requirements.txt && python build.py`
-- **Output directory:** `dist`
+Build locally, then push — Cloudflare Pages serves `dist/` directly with no build step:
 
-Push to `main` → auto-deploy.
+```bash
+python build.py
+git add dist/
+git commit -m "Build"
+git push
+```
+
+Cloudflare Pages settings:
+- **Build command:** *(leave empty)*
+- **Output directory:** `dist`
