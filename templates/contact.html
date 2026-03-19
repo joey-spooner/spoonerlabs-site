@@ -11,21 +11,30 @@
   <header class="page-header">
     <p class="page-header__eyebrow">Contact</p>
     <h1 class="page-header__title">Get in touch</h1>
-    <p class="page-header__desc">Email is the best way to reach me. I read everything and try to respond to things that are genuinely interesting or useful.</p>
+    <p class="page-header__desc">Use the form below or find me on GitHub and LinkedIn. I read everything and respond to things that are genuinely interesting or useful.</p>
   </header>
 
-  <div class="contact-block">
-    <p class="contact-block__email">
-      <a href="mailto:{{ site.email }}">{{ site.email }}</a>
-    </p>
-  </div>
+  <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <div class="contact-form__field">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required autocomplete="name">
+    </div>
+    <div class="contact-form__field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required autocomplete="email">
+    </div>
+    <div class="contact-form__field">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="6" required></textarea>
+    </div>
+    <button type="submit" class="contact-form__submit">Send message</button>
+  </form>
 
-  <section class="section">
-    <p class="section__label">Elsewhere</p>
-    <ul class="prose">
-      {% for link in site.social %}
-      <li><a href="{{ link.url }}">{{ link.label }}</a>{% if link.note %} — {{ link.note }}{% endif %}</li>
-      {% endfor %}
+  <section class="section contact-elsewhere">
+    <p class="section__label">Find me elsewhere</p>
+    <ul class="contact-elsewhere__list">
+      <li><a href="https://github.com/joey-spooner">GitHub</a> <span class="text-muted">@joey-spooner</span></li>
+      <li><a href="https://www.linkedin.com/in/joey-spooner/">LinkedIn</a> <span class="text-muted">@joey-spooner</span></li>
     </ul>
   </section>
 

@@ -482,14 +482,81 @@ a:hover {
 }
 
 /* ─── Contact ─────────────────────────────────────────────── */
-.contact-block {
+.contact-form {
   margin-top: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
 }
 
-.contact-block__email {
-  font-size: var(--size-2xl);
-  font-weight: 600;
-  letter-spacing: -0.02em;
+.contact-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.contact-form__field label {
+  font-size: var(--size-sm);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.contact-form__field input,
+.contact-form__field textarea {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--size-base);
+  transition: border-color 0.15s;
+}
+
+.contact-form__field input:focus,
+.contact-form__field textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.contact-form__field textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.contact-form__submit {
+  align-self: flex-start;
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: var(--size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.contact-form__submit:hover {
+  background: var(--color-accent-hover);
+}
+
+.contact-elsewhere {
+  margin-top: var(--space-12);
+}
+
+.contact-elsewhere__list {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.contact-elsewhere__list a {
+  font-weight: 500;
 }
 
 /* ─── Utilities ──────────────────────────────────────────── */
