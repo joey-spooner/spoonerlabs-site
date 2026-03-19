@@ -301,6 +301,36 @@ a:hover {
 .prose ul, .prose ol { padding-left: var(--space-6); margin: var(--space-4) 0; }
 .prose li + li { margin-top: var(--space-2); }
 
+/* ─── About intro (photo + bio) ─────────────────────────── */
+.about-intro {
+  display: flex;
+  gap: var(--space-8);
+  align-items: flex-start;
+  margin-bottom: var(--space-8);
+}
+
+.about-intro__photo {
+  flex-shrink: 0;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 2px solid var(--border);
+}
+
+.about-intro__bio {
+  flex: 1;
+}
+
+@media (max-width: 560px) {
+  .about-intro {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
 /* ─── Home hero ──────────────────────────────────────────── */
 .hero {
   padding: var(--space-24) 0 var(--space-16);

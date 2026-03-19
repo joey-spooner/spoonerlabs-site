@@ -52,6 +52,11 @@ def build():
         for f in ROOT.glob(pattern):
             shutil.copy(f, DIST_DIR / f.name)
 
+    # Copy data/images/ to dist/images/ if it exists
+    src_images = DATA_DIR / "images"
+    if src_images.exists():
+        shutil.copytree(src_images, DIST_DIR / "images")
+
     # ── Template context helpers ─────────────────────────────
     def ctx(**kwargs):
         """Merge site config + asset paths into every template context."""
