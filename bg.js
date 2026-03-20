@@ -599,9 +599,13 @@
 
   function toggleBackground() {
     if (currentKey === 'blank') {
+      // Restore background and clear the hidden preference
+      try { localStorage.removeItem('sl_bg_hidden'); } catch (e) {}
       var target = lastActiveBg || BG_COLORFUL[Math.floor(Math.random() * BG_COLORFUL.length)];
       setBackground(target);
     } else {
+      // Hide background and cache the preference for future visits
+      try { localStorage.setItem('sl_bg_hidden', '1'); } catch (e) {}
       setBackground('blank');
     }
   }
@@ -708,7 +712,11 @@
     }
 
     copy.parentNode.insertBefore(sel, copy.nextSibling);
-    sel.addEventListener('change', function () { setBackground(this.value); });
+    sel.addEventListener('change', function () {
+      // Selecting from the menu resets the hidden preference
+      try { localStorage.removeItem('sl_bg_hidden'); } catch (e) {}
+      setBackground(this.value);
+    });
   }
 
   function buildToggleBtn() {
@@ -726,21 +734,27 @@
   buildModal();
   buildToggleBtn();
 
-  // Start blank, then introduce a colorful background after a short pause
+  // Start blank
   setBackground('blank');
 
-  setTimeout(function () {
-    if (isHoliday()) {
-      setBackground('fireworks');
-    } else {
-      var saved;
-      try { saved = localStorage.getItem('sl_bg'); } catch (e) {}
-      if (saved && BG[saved] && saved !== 'blank') {
-        setBackground(saved);
+  // Only introduce a background if the visitor hasn't hidden it
+  var bgHidden;
+  try { bgHidden = localStorage.getItem('sl_bg_hidden'); } catch (e) {}
+
+  if (!bgHidden) {
+    setTimeout(function () {
+      if (isHoliday()) {
+        setBackground('fireworks');
       } else {
-        setBackground(BG_COLORFUL[Math.floor(Math.random() * BG_COLORFUL.length)]);
+        var saved;
+        try { saved = localStorage.getItem('sl_bg'); } catch (e) {}
+        if (saved && BG[saved] && saved !== 'blank') {
+          setBackground(saved);
+        } else {
+          setBackground(BG_COLORFUL[Math.floor(Math.random() * BG_COLORFUL.length)]);
+        }
       }
-    }
-  }, rand(1200, 2800));
+    }, 10000);
+  }
 
 }());
