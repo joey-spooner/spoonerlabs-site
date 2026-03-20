@@ -626,11 +626,10 @@
     constellation: { label: 'Constellation',  animated: true,  init: constInit,   draw: constDraw  },
     shooting:      { label: 'Shooting Stars', animated: true,  init: shootInit,   draw: shootDraw  },
     solar:         { label: 'Solar System',   animated: true,  init: solarInit,   draw: solarDraw  },
-    music:         { label: 'Music',          animated: true,  init: musicInit,   draw: musicDraw  },
     fireworks:     { label: 'Fireworks',      animated: true,  init: fwInit,      draw: fwDraw     },
   };
-  var BG_KEYS      = ['constellation', 'shooting', 'solar', 'music', 'fireworks'];
-  var BG_COLORFUL  = ['constellation', 'shooting', 'solar', 'music'];
+  var BG_KEYS      = ['constellation', 'shooting', 'solar', 'fireworks'];
+  var BG_COLORFUL  = ['constellation', 'shooting', 'solar'];
   var currentKey  = null;
   var lastActiveBg = null;
   var rafId       = null;
