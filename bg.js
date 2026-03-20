@@ -204,15 +204,23 @@
       ctx.fill();
     }
 
-    // Name label — centered near bottom
+    // Name label — just below and centered on the constellation
+    var cMinX = Infinity, cMaxX = -Infinity, cMaxY = -Infinity;
+    for (var i = 0; i < c.stars.length; i++) {
+      if (c.stars[i][0] < cMinX) cMinX = c.stars[i][0];
+      if (c.stars[i][0] > cMaxX) cMaxX = c.stars[i][0];
+      if (c.stars[i][1] > cMaxY) cMaxY = c.stars[i][1];
+    }
+    var labelX = ox + (cMinX + cMaxX) / 2 * size;
+    var labelY = oy + cMaxY * size + 28;
     ctx.font         = '600 14px Inter, sans-serif';
     ctx.textAlign    = 'center';
     ctx.textBaseline = 'alphabetic';
     var nameW = ctx.measureText(c.name).width;
     ctx.fillStyle = 'rgba(250,250,248,0.82)';
-    ctx.fillRect(W / 2 - nameW / 2 - 10, H - 44, nameW + 20, 26);
+    ctx.fillRect(labelX - nameW / 2 - 10, labelY - 18, nameW + 20, 24);
     ctx.fillStyle = 'rgba(60,75,110,0.72)';
-    ctx.fillText(c.name, W / 2, H - 26);
+    ctx.fillText(c.name, labelX, labelY);
   }
 
   /* ══════════════════════════════════════════════════════════
@@ -287,15 +295,17 @@
       ctx.fillText(lbl, pos[0], pos[1]);
     }
 
-    // Structure label — centered near bottom
+    // Structure label — just below the molecule, horizontally centered on it
+    var molCx  = (minX + bbW / 2) * sc + ox;
+    var labelY = maxY * sc + oy + 28;
     ctx.font         = '600 14px Inter, sans-serif';
     ctx.textAlign    = 'center';
     ctx.textBaseline = 'alphabetic';
     var lblW = ctx.measureText(chem.label).width;
     ctx.fillStyle = 'rgba(250,250,248,0.82)';
-    ctx.fillRect(W / 2 - lblW / 2 - 10, H - 44, lblW + 20, 26);
+    ctx.fillRect(molCx - lblW / 2 - 10, labelY - 18, lblW + 20, 24);
     ctx.fillStyle = 'rgba(60,75,110,0.72)';
-    ctx.fillText(chem.label, W / 2, H - 26);
+    ctx.fillText(chem.label, molCx, labelY);
   }
 
   /* ══════════════════════════════════════════════════════════
