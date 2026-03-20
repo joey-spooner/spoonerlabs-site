@@ -13,6 +13,8 @@
 </head>
 <body>
 
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
   <nav class="site-nav" aria-label="Main navigation">
     <div class="container">
       <div class="site-nav__inner">
@@ -96,5 +98,113 @@
   </footer>
 
   <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+  <script>
+  (function () {
+    var canvas = document.getElementById('bg-canvas');
+    var ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function drawFlask(s, color) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-0.12*s, -0.48*s);
+      ctx.lineTo(-0.12*s, -0.08*s);
+      ctx.lineTo(-0.44*s,  0.48*s);
+      ctx.lineTo( 0.44*s,  0.48*s);
+      ctx.lineTo( 0.12*s, -0.08*s);
+      ctx.lineTo( 0.12*s, -0.48*s);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-0.18*s, -0.48*s);
+      ctx.lineTo( 0.18*s, -0.48*s);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-0.30*s,  0.15*s); ctx.lineTo(-0.20*s,  0.15*s);
+      ctx.moveTo(-0.33*s,  0.05*s); ctx.lineTo(-0.20*s,  0.05*s);
+      ctx.moveTo(-0.36*s, -0.05*s); ctx.lineTo(-0.20*s, -0.05*s);
+      ctx.stroke();
+    }
+
+    function drawBeaker(s, color) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-0.30*s, -0.45*s);
+      ctx.lineTo(-0.33*s,  0.45*s);
+      ctx.lineTo( 0.33*s,  0.45*s);
+      ctx.lineTo( 0.30*s, -0.45*s);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo( 0.22*s, -0.45*s);
+      ctx.lineTo( 0.38*s, -0.56*s);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-0.33*s,  0.10*s); ctx.lineTo(-0.22*s,  0.10*s);
+      ctx.moveTo(-0.33*s, -0.05*s); ctx.lineTo(-0.22*s, -0.05*s);
+      ctx.moveTo(-0.33*s, -0.20*s); ctx.lineTo(-0.22*s, -0.20*s);
+      ctx.stroke();
+    }
+
+    var COLORS = [
+      'rgba(160,160,160,0.28)',
+      'rgba(130,165,210,0.26)',
+      'rgba(140,205,155,0.26)',
+      'rgba(195,155,210,0.26)',
+      'rgba(210,175,130,0.26)',
+      'rgba(210,140,145,0.26)'
+    ];
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    var items = [];
+    for (var i = 0; i < 6; i++) {
+      items.push({
+        x:     rand(80, window.innerWidth  - 80),
+        y:     rand(80, window.innerHeight - 80),
+        vx:    rand(0.25, 0.5) * (Math.random() < 0.5 ? 1 : -1),
+        vy:    rand(0.25, 0.5) * (Math.random() < 0.5 ? 1 : -1),
+        size:  rand(40, 68),
+        color: COLORS[Math.floor(rand(0, COLORS.length))],
+        type:  Math.random() < 0.5 ? 'flask' : 'beaker',
+        angle: rand(-0.3, 0.3),
+        spin:  rand(0.0003, 0.0007) * (Math.random() < 0.5 ? 1 : -1)
+      });
+    }
+
+    function frame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      var W = canvas.width, H = canvas.height;
+      for (var i = 0; i < items.length; i++) {
+        var b = items[i];
+        b.x += b.vx;
+        b.y += b.vy;
+        b.angle += b.spin;
+        var pad = b.size * 0.65;
+        if (b.x < pad)     { b.x = pad;     b.vx =  Math.abs(b.vx); }
+        if (b.x > W - pad) { b.x = W - pad; b.vx = -Math.abs(b.vx); }
+        if (b.y < pad)     { b.y = pad;     b.vy =  Math.abs(b.vy); }
+        if (b.y > H - pad) { b.y = H - pad; b.vy = -Math.abs(b.vy); }
+        ctx.save();
+        ctx.translate(b.x, b.y);
+        ctx.rotate(b.angle);
+        if (b.type === 'flask') drawFlask(b.size, b.color);
+        else drawBeaker(b.size, b.color);
+        ctx.restore();
+      }
+      requestAnimationFrame(frame);
+    }
+
+    frame();
+  })();
+  </script>
 </body>
 </html>
