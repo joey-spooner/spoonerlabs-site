@@ -247,7 +247,7 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     SHOOTING STARS BACKGROUND  (standalone, dense, explosive)
+     SHOOTING STARS BACKGROUND  (one star at a time, slow arc)
   ══════════════════════════════════════════════════════════ */
   var METEOR_COLS = [
     '255,80,120','255,160,40','80,220,255','160,255,80',
@@ -257,86 +257,87 @@
   var shootState2 = null;
 
   function shootInit() {
-    var stars = [], sparks = [];
-    for (var i = 0; i < 18; i++) stars.push(spawnMeteor(true));
-    shootState2 = { stars: stars, sparks: sparks };
+    shootState2 = { star: null, countdown: randInt(60, 150), trail: [] };
   }
 
-  function spawnMeteor(stagger) {
+  function spawnMeteor() {
     var edge = Math.random();
-    var x, y, dx, dy;
-    var spd = rand(6, 18);
+    var x, y, ang;
     if (edge < 0.5) {           // from top
-      x = rand(0, 1) * W; y = -20;
-      var ang = rand(30, 150) * Math.PI / 180;
-      dx = Math.cos(ang) * spd; dy = Math.sin(ang) * spd;
+      x = rand(0.1, 0.9) * W; y = -10;
+      ang = rand(30, 150) * Math.PI / 180;
     } else if (edge < 0.75) {   // from left
-      x = -20; y = rand(0, 0.7) * H;
-      var ang = rand(-30, 30) * Math.PI / 180;
-      dx = Math.cos(ang) * spd; dy = Math.sin(ang) * spd;
+      x = -10; y = rand(0.05, 0.70) * H;
+      ang = rand(-20, 40) * Math.PI / 180;
     } else {                    // from right
-      x = W + 20; y = rand(0, 0.7) * H;
-      var ang = (rand(150, 210)) * Math.PI / 180;
-      dx = Math.cos(ang) * spd; dy = Math.sin(ang) * spd;
+      x = W + 10; y = rand(0.05, 0.70) * H;
+      ang = rand(140, 200) * Math.PI / 180;
     }
+    var spd = rand(1.5, 3.0);
     var col = METEOR_COLS[Math.floor(Math.random() * METEOR_COLS.length)];
     return {
-      x: x, y: y, dx: dx, dy: dy,
-      col: col, len: rand(60, 160),
-      life: 0, maxLife: randInt(40, 90),
-      delay: stagger ? randInt(0, 80) : 0,
-      explode: Math.random() < 0.45,
+      x: x, y: y,
+      dx: Math.cos(ang) * spd,
+      dy: Math.sin(ang) * spd,
+      col: col,
+      curve: rand(-0.006, 0.006),   // gentle arc per frame
+      life: 0, maxLife: randInt(220, 360),
     };
-  }
-
-  function burstSparks(sparks, x, y, col, n) {
-    for (var i = 0; i < n; i++) {
-      var ang = rand(0, Math.PI * 2), spd = rand(1.5, 7);
-      sparks.push({
-        x: x, y: y,
-        dx: Math.cos(ang) * spd, dy: Math.sin(ang) * spd,
-        col: col, life: 0, maxLife: randInt(22, 55),
-        size: rand(1.5, 3.5), gravity: rand(0.05, 0.18),
-      });
-    }
   }
 
   function shootDraw() {
     var st = shootState2;
 
-    // Update + draw meteors
-    for (var i = 0; i < st.stars.length; i++) {
-      var s = st.stars[i];
-      if (s.delay > 0) { s.delay--; continue; }
-      s.x += s.dx; s.y += s.dy; s.life++;
+    if (!st.star) {
+      if (--st.countdown <= 0) { st.star = spawnMeteor(); st.trail = []; }
+      return;
+    }
 
-      var prog  = s.life / s.maxLife;
-      var alpha = (prog < 0.2 ? prog / 0.2 : 1 - (prog - 0.2) / 0.8) * 0.92;
-      var tlen  = s.len * Math.min(1, prog * 3);
-      var spd   = Math.sqrt(s.dx*s.dx + s.dy*s.dy) || 1;
-      var tx = s.x - (s.dx / spd) * tlen, ty = s.y - (s.dy / spd) * tlen;
+    var s = st.star;
 
-      var grd = ctx.createLinearGradient(s.x, s.y, tx, ty);
-      grd.addColorStop(0, 'rgba(' + s.col + ',' + alpha.toFixed(2) + ')');
-      grd.addColorStop(0.4, 'rgba(' + s.col + ',' + (alpha * 0.4).toFixed(2) + ')');
-      grd.addColorStop(1, 'rgba(' + s.col + ',0)');
-      ctx.save(); ctx.lineWidth = 2.5; ctx.strokeStyle = grd;
-      ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(tx, ty); ctx.stroke(); ctx.restore();
+    // Rotate velocity slightly each frame for arc
+    var cosC = Math.cos(s.curve), sinC = Math.sin(s.curve);
+    var ndx = s.dx * cosC - s.dy * sinC;
+    var ndy = s.dx * sinC + s.dy * cosC;
+    s.dx = ndx; s.dy = ndy;
+    s.x += s.dx; s.y += s.dy; s.life++;
 
-      if (s.life >= s.maxLife) {
-        if (s.explode) burstSparks(st.sparks, s.x, s.y, s.col, randInt(18, 36));
-        st.stars[i] = spawnMeteor(false);
+    st.trail.push({ x: s.x, y: s.y });
+    if (st.trail.length > 55) st.trail.shift();
+
+    // Fade in/out over life
+    var prog  = s.life / s.maxLife;
+    var alpha = (prog < 0.12 ? prog / 0.12 : prog > 0.72 ? (1 - prog) / 0.28 : 1.0) * 0.85;
+
+    // Draw trail — thickens and brightens toward the head
+    if (st.trail.length > 1) {
+      for (var i = 1; i < st.trail.length; i++) {
+        var t  = i / st.trail.length;
+        ctx.beginPath();
+        ctx.moveTo(st.trail[i - 1].x, st.trail[i - 1].y);
+        ctx.lineTo(st.trail[i].x,     st.trail[i].y);
+        ctx.strokeStyle = 'rgba(' + s.col + ',' + (t * alpha * 0.88).toFixed(3) + ')';
+        ctx.lineWidth   = t * 2.8;
+        ctx.stroke();
       }
     }
 
-    // Update + draw sparks
-    for (var i = st.sparks.length - 1; i >= 0; i--) {
-      var p = st.sparks[i];
-      p.x += p.dx; p.y += p.dy; p.dy += p.gravity; p.life++;
-      if (p.life >= p.maxLife) { st.sparks.splice(i, 1); continue; }
-      var a = (1 - p.life / p.maxLife) * 0.85;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.size * (1 - p.life / p.maxLife * 0.5), 0, 6.283);
-      ctx.fillStyle = 'rgba(' + p.col + ',' + a.toFixed(2) + ')'; ctx.fill();
+    // Head glow
+    var grd = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, 7);
+    grd.addColorStop(0, 'rgba(' + s.col + ',' + (alpha * 0.95).toFixed(2) + ')');
+    grd.addColorStop(1, 'rgba(' + s.col + ',0)');
+    ctx.beginPath(); ctx.arc(s.x, s.y, 7, 0, 6.283);
+    ctx.fillStyle = grd; ctx.fill();
+
+    // Head dot
+    ctx.beginPath(); ctx.arc(s.x, s.y, 2, 0, 6.283);
+    ctx.fillStyle = 'rgba(' + s.col + ',' + alpha.toFixed(2) + ')'; ctx.fill();
+
+    // Retire when off-screen or past max life
+    if (s.life >= s.maxLife || s.x < -60 || s.x > W + 60 || s.y < -60 || s.y > H + 60) {
+      st.star = null;
+      st.trail = [];
+      st.countdown = randInt(200, 480);
     }
   }
 
