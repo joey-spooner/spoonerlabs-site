@@ -15,6 +15,7 @@
   </header>
 
   <form class="contact-form" action="https://formspree.io/f/mvzwlvyq" method="POST">
+    <input type="hidden" name="_next" value="https://spoonerlabs.com/thankyou.html">
     <div class="contact-form__field">
       <label for="name">Name</label>
       <input type="text" id="name" name="name" required autocomplete="name">
@@ -27,14 +28,14 @@
       <label for="message">Message</label>
       <textarea id="message" name="message" rows="6" required></textarea>
     </div>
-    <button type="submit" class="contact-form__submit">Send message</button>
+    <button type="submit" class="contact-form__submit contact-form__submit--spaced">Send message</button>
   </form>
 
   <section class="section contact-elsewhere">
     <p class="section__label">Find me elsewhere</p>
     <ul class="contact-elsewhere__list">
-      <li><a href="https://github.com/joey-spooner">GitHub</a> <span class="text-muted">@joey-spooner</span></li>
-      <li><a href="https://www.linkedin.com/in/joey-spooner/">LinkedIn</a> <span class="text-muted">@joey-spooner</span></li>
+      <li><a href="https://github.com/joey-spooner">GitHub — @joey-spooner</a></li>
+      <li><a href="https://www.linkedin.com/in/joey-spooner/">LinkedIn — @joey-spooner</a></li>
     </ul>
   </section>
 

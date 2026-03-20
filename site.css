@@ -542,6 +542,17 @@ a:hover {
   background: var(--color-accent-hover);
 }
 
+.contact-form__submit--spaced {
+  margin-top: var(--space-4);
+}
+
+.thankyou-actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-8);
+}
+
 .contact-elsewhere {
   margin-top: var(--space-12);
 }

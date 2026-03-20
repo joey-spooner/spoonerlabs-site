@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Thank you — Spooner Labs{% endblock %}
+{% block description %}Your message has been received.{% endblock %}
+{% block og_title %}Thank you — Spooner Labs{% endblock %}
+{% block og_description %}Your message has been received.{% endblock %}
+
+{% block content %}
+<div class="container container--narrow">
+
+  <header class="page-header">
+    <p class="page-header__eyebrow">Contact</p>
+    <h1 class="page-header__title">Thanks for reaching out.</h1>
+    <p class="page-header__desc">Your message came through. I read everything and will get back to you if it's a good fit.</p>
+  </header>
+
+  <div class="thankyou-actions">
+    <a href="/" class="btn btn--primary">Back to home</a>
+    <a href="/experiments/" class="btn btn--ghost">Browse experiments</a>
+  </div>
+
+</div>
+{% endblock %}
