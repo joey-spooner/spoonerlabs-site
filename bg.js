@@ -490,6 +490,70 @@
   });
 
   /* ══════════════════════════════════════════════════════════
+     PREVIEW MODAL
+     Opens by: double-click on non-text area, or pressing B.
+     The existing canvas is elevated above a frosted overlay so
+     the background renders in isolation — no second canvas needed.
+  ══════════════════════════════════════════════════════════ */
+  var modalOpen   = false;
+  var overlay     = null;
+  var closeBtn    = null;
+  var hintEl      = null;
+
+  function buildModal() {
+    overlay = document.createElement('div');
+    overlay.className = 'bg-modal-overlay';
+    document.body.appendChild(overlay);
+
+    closeBtn = document.createElement('button');
+    closeBtn.className   = 'bg-modal-close';
+    closeBtn.textContent = '✕  Close';
+    document.body.appendChild(closeBtn);
+
+    hintEl = document.createElement('p');
+    hintEl.className   = 'bg-modal-hint';
+    hintEl.textContent = 'Double-click or press B to close';
+    document.body.appendChild(hintEl);
+
+    overlay.addEventListener('click',  closeModal);
+    closeBtn.addEventListener('click', closeModal);
+  }
+
+  function openModal() {
+    if (modalOpen) return;
+    modalOpen = true;
+    canvas.style.zIndex = '11';
+    overlay.classList.add('is-open');
+    closeBtn.classList.add('is-open');
+    hintEl.classList.add('is-open');
+  }
+
+  function closeModal() {
+    if (!modalOpen) return;
+    modalOpen = false;
+    overlay.classList.remove('is-open');
+    closeBtn.classList.remove('is-open');
+    hintEl.classList.remove('is-open');
+    // Reset canvas z-index after overlay fade completes
+    setTimeout(function () { if (!modalOpen) canvas.style.zIndex = ''; }, 250);
+  }
+
+  // Double-click on non-text regions opens the preview
+  document.addEventListener('dblclick', function (e) {
+    if (e.target.closest('a, button, input, textarea, select, p, h1, h2, h3, h4, h5, h6, li, label, .bg-switcher, .site-nav, .site-footer')) return;
+    if (modalOpen) closeModal(); else openModal();
+  });
+
+  // B key toggles; Escape closes
+  document.addEventListener('keydown', function (e) {
+    var tag = document.activeElement && document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key === 'b' || e.key === 'B') { if (modalOpen) closeModal(); else openModal(); }
+    if (e.key === 'Escape' && modalOpen)  closeModal();
+  });
+
+  /* ══════════════════════════════════════════════════════════
      FOOTER SWITCHER  (appended inside .site-footer .container)
   ══════════════════════════════════════════════════════════ */
   function buildMenu() {
@@ -517,6 +581,7 @@
      INIT
   ══════════════════════════════════════════════════════════ */
   buildMenu();
+  buildModal();
 
   var saved;
   try { saved = localStorage.getItem('sl_bg'); } catch (e) {}
