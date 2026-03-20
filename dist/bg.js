@@ -403,17 +403,17 @@
     solarState.time += 0.004;
     var t  = solarState.time;
     var cx = W / 2, cy = H / 2;
-    var sc = Math.min(W, H) * 0.44;
+    var sc = Math.min(W, H) * 0.72;
 
     // Sun glow
-    var grd = ctx.createRadialGradient(cx, cy, 8, cx, cy, 30);
+    var grd = ctx.createRadialGradient(cx, cy, 10, cx, cy, 46);
     grd.addColorStop(0, 'rgba(255,210,55,0.80)');
     grd.addColorStop(0.5,'rgba(255,175,35,0.30)');
     grd.addColorStop(1,  'rgba(255,140,20,0.00)');
-    ctx.beginPath(); ctx.arc(cx, cy, 30, 0, Math.PI * 2);
+    ctx.beginPath(); ctx.arc(cx, cy, 46, 0, Math.PI * 2);
     ctx.fillStyle = grd; ctx.fill();
     // Sun core
-    ctx.beginPath(); ctx.arc(cx, cy, 11, 0, Math.PI * 2);
+    ctx.beginPath(); ctx.arc(cx, cy, 17, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(255,220,75,0.88)'; ctx.fill();
 
     // Asteroid belt (between Mars r=0.190 and Jupiter r=0.290)
