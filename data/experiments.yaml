@@ -1,18 +1,32 @@
 # Experiments
 # Each entry: title, description, category, status (live|in-progress|idea|archived), link (optional)
 
-- title: "Placeholder experiment"
-  description: "A short description of what this experiment is exploring and why it seemed worth doing."
-  category: "Systems"
-  status: "in-progress"
-
-- title: "Another placeholder"
-  description: "A short description of what this experiment is exploring and why it seemed worth doing."
-  category: "AI"
-  status: "idea"
-
-- title: "One more placeholder"
-  description: "A short description of what this experiment is exploring and why it seemed worth doing."
-  category: "Organizations"
+- title: "Portuguese Phrases for Tidbyt"
+  description: "A Tidbyt app that cycles through European Portuguese phrases and words on the device display. Built for daily passive exposure to the language."
+  category: "Tool"
   status: "live"
-  link: "#"
+  link: "https://github.com/joey-spooner/ptpt-tidbyt-phrases"
+
+- title: "Where Now?"
+  description: "A random food and trip generator for the Lisbon area. Useful when you can't decide where to eat or what to do next."
+  category: "Tool"
+  status: "live"
+  link: "https://github.com/joey-spooner/where-now"
+
+- title: "URL Readability Scorer"
+  description: "An Excel macro that parses a list of URLs and returns Flesch Reading Ease and Flesch-Kincaid Grade Level scores for each page's content. A content audit utility from an earlier era."
+  category: "Tool"
+  status: "archived"
+  link: "https://github.com/joey-spooner/readability"
+
+- title: "Macropad Hotkeys"
+  description: "Custom hotkey layout for the Adafruit Macropad RP2040. A personal fork with tweaked key mappings for a physical shortcut pad."
+  category: "Hardware"
+  status: "archived"
+  link: "https://github.com/joey-spooner/hotkeys"
+
+- title: "Office JS Snippets"
+  description: "A collection of code snippets for Office add-in development using Script Lab. Forked and maintained as a personal reference for Office JS work."
+  category: "Tool"
+  status: "archived"
+  link: "https://github.com/joey-spooner/office-js-snippets"

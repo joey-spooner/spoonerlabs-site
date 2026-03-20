@@ -79,14 +79,14 @@
     <p class="section__label">Archived</p>
     <div class="card-grid">
       {% for exp in archived %}
-      <div class="card">
+      <{% if exp.link %}a href="{{ exp.link }}"{% else %}div{% endif %} class="card">
         <p class="card__title">{{ exp.title }}</p>
         <p class="card__desc">{{ exp.description }}</p>
         <div class="card__meta">
           <span class="tag tag--status-archived">Archived</span>
           {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
         </div>
-      </div>
+      </{% if exp.link %}a{% else %}div{% endif %}>
       {% endfor %}
     </div>
   </section>
