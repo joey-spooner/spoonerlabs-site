@@ -204,11 +204,15 @@
       ctx.fill();
     }
 
-    // Name label
-    ctx.fillStyle   = 'rgba(95,108,130,0.32)';
-    ctx.font        = '12px Inter, sans-serif';
-    ctx.textAlign   = 'left';
-    ctx.fillText(c.name, 22, H - 22);
+    // Name label — centered near bottom
+    ctx.font         = '600 14px Inter, sans-serif';
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'alphabetic';
+    var nameW = ctx.measureText(c.name).width;
+    ctx.fillStyle = 'rgba(250,250,248,0.82)';
+    ctx.fillRect(W / 2 - nameW / 2 - 10, H - 44, nameW + 20, 26);
+    ctx.fillStyle = 'rgba(60,75,110,0.72)';
+    ctx.fillText(c.name, W / 2, H - 26);
   }
 
   /* ══════════════════════════════════════════════════════════
@@ -283,12 +287,15 @@
       ctx.fillText(lbl, pos[0], pos[1]);
     }
 
-    // Structure label
-    ctx.textAlign    = 'left';
+    // Structure label — centered near bottom
+    ctx.font         = '600 14px Inter, sans-serif';
+    ctx.textAlign    = 'center';
     ctx.textBaseline = 'alphabetic';
-    ctx.fillStyle    = 'rgba(95,108,130,0.32)';
-    ctx.font         = '13px Inter, sans-serif';
-    ctx.fillText(chem.label, 22, H - 22);
+    var lblW = ctx.measureText(chem.label).width;
+    ctx.fillStyle = 'rgba(250,250,248,0.82)';
+    ctx.fillRect(W / 2 - lblW / 2 - 10, H - 44, lblW + 20, 26);
+    ctx.fillStyle = 'rgba(60,75,110,0.72)';
+    ctx.fillText(chem.label, W / 2, H - 26);
   }
 
   /* ══════════════════════════════════════════════════════════
