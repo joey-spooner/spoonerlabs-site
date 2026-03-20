@@ -337,6 +337,82 @@
   }
 
   /* ══════════════════════════════════════════════════════════
+     MUSIC BACKGROUND  (floating notes, soft staff lines)
+  ══════════════════════════════════════════════════════════ */
+  var MUSIC_SYMS = ['♩','♪','♫','♬','♭','♮','♯'];
+  var MUSIC_COLS = [
+    '255,110,170','110,175,255','160,255,130',
+    '255,200,70','190,110,255','70,215,215','255,155,70',
+  ];
+
+  var musicState = null;
+
+  function spawnNote(stagger) {
+    var size = rand(20, 52);
+    return {
+      x:     rand(0.04, 0.96) * W,
+      y:     stagger ? rand(-0.1, 1.05) * H : H + size + 10,
+      size:  size,
+      sym:   MUSIC_SYMS[Math.floor(Math.random() * MUSIC_SYMS.length)],
+      col:   MUSIC_COLS[Math.floor(Math.random() * MUSIC_COLS.length)],
+      speed: rand(0.35, 0.95),
+      drift: rand(-0.25, 0.25),
+      sway:  rand(0, Math.PI * 2),
+      swaySpd: rand(0.012, 0.030),
+      swayAmp: rand(4, 14),
+      alpha: 0,
+      peakAlpha: rand(0.18, 0.38),
+    };
+  }
+
+  function musicInit() {
+    var notes = [];
+    for (var i = 0; i < 22; i++) notes.push(spawnNote(true));
+    musicState = { notes: notes };
+  }
+
+  function musicDraw() {
+    var notes = musicState.notes;
+
+    // Faint staff-line groups scattered across the canvas
+    ctx.strokeStyle = 'rgba(140,140,140,0.055)';
+    ctx.lineWidth = 1;
+    var staffY = [H * 0.22, H * 0.50, H * 0.78];
+    for (var s = 0; s < staffY.length; s++) {
+      for (var l = -2; l <= 2; l++) {
+        var ly = staffY[s] + l * 9;
+        ctx.beginPath(); ctx.moveTo(0, ly); ctx.lineTo(W, ly); ctx.stroke();
+      }
+    }
+
+    // Notes
+    for (var i = 0; i < notes.length; i++) {
+      var n = notes[i];
+      n.sway += n.swaySpd;
+      n.y    -= n.speed;
+      n.x    += n.drift * 0.18;
+
+      // Fade in near bottom, fade out near top
+      var yRatio = 1 - (n.y / H);
+      var fade   = yRatio < 0.08 ? yRatio / 0.08
+                 : yRatio > 0.82 ? (1 - yRatio) / 0.18
+                 : 1.0;
+      var a = n.peakAlpha * Math.max(0, fade);
+
+      ctx.save();
+      ctx.translate(n.x + Math.sin(n.sway) * n.swayAmp, n.y);
+      ctx.font = 'normal ' + Math.round(n.size) + 'px serif';
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = 'rgba(' + n.col + ',' + a.toFixed(3) + ')';
+      ctx.fillText(n.sym, 0, 0);
+      ctx.restore();
+
+      if (n.y < -(n.size * 2)) notes[i] = spawnNote(false);
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════
      FIREWORKS BACKGROUND
   ══════════════════════════════════════════════════════════ */
   // Holiday detection — US + EU common holidays
@@ -550,10 +626,11 @@
     constellation: { label: 'Constellation',  animated: true,  init: constInit,   draw: constDraw  },
     shooting:      { label: 'Shooting Stars', animated: true,  init: shootInit,   draw: shootDraw  },
     solar:         { label: 'Solar System',   animated: true,  init: solarInit,   draw: solarDraw  },
+    music:         { label: 'Music',          animated: true,  init: musicInit,   draw: musicDraw  },
     fireworks:     { label: 'Fireworks',      animated: true,  init: fwInit,      draw: fwDraw     },
   };
-  var BG_KEYS      = ['constellation', 'shooting', 'solar', 'fireworks'];
-  var BG_COLORFUL  = ['constellation', 'shooting', 'solar'];
+  var BG_KEYS      = ['constellation', 'shooting', 'solar', 'music', 'fireworks'];
+  var BG_COLORFUL  = ['constellation', 'shooting', 'solar', 'music'];
   var currentKey  = null;
   var lastActiveBg = null;
   var rafId       = null;
