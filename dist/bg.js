@@ -138,29 +138,96 @@
      SOLAR SYSTEM PLANET DATA
   ══════════════════════════════════════════════════════════ */
   var PLANETS = [
-    { name:'Mercury', r:0.055, size:3,  period:0.24,  color:'rgba(155,140,125,0.85)' },
-    { name:'Venus',   r:0.095, size:5,  period:0.62,  color:'rgba(205,180,95,0.85)'  },
-    { name:'Earth',   r:0.140, size:5,  period:1.00,  color:'rgba(65,125,185,0.85)'  },
-    { name:'Mars',    r:0.190, size:4,  period:1.88,  color:'rgba(185,85,65,0.85)'   },
-    { name:'Jupiter', r:0.290, size:10, period:11.86, color:'rgba(190,160,125,0.85)' },
-    { name:'Saturn',  r:0.375, size:8,  period:29.46, color:'rgba(205,185,135,0.85)', rings:true },
-    { name:'Uranus',  r:0.460, size:6,  period:84,    color:'rgba(125,190,195,0.85)' },
-    { name:'Neptune', r:0.545, size:6,  period:165,   color:'rgba(65,95,195,0.85)'   },
+    { name:'Mercury', r:0.055, size:3,  period:0.24,  color:'rgba(190,170,148,0.95)' },
+    { name:'Venus',   r:0.095, size:5,  period:0.62,  color:'rgba(240,210,60,0.95)'  },
+    { name:'Earth',   r:0.140, size:5,  period:1.00,  color:'rgba(40,148,230,0.95)'  },
+    { name:'Mars',    r:0.190, size:4,  period:1.88,  color:'rgba(220,60,30,0.95)'   },
+    { name:'Jupiter', r:0.290, size:10, period:11.86, color:'rgba(215,168,102,0.95)' },
+    { name:'Saturn',  r:0.375, size:8,  period:29.46, color:'rgba(235,215,130,0.95)', rings:true },
+    { name:'Uranus',  r:0.460, size:6,  period:84,    color:'rgba(100,218,218,0.95)' },
+    { name:'Neptune', r:0.545, size:6,  period:165,   color:'rgba(62,100,238,0.95)'  },
   ];
+
+  /* ══════════════════════════════════════════════════════════
+     SHOOTING STARS  (shared utility used by constellation + solar)
+  ══════════════════════════════════════════════════════════ */
+  var SHOOT_COLORS = ['rgba(255,255,255,','rgba(200,222,255,','rgba(255,242,190,','rgba(255,210,120,'];
+
+  function makeShootingStars(n) {
+    var arr = [];
+    for (var i = 0; i < n; i++) {
+      arr.push({ active:false, countdown: randInt(80,320), x:0,y:0,dx:0,dy:0, life:0, maxLife:0, len:0, col:'' });
+    }
+    return arr;
+  }
+
+  function activateStar(s) {
+    s.x  = rand(0.05, 0.95) * W;
+    s.y  = rand(0.0,  0.25) * H;
+    var ang = rand(25, 65) * Math.PI / 180;
+    if (Math.random() < 0.5) ang = Math.PI - ang;
+    var spd = rand(7, 15);
+    s.dx = Math.cos(ang) * spd;
+    s.dy = Math.sin(ang) * spd;
+    s.life    = 0;
+    s.maxLife = randInt(30, 52);
+    s.len     = rand(70, 150);
+    s.col     = SHOOT_COLORS[Math.floor(Math.random() * SHOOT_COLORS.length)];
+    s.active  = true;
+  }
+
+  function drawShootingStars(stars) {
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i];
+      if (!s.active) {
+        if (--s.countdown <= 0) activateStar(s);
+        continue;
+      }
+      var prog  = s.life / s.maxLife;
+      var alpha = (prog < 0.25 ? prog / 0.25 : 1 - (prog - 0.25) / 0.75) * 0.88;
+      var tlen  = s.len * Math.min(1, prog * 4);
+      var spd   = Math.sqrt(s.dx*s.dx + s.dy*s.dy) || 1;
+      var tx = s.x - (s.dx / spd) * tlen;
+      var ty = s.y - (s.dy / spd) * tlen;
+      var grd = ctx.createLinearGradient(s.x, s.y, tx, ty);
+      grd.addColorStop(0, s.col + alpha.toFixed(3) + ')');
+      grd.addColorStop(1, s.col + '0)');
+      ctx.save();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = grd;
+      ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(tx, ty); ctx.stroke();
+      ctx.restore();
+      s.x += s.dx; s.y += s.dy; s.life++;
+      if (s.life >= s.maxLife) { s.active = false; s.countdown = randInt(100, 380); }
+    }
+  }
 
   /* ══════════════════════════════════════════════════════════
      CONSTELLATION BACKGROUND
   ══════════════════════════════════════════════════════════ */
   var constState = null;
 
+  // Star spectral palettes by magnitude
+  var STAR_PAL = [
+    ['rgba(185,215,255,0.92)','rgba(255,245,185,0.90)','rgba(255,155,75,0.88)'],  // mag 1
+    ['rgba(205,228,255,0.78)','rgba(255,252,210,0.75)','rgba(255,200,130,0.72)'],  // mag 2
+    ['rgba(218,232,255,0.56)','rgba(255,248,225,0.52)','rgba(255,218,170,0.48)'],  // mag 3+
+  ];
+  var BG_STAR_PAL = ['rgba(158,182,228,','rgba(222,212,152,','rgba(218,172,128,','rgba(178,198,228,','rgba(212,195,240,'];
+
   function constInit() {
     var idx = Math.floor(Math.random() * CONSTELLATIONS.length);
     var c   = CONSTELLATIONS[idx];
     var bgStars = [];
     for (var i = 0; i < 250; i++) {
-      bgStars.push([Math.random(), Math.random(), rand(0.4, 1.3), rand(0.06, 0.20)]);
+      bgStars.push([Math.random(), Math.random(), rand(0.4,1.3), rand(0.06,0.18),
+                    Math.floor(Math.random() * BG_STAR_PAL.length)]);
     }
-    constState = { c: c, bgStars: bgStars };
+    var starColors = c.stars.map(function (s) {
+      var pal = STAR_PAL[Math.min(s[2] - 1, 2)];
+      return pal[Math.floor(Math.random() * pal.length)];
+    });
+    constState = { c: c, bgStars: bgStars, starColors: starColors, shooting: makeShootingStars(3) };
   }
 
   function constDraw() {
@@ -171,38 +238,46 @@
 
     function map(x, y) { return [ox + x * size, oy + y * size]; }
 
-    // Scattered background stars
+    // Scattered background stars — colorful
     for (var i = 0; i < constState.bgStars.length; i++) {
       var bs = constState.bgStars[i];
       ctx.beginPath();
       ctx.arc(bs[0] * W, bs[1] * H, bs[2], 0, 6.283);
-      ctx.fillStyle = 'rgba(90,95,110,' + bs[3] + ')';
+      ctx.fillStyle = BG_STAR_PAL[bs[4]] + bs[3] + ')';
       ctx.fill();
     }
 
-    // Connecting lines
+    // Connecting lines — soft purple-blue
     ctx.lineWidth = 1;
     for (var i = 0; i < c.lines.length; i++) {
       var pa = map(c.stars[c.lines[i][0]][0], c.stars[c.lines[i][0]][1]);
       var pb = map(c.stars[c.lines[i][1]][0], c.stars[c.lines[i][1]][1]);
-      ctx.strokeStyle = 'rgba(110,135,170,0.22)';
+      ctx.strokeStyle = 'rgba(165,138,238,0.32)';
       ctx.beginPath();
       ctx.moveTo(pa[0], pa[1]);
       ctx.lineTo(pb[0], pb[1]);
       ctx.stroke();
     }
 
-    // Stars
+    // Stars — spectral colors with glow on bright ones
     for (var i = 0; i < c.stars.length; i++) {
       var s   = c.stars[i];
       var pos = map(s[0], s[1]);
       var r   = Math.max(1.5, 5.5 - s[2] * 1.1);
-      var a   = Math.max(0.30, 0.72 - s[2] * 0.10);
-      ctx.beginPath();
-      ctx.arc(pos[0], pos[1], r, 0, 6.283);
-      ctx.fillStyle = 'rgba(35,45,65,' + a + ')';
-      ctx.fill();
+      var col = constState.starColors[i];
+      if (s[2] <= 2) {
+        var grd = ctx.createRadialGradient(pos[0],pos[1],r*0.4, pos[0],pos[1],r*4.5);
+        grd.addColorStop(0, col.replace(/[\d.]+\)$/, '0.30)'));
+        grd.addColorStop(1, col.replace(/[\d.]+\)$/, '0)'));
+        ctx.beginPath(); ctx.arc(pos[0], pos[1], r*4.5, 0, 6.283);
+        ctx.fillStyle = grd; ctx.fill();
+      }
+      ctx.beginPath(); ctx.arc(pos[0], pos[1], r, 0, 6.283);
+      ctx.fillStyle = col; ctx.fill();
     }
+
+    // Shooting stars
+    drawShootingStars(constState.shooting);
 
     // Name label — just below and centered on the constellation
     var cMinX = Infinity, cMaxX = -Infinity, cMaxY = -Infinity;
@@ -280,7 +355,9 @@
       }
     }
 
-    // Atom labels (non-carbon only)
+    // Atom labels — CPK colors
+    var CPK = { O:'rgba(210,38,38,0.82)', N:'rgba(38,98,218,0.82)', H:'rgba(105,105,105,0.72)',
+                C:'rgba(38,38,38,0.78)', S:'rgba(180,145,0,0.82)',  P:'rgba(200,80,0,0.82)' };
     ctx.font          = 'bold 13px Inter, sans-serif';
     ctx.textAlign     = 'center';
     ctx.textBaseline  = 'middle';
@@ -291,7 +368,7 @@
       var tw  = ctx.measureText(lbl).width;
       ctx.fillStyle = 'rgba(250,250,248,0.96)';
       ctx.fillRect(pos[0] - tw / 2 - 2, pos[1] - 9, tw + 4, 18);
-      ctx.fillStyle = 'rgba(65,75,100,0.52)';
+      ctx.fillStyle = CPK[lbl] || 'rgba(65,75,100,0.72)';
       ctx.fillText(lbl, pos[0], pos[1]);
     }
 
@@ -323,6 +400,7 @@
       var nv    = randInt(5, 8);
       var verts = [];
       for (var v = 0; v < nv; v++) verts.push(rand(0.62, 1.32));
+      var ROCK_COLS = ['115,108,98','142,98,72','94,112,128','128,118,88','108,94,118','88,118,98'];
       particles.push({
         x:     Math.cos(angle) * dist,
         y:     Math.sin(angle) * dist,
@@ -330,6 +408,7 @@
         speed: rand(0.0007, 0.0020),
         size:  rand(1.4, 3.8),
         verts: verts,
+        col:   ROCK_COLS[Math.floor(Math.random() * ROCK_COLS.length)],
       });
     }
     asteroidState = { particles: particles };
@@ -372,7 +451,7 @@
         else         ctx.lineTo(Math.cos(ang) * vr, Math.sin(ang) * vr);
       }
       ctx.closePath();
-      ctx.fillStyle = 'rgba(115,108,98,' + alpha.toFixed(3) + ')';
+      ctx.fillStyle = 'rgba(' + p.col + ',' + alpha.toFixed(3) + ')';
       ctx.fill();
       ctx.restore();
     }
@@ -396,7 +475,7 @@
         size:     rand(0.5, 1.8),
       });
     }
-    solarState = { time: 0, angles: angles, belt: belt };
+    solarState = { time: 0, angles: angles, belt: belt, shooting: makeShootingStars(2) };
   }
 
   function solarDraw() {
@@ -405,16 +484,20 @@
     var cx = W / 2, cy = H / 2;
     var sc = Math.min(W, H) * 0.72;
 
-    // Sun glow
-    var grd = ctx.createRadialGradient(cx, cy, 10, cx, cy, 46);
-    grd.addColorStop(0, 'rgba(255,210,55,0.80)');
-    grd.addColorStop(0.5,'rgba(255,175,35,0.30)');
-    grd.addColorStop(1,  'rgba(255,140,20,0.00)');
-    ctx.beginPath(); ctx.arc(cx, cy, 46, 0, Math.PI * 2);
+    // Sun glow — warm multi-stop corona
+    var grd = ctx.createRadialGradient(cx, cy, 10, cx, cy, 68);
+    grd.addColorStop(0,   'rgba(255,235,80,0.90)');
+    grd.addColorStop(0.25,'rgba(255,185,30,0.55)');
+    grd.addColorStop(0.55,'rgba(255,110,10,0.22)');
+    grd.addColorStop(1,   'rgba(255,60,0,0.00)');
+    ctx.beginPath(); ctx.arc(cx, cy, 68, 0, Math.PI * 2);
     ctx.fillStyle = grd; ctx.fill();
     // Sun core
     ctx.beginPath(); ctx.arc(cx, cy, 17, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255,220,75,0.88)'; ctx.fill();
+    ctx.fillStyle = 'rgba(255,242,88,0.95)'; ctx.fill();
+
+    // Shooting stars
+    drawShootingStars(solarState.shooting);
 
     // Asteroid belt (between Mars r=0.190 and Jupiter r=0.290)
     var beltR = (PLANETS[3].r + PLANETS[4].r) / 2 * sc;
@@ -462,7 +545,7 @@
      BACKGROUND REGISTRY
   ══════════════════════════════════════════════════════════ */
   var BG = {
-    constellation: { label: 'Constellation', animated: false, init: constInit,     draw: constDraw     },
+    constellation: { label: 'Constellation', animated: true,  init: constInit,     draw: constDraw     },
     chemistry:     { label: 'Chemistry',      animated: false, init: chemInit,      draw: chemDraw      },
     asteroids:     { label: 'Asteroids',      animated: true,  init: asteroidsInit, draw: asteroidsDraw },
     solar:         { label: 'Solar System',   animated: true,  init: solarInit,     draw: solarDraw     },
