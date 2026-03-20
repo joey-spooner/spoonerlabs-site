@@ -273,15 +273,15 @@
       x = W + 10; y = rand(0.05, 0.70) * H;
       ang = rand(140, 200) * Math.PI / 180;
     }
-    var spd = rand(1.5, 3.0);
+    var spd = rand(3.0, 5.0);
     var col = METEOR_COLS[Math.floor(Math.random() * METEOR_COLS.length)];
     return {
       x: x, y: y,
       dx: Math.cos(ang) * spd,
       dy: Math.sin(ang) * spd,
       col: col,
-      curve: rand(-0.006, 0.006),   // gentle arc per frame
-      life: 0, maxLife: randInt(220, 360),
+      curve: rand(-0.004, 0.004),   // gentle arc per frame
+      life: 0, maxLife: 900,        // off-screen detection retires it; this is a fallback
     };
   }
 
@@ -303,7 +303,7 @@
     s.x += s.dx; s.y += s.dy; s.life++;
 
     st.trail.push({ x: s.x, y: s.y });
-    if (st.trail.length > 55) st.trail.shift();
+    if (st.trail.length > 110) st.trail.shift();
 
     // Fade in/out over life
     var prog  = s.life / s.maxLife;
@@ -317,7 +317,7 @@
         ctx.moveTo(st.trail[i - 1].x, st.trail[i - 1].y);
         ctx.lineTo(st.trail[i].x,     st.trail[i].y);
         ctx.strokeStyle = 'rgba(' + s.col + ',' + (t * alpha * 0.88).toFixed(3) + ')';
-        ctx.lineWidth   = t * 2.8;
+        ctx.lineWidth   = t * 3.5;
         ctx.stroke();
       }
     }
