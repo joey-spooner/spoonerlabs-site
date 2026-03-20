@@ -623,52 +623,23 @@ a:hover {
 .bg-modal-hint.is-open { opacity: 1; }
 
 /* ─── Background switcher ────────────────────────────────── */
-.bg-switcher {
-  border-top: 1px solid var(--color-border);
-  padding: var(--space-3) var(--space-6);
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.bg-switcher__label {
-  font-size: var(--size-xs);
-  color: var(--color-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-}
-
-.bg-switcher__btns {
-  display: flex;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.bg-btn {
+.bg-select {
   font-family: inherit;
   font-size: var(--size-xs);
   color: var(--color-muted);
-  background: none;
+  background: transparent;
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  padding: 3px 10px;
+  padding: 2px 6px;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  transition: color 0.15s, border-color 0.15s;
 }
 
-.bg-btn:hover {
-  color: var(--color-accent);
+.bg-select:hover,
+.bg-select:focus {
+  color: var(--color-text);
   border-color: var(--color-accent);
-}
-
-.bg-btn--active {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
-  background: var(--color-accent-bg);
+  outline: none;
 }
 
 /* ─── Thank-you actions ──────────────────────────────────── */

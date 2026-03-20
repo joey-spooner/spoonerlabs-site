@@ -471,11 +471,9 @@
       bg.draw();
     }
 
-    // Update button active states
-    var btns = document.querySelectorAll('.bg-btn');
-    for (var i = 0; i < btns.length; i++) {
-      btns[i].classList.toggle('bg-btn--active', btns[i].dataset.bg === key);
-    }
+    // Sync dropdown
+    var sel = document.getElementById('bg-select');
+    if (sel) sel.value = key;
 
     try { localStorage.setItem('sl_bg', key); } catch (e) {}
   }
@@ -554,27 +552,25 @@
   });
 
   /* ══════════════════════════════════════════════════════════
-     FOOTER SWITCHER  (appended inside .site-footer .container)
+     FOOTER SWITCHER  (dropdown beside copyright)
   ══════════════════════════════════════════════════════════ */
   function buildMenu() {
-    var container = document.querySelector('.site-footer .container');
-    if (!container) return;
+    var copy = document.querySelector('.site-footer__copy');
+    if (!copy) return;
 
-    var div  = document.createElement('div');
-    div.className = 'bg-switcher';
+    var sel = document.createElement('select');
+    sel.id        = 'bg-select';
+    sel.className = 'bg-select';
 
-    var html = '<span class="bg-switcher__label">Background</span><div class="bg-switcher__btns">';
     for (var i = 0; i < BG_KEYS.length; i++) {
-      var k = BG_KEYS[i];
-      html += '<button class="bg-btn" data-bg="' + k + '">' + BG[k].label + '</button>';
+      var opt       = document.createElement('option');
+      opt.value     = BG_KEYS[i];
+      opt.textContent = BG[BG_KEYS[i]].label;
+      sel.appendChild(opt);
     }
-    html += '</div>';
-    div.innerHTML = html;
-    container.appendChild(div);
 
-    div.querySelectorAll('.bg-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () { setBackground(this.dataset.bg); });
-    });
+    copy.parentNode.insertBefore(sel, copy.nextSibling);
+    sel.addEventListener('change', function () { setBackground(this.value); });
   }
 
   /* ══════════════════════════════════════════════════════════
