@@ -1,6 +1,7 @@
 /* bg.js — Spooner Labs background system
-   Backgrounds: 10 constellations, chemistry, asteroids, solar system
-   Randomly selected on load; footer switcher to change manually        */
+   Backgrounds: constellations, shooting stars, solar system, fireworks
+   Randomly selected on load; footer switcher to change manually
+   F key toggles fireworks; fireworks auto-load on US+EU holidays       */
 
 (function () {
   'use strict';
@@ -80,59 +81,6 @@
       lines: [[0,1],[0,2],[1,3],[2,4],[3,5],[5,4],[1,2],[3,4]] },
   ];
 
-  /* ══════════════════════════════════════════════════════════
-     CHEMICAL STRUCTURES
-     Atoms: [x, y, label]   '' = carbon (unlabeled in skeletal formula)
-     Bonds: [idx_a, idx_b, order]   1=single  2=double  3=triple
-  ══════════════════════════════════════════════════════════ */
-  var CHEMICALS = [
-    { label: 'Benzene  C₆H₆',
-      atoms: [[0.50,0.22,''],[0.63,0.31,''],[0.63,0.49,''],[0.50,0.58,''],[0.37,0.49,''],[0.37,0.31,'']],
-      bonds: [[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,0,2]] },
-
-    { label: 'Water  H₂O',
-      atoms: [[0.50,0.38,'O'],[0.33,0.57,'H'],[0.67,0.57,'H']],
-      bonds: [[0,1,1],[0,2,1]] },
-
-    { label: 'Carbon Dioxide  CO₂',
-      atoms: [[0.24,0.50,'O'],[0.50,0.50,'C'],[0.76,0.50,'O']],
-      bonds: [[0,1,2],[1,2,2]] },
-
-    { label: 'Methane  CH₄',
-      atoms: [[0.50,0.50,'C'],[0.50,0.24,'H'],[0.74,0.63,'H'],[0.26,0.63,'H'],[0.50,0.76,'H']],
-      bonds: [[0,1,1],[0,2,1],[0,3,1],[0,4,1]] },
-
-    { label: 'Ethanol  C₂H₅OH',
-      atoms: [[0.30,0.50,''],[0.50,0.50,''],[0.70,0.50,'O'],
-               [0.24,0.33,'H'],[0.17,0.54,'H'],[0.24,0.68,'H'],
-               [0.44,0.33,'H'],[0.56,0.33,'H'],[0.84,0.50,'H']],
-      bonds: [[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[1,6,1],[1,7,1],[2,8,1]] },
-
-    { label: 'Aspirin',
-      atoms: [
-        [0.38,0.28,''],[0.52,0.20,''],[0.66,0.28,''],[0.66,0.44,''],[0.52,0.52,''],[0.38,0.44,''],
-        [0.24,0.20,''],[0.12,0.20,'O'],[0.24,0.07,'O'],
-        [0.80,0.52,'O'],[0.92,0.60,''],[0.92,0.76,'O'],[1.04,0.52,'']],
-      bonds: [[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,0,1],
-               [0,6,1],[6,7,2],[6,8,1],[3,9,1],[9,10,1],[10,11,2],[10,12,1]] },
-
-    { label: 'Caffeine',
-      atoms: [
-        [0.34,0.30,'N'],[0.48,0.22,'C'],[0.62,0.28,'N'],[0.65,0.44,'C'],[0.52,0.52,'C'],[0.36,0.46,'C'],
-        [0.52,0.66,'N'],[0.66,0.70,'C'],[0.70,0.55,'N'],
-        [0.20,0.24,'C'],[0.48,0.08,'O'],[0.78,0.22,'C'],[0.52,0.80,'C'],[0.66,0.84,'O']],
-      bonds: [[0,1,1],[1,2,2],[2,3,1],[3,4,1],[4,5,1],[5,0,2],
-               [4,6,1],[6,7,1],[7,8,1],[8,3,1],
-               [0,9,1],[1,10,2],[2,11,1],[6,12,1],[7,13,2]] },
-
-    { label: 'Glucose  C₆H₁₂O₆',
-      atoms: [[0.50,0.25,'O'],[0.35,0.35,''],[0.35,0.52,''],[0.50,0.62,''],
-               [0.65,0.52,''],[0.65,0.35,''],
-               [0.20,0.28,'O'],[0.20,0.58,'O'],[0.50,0.78,'O'],[0.80,0.58,'O'],
-               [0.80,0.28,''],[0.94,0.22,'O']],
-      bonds: [[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,0,1],
-               [1,6,1],[2,7,1],[3,8,1],[4,9,1],[5,10,1],[10,11,1]] },
-  ];
 
   /* ══════════════════════════════════════════════════════════
      SOLAR SYSTEM PLANET DATA
@@ -299,161 +247,218 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     CHEMISTRY BACKGROUND
+     SHOOTING STARS BACKGROUND  (standalone, dense, explosive)
   ══════════════════════════════════════════════════════════ */
-  var chemState = null;
+  var METEOR_COLS = [
+    '255,80,120','255,160,40','80,220,255','160,255,80',
+    '200,80,255','255,255,80','80,180,255','255,120,80',
+  ];
 
-  function chemInit() {
-    chemState = { chem: CHEMICALS[Math.floor(Math.random() * CHEMICALS.length)] };
+  var shootState2 = null;
+
+  function shootInit() {
+    var stars = [], sparks = [];
+    for (var i = 0; i < 18; i++) stars.push(spawnMeteor(true));
+    shootState2 = { stars: stars, sparks: sparks };
   }
 
-  function chemDraw() {
-    var chem  = chemState.chem;
-    var atoms = chem.atoms;
-    var bonds = chem.bonds;
-
-    // Bounding box
-    var minX =  Infinity, minY =  Infinity;
-    var maxX = -Infinity, maxY = -Infinity;
-    for (var i = 0; i < atoms.length; i++) {
-      if (atoms[i][0] < minX) minX = atoms[i][0];
-      if (atoms[i][0] > maxX) maxX = atoms[i][0];
-      if (atoms[i][1] < minY) minY = atoms[i][1];
-      if (atoms[i][1] > maxY) maxY = atoms[i][1];
+  function spawnMeteor(stagger) {
+    var edge = Math.random();
+    var x, y, dx, dy;
+    var spd = rand(6, 18);
+    if (edge < 0.5) {           // from top
+      x = rand(0, 1) * W; y = -20;
+      var ang = rand(30, 150) * Math.PI / 180;
+      dx = Math.cos(ang) * spd; dy = Math.sin(ang) * spd;
+    } else if (edge < 0.75) {   // from left
+      x = -20; y = rand(0, 0.7) * H;
+      var ang = rand(-30, 30) * Math.PI / 180;
+      dx = Math.cos(ang) * spd; dy = Math.sin(ang) * spd;
+    } else {                    // from right
+      x = W + 20; y = rand(0, 0.7) * H;
+      var ang = (rand(150, 210)) * Math.PI / 180;
+      dx = Math.cos(ang) * spd; dy = Math.sin(ang) * spd;
     }
-    var bbW = maxX - minX || 0.01;
-    var bbH = maxY - minY || 0.01;
-    var target = Math.min(W, H) * 0.64;
-    var sc = Math.min(target / bbW, target / bbH);
-    var ox = W / 2 - (minX + bbW / 2) * sc;
-    var oy = H / 2 - (minY + bbH / 2) * sc;
+    var col = METEOR_COLS[Math.floor(Math.random() * METEOR_COLS.length)];
+    return {
+      x: x, y: y, dx: dx, dy: dy,
+      col: col, len: rand(60, 160),
+      life: 0, maxLife: randInt(40, 90),
+      delay: stagger ? randInt(0, 80) : 0,
+      explode: Math.random() < 0.45,
+    };
+  }
 
-    function mp(ax, ay) { return [ax * sc + ox, ay * sc + oy]; }
+  function burstSparks(sparks, x, y, col, n) {
+    for (var i = 0; i < n; i++) {
+      var ang = rand(0, Math.PI * 2), spd = rand(1.5, 7);
+      sparks.push({
+        x: x, y: y,
+        dx: Math.cos(ang) * spd, dy: Math.sin(ang) * spd,
+        col: col, life: 0, maxLife: randInt(22, 55),
+        size: rand(1.5, 3.5), gravity: rand(0.05, 0.18),
+      });
+    }
+  }
 
-    var lc = 'rgba(65,75,100,0.42)';
-    ctx.lineWidth = 1.8;
+  function shootDraw() {
+    var st = shootState2;
 
-    // Bonds
-    for (var i = 0; i < bonds.length; i++) {
-      var b  = bonds[i];
-      var pa = mp(atoms[b[0]][0], atoms[b[0]][1]);
-      var pb = mp(atoms[b[1]][0], atoms[b[1]][1]);
-      var dx = pb[0] - pa[0], dy = pb[1] - pa[1];
-      var len = Math.sqrt(dx * dx + dy * dy) || 1;
-      var nx = -dy / len, ny = dx / len;
+    // Update + draw meteors
+    for (var i = 0; i < st.stars.length; i++) {
+      var s = st.stars[i];
+      if (s.delay > 0) { s.delay--; continue; }
+      s.x += s.dx; s.y += s.dy; s.life++;
 
-      ctx.strokeStyle = lc;
-      if (b[2] === 1) {
-        ctx.beginPath(); ctx.moveTo(pa[0], pa[1]); ctx.lineTo(pb[0], pb[1]); ctx.stroke();
-      } else if (b[2] === 2) {
-        ctx.beginPath(); ctx.moveTo(pa[0]+nx*3,pa[1]+ny*3); ctx.lineTo(pb[0]+nx*3,pb[1]+ny*3); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(pa[0]-nx*3,pa[1]-ny*3); ctx.lineTo(pb[0]-nx*3,pb[1]-ny*3); ctx.stroke();
-      } else if (b[2] === 3) {
-        ctx.beginPath(); ctx.moveTo(pa[0],pa[1]); ctx.lineTo(pb[0],pb[1]); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(pa[0]+nx*4,pa[1]+ny*4); ctx.lineTo(pb[0]+nx*4,pb[1]+ny*4); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(pa[0]-nx*4,pa[1]-ny*4); ctx.lineTo(pb[0]-nx*4,pb[1]-ny*4); ctx.stroke();
+      var prog  = s.life / s.maxLife;
+      var alpha = (prog < 0.2 ? prog / 0.2 : 1 - (prog - 0.2) / 0.8) * 0.92;
+      var tlen  = s.len * Math.min(1, prog * 3);
+      var spd   = Math.sqrt(s.dx*s.dx + s.dy*s.dy) || 1;
+      var tx = s.x - (s.dx / spd) * tlen, ty = s.y - (s.dy / spd) * tlen;
+
+      var grd = ctx.createLinearGradient(s.x, s.y, tx, ty);
+      grd.addColorStop(0, 'rgba(' + s.col + ',' + alpha.toFixed(2) + ')');
+      grd.addColorStop(0.4, 'rgba(' + s.col + ',' + (alpha * 0.4).toFixed(2) + ')');
+      grd.addColorStop(1, 'rgba(' + s.col + ',0)');
+      ctx.save(); ctx.lineWidth = 2.5; ctx.strokeStyle = grd;
+      ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(tx, ty); ctx.stroke(); ctx.restore();
+
+      if (s.life >= s.maxLife) {
+        if (s.explode) burstSparks(st.sparks, s.x, s.y, s.col, randInt(18, 36));
+        st.stars[i] = spawnMeteor(false);
       }
     }
 
-    // Atom labels — CPK colors
-    var CPK = { O:'rgba(210,38,38,0.82)', N:'rgba(38,98,218,0.82)', H:'rgba(105,105,105,0.72)',
-                C:'rgba(38,38,38,0.78)', S:'rgba(180,145,0,0.82)',  P:'rgba(200,80,0,0.82)' };
-    ctx.font          = 'bold 13px Inter, sans-serif';
-    ctx.textAlign     = 'center';
-    ctx.textBaseline  = 'middle';
-    for (var i = 0; i < atoms.length; i++) {
-      var lbl = atoms[i][2];
-      if (!lbl) continue;
-      var pos = mp(atoms[i][0], atoms[i][1]);
-      var tw  = ctx.measureText(lbl).width;
-      ctx.fillStyle = 'rgba(250,250,248,0.96)';
-      ctx.fillRect(pos[0] - tw / 2 - 2, pos[1] - 9, tw + 4, 18);
-      ctx.fillStyle = CPK[lbl] || 'rgba(65,75,100,0.72)';
-      ctx.fillText(lbl, pos[0], pos[1]);
+    // Update + draw sparks
+    for (var i = st.sparks.length - 1; i >= 0; i--) {
+      var p = st.sparks[i];
+      p.x += p.dx; p.y += p.dy; p.dy += p.gravity; p.life++;
+      if (p.life >= p.maxLife) { st.sparks.splice(i, 1); continue; }
+      var a = (1 - p.life / p.maxLife) * 0.85;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size * (1 - p.life / p.maxLife * 0.5), 0, 6.283);
+      ctx.fillStyle = 'rgba(' + p.col + ',' + a.toFixed(2) + ')'; ctx.fill();
     }
-
-    // Structure label — just below the molecule, horizontally centered on it
-    var molCx  = (minX + bbW / 2) * sc + ox;
-    var labelY = maxY * sc + oy + 28;
-    ctx.font         = '600 14px Inter, sans-serif';
-    ctx.textAlign    = 'center';
-    ctx.textBaseline = 'alphabetic';
-    var lblW = ctx.measureText(chem.label).width;
-    ctx.fillStyle = 'rgba(250,250,248,0.82)';
-    ctx.fillRect(molCx - lblW / 2 - 10, labelY - 18, lblW + 20, 24);
-    ctx.fillStyle = 'rgba(60,75,110,0.72)';
-    ctx.fillText(chem.label, molCx, labelY);
   }
 
   /* ══════════════════════════════════════════════════════════
-     ASTEROID FIELD
-     Classic 3-D fly-through: particles at (x,y,z), projected
-     as z → 0 they expand outward from the center.
+     FIREWORKS BACKGROUND
   ══════════════════════════════════════════════════════════ */
-  var asteroidState = null;
+  // Holiday detection — US + EU common holidays
+  function isHoliday() {
+    var now = new Date();
+    var m = now.getMonth() + 1, d = now.getDate(), y = now.getFullYear();
 
-  function asteroidsInit() {
-    var particles = [];
-    for (var i = 0; i < 130; i++) {
-      var angle = rand(0, Math.PI * 2);
-      var dist  = rand(0.01, 0.85);
-      var nv    = randInt(5, 8);
-      var verts = [];
-      for (var v = 0; v < nv; v++) verts.push(rand(0.62, 1.32));
-      var ROCK_COLS = ['115,108,98','142,98,72','94,112,128','128,118,88','108,94,118','88,118,98'];
-      particles.push({
-        x:     Math.cos(angle) * dist,
-        y:     Math.sin(angle) * dist,
-        z:     rand(0.05, 1.0),
-        speed: rand(0.0007, 0.0020),
-        size:  rand(1.4, 3.8),
-        verts: verts,
-        col:   ROCK_COLS[Math.floor(Math.random() * ROCK_COLS.length)],
-      });
+    // Fixed-date holidays
+    var fixed = [[1,1],[1,6],[2,14],[3,17],[5,1],[6,19],[7,4],[10,31],[11,1],[12,24],[12,25],[12,26],[12,31]];
+    for (var i = 0; i < fixed.length; i++) if (fixed[i][0]===m && fixed[i][1]===d) return true;
+
+    // US Thanksgiving: 4th Thursday of November
+    if (m === 11) {
+      var first = new Date(y, 10, 1).getDay(); // 0=Sun
+      var thu1  = 1 + ((4 - first + 7) % 7);
+      if (d === thu1 + 21) return true;
     }
-    asteroidState = { particles: particles };
+
+    // Easter Sunday (Anonymous Gregorian)
+    var a=y%19, b=Math.floor(y/100), c=y%100, dd=Math.floor(b/4), e=b%4,
+        f=Math.floor((b+8)/25), g=Math.floor((b-f+1)/3),
+        h=(19*a+b-dd-g+15)%30, ii=Math.floor(c/4), k=c%4,
+        l=(32+2*e+2*ii-h-k)%7, mn=Math.floor((a+11*h+22*l)/451),
+        em=Math.floor((h+l-7*mn+114)/31), ed=((h+l-7*mn+114)%31)+1;
+    if (m===em && d===ed) return true;
+
+    return false;
   }
 
-  function asteroidsDraw() {
-    var cx = W / 2, cy = H / 2;
-    var persp = Math.max(W, H) * 0.72;
-    var ps = asteroidState.particles;
+  var FW_PALETTES = [
+    ['255,80,80',  '255,140,60','255,220,80'],
+    ['80,160,255', '80,255,200','160,80,255'],
+    ['255,80,200', '255,160,80','80,255,120'],
+    ['255,255,80', '255,180,40','255,100,100'],
+    ['120,255,180','80,200,255','200,120,255'],
+  ];
 
-    for (var i = 0; i < ps.length; i++) {
-      var p = ps[i];
-      p.z -= p.speed;
+  var fwState = null;
 
-      if (p.z <= 0.01) {
-        var a = rand(0, Math.PI * 2), d = rand(0.01, 0.85);
-        p.x = Math.cos(a) * d; p.y = Math.sin(a) * d; p.z = 1.0;
-        continue;
+  function fwInit() {
+    fwState = { rockets: [], particles: [], timer: 0 };
+  }
+
+  function launchRocket() {
+    var pal = FW_PALETTES[Math.floor(Math.random() * FW_PALETTES.length)];
+    return {
+      x: rand(0.15, 0.85) * W,
+      y: H + 10,
+      dy: rand(-14, -9),
+      targetY: rand(0.12, 0.48) * H,
+      pal: pal, trail: [],
+      col: pal[0],
+    };
+  }
+
+  function explodeRocket(r, particles) {
+    var n = randInt(60, 110);
+    var type = Math.floor(Math.random() * 3); // 0=radial, 1=ring, 2=chrysanthemum
+    for (var i = 0; i < n; i++) {
+      var ang = (i / n) * Math.PI * 2 + rand(-0.15, 0.15);
+      var spd = type === 1 ? rand(4.5, 5.5) : rand(1.5, 7);
+      var col = r.pal[Math.floor(Math.random() * r.pal.length)];
+      particles.push({
+        x: r.x, y: r.y,
+        dx: Math.cos(ang) * spd, dy: Math.sin(ang) * spd - (type===2 ? rand(0,2) : 0),
+        col: col, life: 0,
+        maxLife: randInt(48, 90),
+        gravity: rand(0.04, 0.10),
+        size: rand(2, 4.5),
+        twinkle: Math.random() < 0.4,
+      });
+    }
+    // Central flash
+    particles.push({ x:r.x, y:r.y, dx:0, dy:0, col:'255,255,255', life:0, maxLife:8, gravity:0, size:12, twinkle:false });
+  }
+
+  function fwDraw() {
+    fwState.timer++;
+
+    // Spawn rockets
+    if (fwState.timer % randInt(28, 55) === 0 && fwState.rockets.length < 5) {
+      fwState.rockets.push(launchRocket());
+    }
+
+    // Update rockets
+    for (var i = fwState.rockets.length - 1; i >= 0; i--) {
+      var r = fwState.rockets[i];
+      r.trail.push({ x: r.x, y: r.y });
+      if (r.trail.length > 12) r.trail.shift();
+      r.y += r.dy; r.dy += 0.18; // slight gravity on ascent
+
+      // Draw trail
+      for (var t = 0; t < r.trail.length; t++) {
+        var ta = (t / r.trail.length) * 0.7;
+        ctx.beginPath(); ctx.arc(r.trail[t].x, r.trail[t].y, 1.5, 0, 6.283);
+        ctx.fillStyle = 'rgba(' + r.col + ',' + ta.toFixed(2) + ')'; ctx.fill();
       }
+      ctx.beginPath(); ctx.arc(r.x, r.y, 2.5, 0, 6.283);
+      ctx.fillStyle = 'rgba(' + r.col + ',0.95)'; ctx.fill();
 
-      var sx = (p.x / p.z) * persp + cx;
-      var sy = (p.y / p.z) * persp + cy;
-      if (sx < -100 || sx > W + 100 || sy < -100 || sy > H + 100) {
-        var a = rand(0, Math.PI * 2), d = rand(0.01, 0.85);
-        p.x = Math.cos(a) * d; p.y = Math.sin(a) * d; p.z = 1.0;
-        continue;
+      if (r.y <= r.targetY || r.dy >= 0) {
+        explodeRocket(r, fwState.particles);
+        fwState.rockets.splice(i, 1);
       }
+    }
 
-      var r      = Math.min(p.size / p.z, 80);
-      var alpha  = Math.min(0.48, (1 - p.z) * 0.54);
-      var nv     = p.verts.length;
-
-      ctx.save();
-      ctx.translate(sx, sy);
-      ctx.beginPath();
-      for (var v = 0; v < nv; v++) {
-        var ang = (v / nv) * Math.PI * 2;
-        var vr  = r * p.verts[v];
-        if (v === 0) ctx.moveTo(Math.cos(ang) * vr, Math.sin(ang) * vr);
-        else         ctx.lineTo(Math.cos(ang) * vr, Math.sin(ang) * vr);
-      }
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(' + p.col + ',' + alpha.toFixed(3) + ')';
-      ctx.fill();
-      ctx.restore();
+    // Update particles
+    for (var i = fwState.particles.length - 1; i >= 0; i--) {
+      var p = fwState.particles[i];
+      p.x += p.dx; p.y += p.dy; p.dy += p.gravity;
+      p.dx *= 0.98; p.life++;
+      if (p.life >= p.maxLife) { fwState.particles.splice(i, 1); continue; }
+      var prog = p.life / p.maxLife;
+      var a = (1 - prog) * 0.92;
+      if (p.twinkle) a *= (Math.sin(p.life * 0.6) * 0.5 + 0.5);
+      var sz = p.size * (1 - prog * 0.6);
+      ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(0.5, sz), 0, 6.283);
+      ctx.fillStyle = 'rgba(' + p.col + ',' + a.toFixed(2) + ')'; ctx.fill();
     }
   }
 
@@ -545,12 +550,12 @@
      BACKGROUND REGISTRY
   ══════════════════════════════════════════════════════════ */
   var BG = {
-    constellation: { label: 'Constellation', animated: true,  init: constInit,     draw: constDraw     },
-    chemistry:     { label: 'Chemistry',      animated: false, init: chemInit,      draw: chemDraw      },
-    asteroids:     { label: 'Asteroids',      animated: true,  init: asteroidsInit, draw: asteroidsDraw },
-    solar:         { label: 'Solar System',   animated: true,  init: solarInit,     draw: solarDraw     },
+    constellation: { label: 'Constellation',  animated: true, init: constInit,  draw: constDraw  },
+    shooting:      { label: 'Shooting Stars', animated: true, init: shootInit,  draw: shootDraw  },
+    solar:         { label: 'Solar System',   animated: true, init: solarInit,  draw: solarDraw  },
+    fireworks:     { label: 'Fireworks',      animated: true, init: fwInit,     draw: fwDraw     },
   };
-  var BG_KEYS    = ['constellation', 'chemistry', 'asteroids', 'solar'];
+  var BG_KEYS    = ['constellation', 'shooting', 'solar', 'fireworks'];
   var currentKey = null;
   var rafId      = null;
 
@@ -649,6 +654,15 @@
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     if (e.key === 'b' || e.key === 'B') { if (modalOpen) closeModal(); else openModal(); }
     if (e.key === 'Escape' && modalOpen)  closeModal();
+    if (e.key === 'f' || e.key === 'F') {
+      if (currentKey === 'fireworks') {
+        // Toggle off fireworks — pick a non-fireworks background at random
+        var nonFw = BG_KEYS.filter(function (k) { return k !== 'fireworks'; });
+        setBackground(nonFw[Math.floor(Math.random() * nonFw.length)]);
+      } else {
+        setBackground('fireworks');
+      }
+    }
   });
 
   /* ══════════════════════════════════════════════════════════
@@ -679,13 +693,20 @@
   buildMenu();
   buildModal();
 
-  var saved;
-  try { saved = localStorage.getItem('sl_bg'); } catch (e) {}
-
-  if (saved && BG[saved]) {
-    setBackground(saved);
+  // On holidays, always open with fireworks regardless of saved pref
+  if (isHoliday()) {
+    setBackground('fireworks');
   } else {
-    setBackground(BG_KEYS[Math.floor(Math.random() * BG_KEYS.length)]);
+    var saved;
+    try { saved = localStorage.getItem('sl_bg'); } catch (e) {}
+
+    if (saved && BG[saved]) {
+      setBackground(saved);
+    } else {
+      // Exclude fireworks from random selection on non-holidays
+      var nonFwKeys = BG_KEYS.filter(function (k) { return k !== 'fireworks'; });
+      setBackground(nonFwKeys[Math.floor(Math.random() * nonFwKeys.length)]);
+    }
   }
 
 }());
