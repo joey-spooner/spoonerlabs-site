@@ -232,7 +232,7 @@
 
   function constDraw() {
     var c    = constState.c;
-    var size = Math.min(W, H) * 0.68;
+    var size = Math.min(W, H) * 0.92;
     var ox   = (W - size) / 2;
     var oy   = (H - size) / 2;
 
@@ -323,7 +323,7 @@
     }
     var bbW = maxX - minX || 0.01;
     var bbH = maxY - minY || 0.01;
-    var target = Math.min(W, H) * 0.42;
+    var target = Math.min(W, H) * 0.64;
     var sc = Math.min(target / bbW, target / bbH);
     var ox = W / 2 - (minX + bbW / 2) * sc;
     var oy = H / 2 - (minY + bbH / 2) * sc;
@@ -416,7 +416,7 @@
 
   function asteroidsDraw() {
     var cx = W / 2, cy = H / 2;
-    var persp = Math.max(W, H) * 0.52;
+    var persp = Math.max(W, H) * 0.72;
     var ps = asteroidState.particles;
 
     for (var i = 0; i < ps.length; i++) {
@@ -482,7 +482,7 @@
     solarState.time += 0.004;
     var t  = solarState.time;
     var cx = W / 2, cy = H / 2;
-    var sc = Math.min(W, H) * 0.72;
+    var sc = Math.min(W, H) * 0.90;
 
     // Sun glow — warm multi-stop corona
     var grd = ctx.createRadialGradient(cx, cy, 10, cx, cy, 68);
