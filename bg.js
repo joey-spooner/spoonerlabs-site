@@ -261,10 +261,13 @@
   }
 
   function spawnMeteor() {
-    // Always left → right, entering from the left edge
-    var x   = -10;
+    // Randomly left → right or right → left
+    var leftToRight = Math.random() < 0.5;
+    var x   = leftToRight ? -10 : W + 10;
     var y   = rand(0.15, 0.80) * H;
-    var ang = rand(-20, 20) * Math.PI / 180;  // slight upward or downward drift
+    var ang = leftToRight
+      ? rand(-20, 20) * Math.PI / 180
+      : (180 + rand(-20, 20)) * Math.PI / 180;
     var spd = rand(3.0, 5.0);
     var col = METEOR_COLS[Math.floor(Math.random() * METEOR_COLS.length)];
     return {
