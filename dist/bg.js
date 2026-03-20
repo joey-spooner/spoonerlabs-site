@@ -546,14 +546,18 @@
      BACKGROUND REGISTRY
   ══════════════════════════════════════════════════════════ */
   var BG = {
-    constellation: { label: 'Constellation',  animated: true, init: constInit,  draw: constDraw  },
-    shooting:      { label: 'Shooting Stars', animated: true, init: shootInit,  draw: shootDraw  },
-    solar:         { label: 'Solar System',   animated: true, init: solarInit,  draw: solarDraw  },
-    fireworks:     { label: 'Fireworks',      animated: true, init: fwInit,     draw: fwDraw     },
+    blank:         { label: 'None',           animated: false, init: function(){}, draw: function(){} },
+    constellation: { label: 'Constellation',  animated: true,  init: constInit,   draw: constDraw  },
+    shooting:      { label: 'Shooting Stars', animated: true,  init: shootInit,   draw: shootDraw  },
+    solar:         { label: 'Solar System',   animated: true,  init: solarInit,   draw: solarDraw  },
+    fireworks:     { label: 'Fireworks',      animated: true,  init: fwInit,      draw: fwDraw     },
   };
-  var BG_KEYS    = ['constellation', 'shooting', 'solar', 'fireworks'];
-  var currentKey = null;
-  var rafId      = null;
+  var BG_KEYS      = ['constellation', 'shooting', 'solar', 'fireworks'];
+  var BG_COLORFUL  = ['constellation', 'shooting', 'solar'];
+  var currentKey  = null;
+  var lastActiveBg = null;
+  var rafId       = null;
+  var toggleBtn   = null;
 
   function setBackground(key) {
     if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
@@ -572,11 +576,34 @@
       bg.draw();
     }
 
-    // Sync dropdown
+    // Track last colorful background for toggle restore
+    if (key !== 'blank') lastActiveBg = key;
+
+    // Sync dropdown (skip 'blank' — it's not in the list)
     var sel = document.getElementById('bg-select');
-    if (sel) sel.value = key;
+    if (sel && key !== 'blank') sel.value = key;
+
+    // Sync toggle button
+    if (toggleBtn) {
+      if (key === 'blank') {
+        toggleBtn.textContent = "Turn on background · T";
+        toggleBtn.classList.remove('is-visible');
+      } else {
+        toggleBtn.textContent = "Turn off background · T";
+        toggleBtn.classList.add('is-visible');
+      }
+    }
 
     try { localStorage.setItem('sl_bg', key); } catch (e) {}
+  }
+
+  function toggleBackground() {
+    if (currentKey === 'blank') {
+      var target = lastActiveBg || BG_COLORFUL[Math.floor(Math.random() * BG_COLORFUL.length)];
+      setBackground(target);
+    } else {
+      setBackground('blank');
+    }
   }
 
   // Redraw static backgrounds on resize
@@ -650,6 +677,7 @@
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     if (e.key === 'b' || e.key === 'B') { if (modalOpen) closeModal(); else openModal(); }
     if (e.key === 'Escape' && modalOpen)  closeModal();
+    if (e.key === 't' || e.key === 'T') toggleBackground();
     if (e.key === 'f' || e.key === 'F') {
       if (currentKey === 'fireworks') {
         // Toggle off fireworks — pick a non-fireworks background at random
@@ -683,26 +711,36 @@
     sel.addEventListener('change', function () { setBackground(this.value); });
   }
 
+  function buildToggleBtn() {
+    toggleBtn = document.createElement('button');
+    toggleBtn.className   = 'bg-toggle-btn';
+    toggleBtn.textContent = 'Turn off background · T';
+    document.body.appendChild(toggleBtn);
+    toggleBtn.addEventListener('click', toggleBackground);
+  }
+
   /* ══════════════════════════════════════════════════════════
      INIT
   ══════════════════════════════════════════════════════════ */
   buildMenu();
   buildModal();
+  buildToggleBtn();
 
-  // On holidays, always open with fireworks regardless of saved pref
-  if (isHoliday()) {
-    setBackground('fireworks');
-  } else {
-    var saved;
-    try { saved = localStorage.getItem('sl_bg'); } catch (e) {}
+  // Start blank, then introduce a colorful background after a short pause
+  setBackground('blank');
 
-    if (saved && BG[saved]) {
-      setBackground(saved);
+  setTimeout(function () {
+    if (isHoliday()) {
+      setBackground('fireworks');
     } else {
-      // Exclude fireworks from random selection on non-holidays
-      var nonFwKeys = BG_KEYS.filter(function (k) { return k !== 'fireworks'; });
-      setBackground(nonFwKeys[Math.floor(Math.random() * nonFwKeys.length)]);
+      var saved;
+      try { saved = localStorage.getItem('sl_bg'); } catch (e) {}
+      if (saved && BG[saved] && saved !== 'blank') {
+        setBackground(saved);
+      } else {
+        setBackground(BG_COLORFUL[Math.floor(Math.random() * BG_COLORFUL.length)]);
+      }
     }
-  }
+  }, rand(1200, 2800));
 
 }());
