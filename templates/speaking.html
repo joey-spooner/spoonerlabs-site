@@ -59,11 +59,25 @@
   <section class="section">
     <p class="section__label">Get in touch</p>
     <div class="prose">
-      <p>If you'd like to invite me to speak, send an email with some details about the event, audience, and topic you have in mind.</p>
-      <p class="mt-4">
-        <a href="mailto:{{ site.email }}" class="btn btn--primary">Send an inquiry</a>
-      </p>
+      <p>If you'd like to invite me to speak, use the form below with some details about the event, audience, and topic you have in mind.</p>
     </div>
+    <form class="contact-form" action="https://formspree.io/f/mvzwlvyq" method="POST">
+      <input type="hidden" name="_next" value="https://spoonerlabs.com/thankyou.html">
+      <input type="hidden" name="_subject" value="Speaking Inquiry">
+      <div class="contact-form__field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required autocomplete="name">
+      </div>
+      <div class="contact-form__field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email">
+      </div>
+      <div class="contact-form__field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+      </div>
+      <button type="submit" class="contact-form__submit contact-form__submit--spaced">Send inquiry</button>
+    </form>
   </section>
 
 </div>
