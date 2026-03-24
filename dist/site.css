@@ -228,6 +228,10 @@ a:hover {
   max-width: 52ch;
 }
 
+.page-header__cta {
+  margin-top: var(--space-12);
+}
+
 /* ─── Section ─────────────────────────────────────────────── */
 .section {
   padding: var(--space-12) 0;
