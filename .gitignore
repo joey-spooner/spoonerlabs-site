@@ -1,5 +1,5 @@
-# Claude instructions — kept local only
-CLAUDE.md
+# Markdown files — kept local only
+*.md
 
 # Local build artifacts
 .build/
