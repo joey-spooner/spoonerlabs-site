@@ -5,7 +5,8 @@
   description: "An ongoing exploration of how politics and voting preferences in Florida have shifted over time. Tracking data, patterns, and trends across elections."
   category: "Data / Politics"
   status: "in-progress"
-  link: "https://github.com/joey-spooner/florida-politics"
+  link: "https://spoonerlabs.com/florida-politics"
+  repo: "https://github.com/joey-spooner/florida-politics"
 
 - title: "Portuguese Phrases for Tidbyt"
   description: "A Tidbyt app that cycles through European Portuguese phrases and words on the device display. Built for daily passive exposure to the language."

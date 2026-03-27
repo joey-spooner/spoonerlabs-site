@@ -19,6 +19,18 @@
     <p class="section__label">Recent experiments</p>
     <div class="card-grid">
       {% for exp in experiments[:3] %}
+      {% if exp.repo %}
+      <div class="card">
+        <p class="card__title">{{ exp.title }}</p>
+        <p class="card__desc">{{ exp.description }}</p>
+        <div class="card__meta">
+          <span class="tag tag--status-{{ exp.status }}">{{ exp.status | replace('-', ' ') | title }}</span>
+          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
+          {% if exp.link %}<a href="{{ exp.link }}" class="card__link">View →</a>{% endif %}
+          <a href="{{ exp.repo }}" class="card__link">GitHub →</a>
+        </div>
+      </div>
+      {% else %}
       <{% if exp.link %}a href="{{ exp.link }}"{% else %}div{% endif %} class="card">
         <p class="card__title">{{ exp.title }}</p>
         <p class="card__desc">{{ exp.description }}</p>
@@ -27,6 +39,7 @@
           {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
         </div>
       </{% if exp.link %}a{% else %}div{% endif %}>
+      {% endif %}
       {% endfor %}
     </div>
     <p class="mt-6"><a href="/experiments/" class="arrow-link">All experiments</a></p>

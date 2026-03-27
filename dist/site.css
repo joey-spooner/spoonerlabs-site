@@ -291,6 +291,24 @@ a:hover {
   display: flex;
   gap: var(--space-3);
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.card__link {
+  font-size: var(--size-xs);
+  font-weight: 500;
+  color: var(--color-accent);
+  text-decoration: none;
+  margin-left: auto;
+}
+
+.card__link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+.card__link + .card__link {
+  margin-left: var(--space-2);
 }
 
 .tag {

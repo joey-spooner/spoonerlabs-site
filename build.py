@@ -16,6 +16,7 @@ ROOT = Path(__file__).parent
 TEMPLATES_DIR = ROOT / "templates"
 DATA_DIR = ROOT / "data"
 DIST_DIR = ROOT / "dist"
+PUBLIC_DIR = ROOT / "public"
 
 
 def load_yaml(filename):
@@ -58,6 +59,15 @@ def build():
     src_images = DATA_DIR / "images"
     if src_images.exists():
         shutil.copytree(src_images, DIST_DIR / "images")
+
+    # Copy public/ subdirectories into dist/ (e.g. public/florida-politics → dist/florida-politics)
+    if PUBLIC_DIR.exists():
+        for item in PUBLIC_DIR.iterdir():
+            dest = DIST_DIR / item.name
+            if item.is_dir():
+                shutil.copytree(item, dest)
+            else:
+                shutil.copy(item, dest)
 
     # ── Template context helpers ─────────────────────────────
     def ctx(**kwargs):
