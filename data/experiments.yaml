@@ -1,6 +1,13 @@
 # Experiments
 # Each entry: title, description, category, status (live|in-progress|idea|archived), link (optional)
 
+- title: "Florida Politics"
+  description: "An interactive exploration of how Florida has shifted politically over time. Tracks gubernatorial primary and general election results by county alongside legislative party balance from 1992 to 2024."
+  category: "Data / Politics"
+  status: "live"
+  link: "https://spoonerlabs.com/florida-politics/"
+  repo: "https://github.com/joey-spooner/florida-politics"
+
 - title: "Portuguese Phrases for Tidbyt"
   description: "A Tidbyt app that cycles through European Portuguese phrases and words on the device display. Built for daily passive exposure to the language."
   category: "Tool"
