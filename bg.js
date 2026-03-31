@@ -662,10 +662,10 @@
     // Sync toggle button
     if (toggleBtn) {
       if (key === 'blank') {
-        toggleBtn.textContent = "Turn on background · T";
+        toggleBtn.innerHTML = "Turn on background · T";
         toggleBtn.classList.remove('is-visible');
       } else {
-        toggleBtn.textContent = "Turn off background · T · R";
+        toggleBtn.innerHTML = 'Turn off background · T<br><span style="font-size:0.8em;opacity:0.75">Rotate background · R</span>';
         toggleBtn.classList.add('is-visible');
       }
     }
@@ -807,7 +807,7 @@
   function buildToggleBtn() {
     toggleBtn = document.createElement('button');
     toggleBtn.className   = 'bg-toggle-btn';
-    toggleBtn.textContent = 'Turn off background · T · R';
+    toggleBtn.innerHTML = 'Turn off background · T<br><span style="font-size:0.8em;opacity:0.75">Rotate background · R</span>';
     document.body.appendChild(toggleBtn);
     toggleBtn.addEventListener('click', toggleBackground);
   }
