@@ -45,22 +45,6 @@
     <p class="mt-6"><a href="/experiments/" class="arrow-link">All experiments</a></p>
   </section>
 
-  <section class="section">
-    <p class="section__label">Projects</p>
-    <div class="card-grid">
-      {% for proj in projects if proj.status == 'live' %}
-      <{% if proj.link %}a href="{{ proj.link }}"{% else %}div{% endif %} class="card">
-        <p class="card__title">{{ proj.title }}</p>
-        <p class="card__desc">{{ proj.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-{{ proj.status }}">{{ proj.status | title }}</span>
-          {% if proj.category %}<span class="tag">{{ proj.category }}</span>{% endif %}
-        </div>
-      </{% if proj.link %}a{% else %}div{% endif %}>
-      {% endfor %}
-    </div>
-    <p class="mt-6"><a href="/projects/" class="arrow-link">All projects</a></p>
-  </section>
 
 </div>
 {% endblock %}
