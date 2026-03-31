@@ -11,7 +11,8 @@
   description: "A random food and trip generator for the Lisbon area. Useful when you can't decide where to eat or what to do next."
   category: "Tool"
   status: "live"
-  link: "https://github.com/joey-spooner/where-now"
+  link: "https://spoonerlabs.com/where-now/"
+  repo: "https://github.com/joey-spooner/where-now"
 
 - title: "URL Readability Scorer"
   description: "An Excel macro that parses a list of URLs and returns Flesch Reading Ease and Flesch-Kincaid Grade Level scores for each page's content. A content audit utility from an earlier era."

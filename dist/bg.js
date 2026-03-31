@@ -665,12 +665,20 @@
         toggleBtn.textContent = "Turn on background · T";
         toggleBtn.classList.remove('is-visible');
       } else {
-        toggleBtn.textContent = "Turn off background · T";
+        toggleBtn.textContent = "Turn off background · T · R";
         toggleBtn.classList.add('is-visible');
       }
     }
 
     try { localStorage.setItem('sl_bg', key); } catch (e) {}
+  }
+
+  function rotateBackground() {
+    var keys = BG_KEYS;
+    var idx  = keys.indexOf(currentKey);
+    var next = keys[(idx + 1) % keys.length];
+    try { localStorage.removeItem('sl_bg_hidden'); } catch (e) {}
+    setBackground(next);
   }
 
   function toggleBackground() {
@@ -758,6 +766,7 @@
     if (e.key === 'b' || e.key === 'B') { if (modalOpen) closeModal(); else openModal(); }
     if (e.key === 'Escape' && modalOpen)  closeModal();
     if (e.key === 't' || e.key === 'T') toggleBackground();
+    if (e.key === 'r' || e.key === 'R') rotateBackground();
     if (e.key === 'f' || e.key === 'F') {
       if (currentKey === 'fireworks') {
         // Toggle off fireworks — pick a non-fireworks background at random
@@ -798,7 +807,7 @@
   function buildToggleBtn() {
     toggleBtn = document.createElement('button');
     toggleBtn.className   = 'bg-toggle-btn';
-    toggleBtn.textContent = 'Turn off background · T';
+    toggleBtn.textContent = 'Turn off background · T · R';
     document.body.appendChild(toggleBtn);
     toggleBtn.addEventListener('click', toggleBackground);
   }
