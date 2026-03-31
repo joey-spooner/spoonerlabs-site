@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Where Now?</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.4;
+      color: #111;
+      background: #f4f4f5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      background: #e5e7eb;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #d4d4d8;
+      border-right: 1px solid #d4d4d8;
+    }
+
+    header {
+      padding: 0.9rem 1.2rem 0.7rem;
+      background: #111827;
+      color: #f9fafb;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      font-size: 1.15rem;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    header span {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    main {
+      padding: 0.9rem 1rem 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #6b7280;
+      margin-bottom: 0.3rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 0.75rem;
+      padding: 0.85rem 0.9rem;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      border: 1px solid #e5e7eb;
+    }
+
+    .row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .pill-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid #d4d4d8;
+      background: #f9fafb;
+      font-size: 0.8rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pill--active {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+
+    .time-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.2rem;
+    }
+
+    .time-option {
+      flex: 1 1 calc(33% - 0.5rem);
+      min-width: 90px;
+      text-align: center;
+      font-size: 0.78rem;
+      padding: 0.4rem 0.35rem;
+      border-radius: 0.6rem;
+      border: 1px solid #d4d4d8;
+      background: #f9fafb;
+      cursor: pointer;
+    }
+
+    .time-option--active {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+
+    .location-row {
+      display: flex;
+      gap: 0.45rem;
+      margin-top: 0.4rem;
+    }
+
+    .location-row button {
+      border-radius: 0.6rem;
+      border: 1px solid #d4d4d8;
+      background: #f9fafb;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.78rem;
+      flex: 0 0 auto;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .location-row select {
+      flex: 1 1 auto;
+      border-radius: 0.6rem;
+      border: 1px solid #d4d4d8;
+      padding: 0.3rem 0.45rem;
+      font-size: 0.78rem;
+      background: #f9fafb;
+    }
+
+    .primary-button {
+      width: 100%;
+      border-radius: 999px;
+      border: none;
+      padding: 0.8rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #111827;
+      color: #f9fafb;
+      margin-top: 0.3rem;
+    }
+
+    .primary-button:active {
+      transform: translateY(1px);
+    }
+
+    .pill-small {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #f3f4f6;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .pill-small span {
+      font-size: 0.8rem;
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .result-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .result-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.4rem 0;
+    }
+
+    .result-description {
+      font-size: 0.82rem;
+      color: #4b5563;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+
+    .btn-secondary,
+    .btn-outline {
+      flex: 1;
+      font-size: 0.82rem;
+      border-radius: 0.6rem;
+      padding: 0.55rem 0.5rem;
+      cursor: pointer;
+      border: 1px solid #d4d4d8;
+      background: #f9fafb;
+      text-align: center;
+    }
+
+    .btn-secondary {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+
+    footer {
+      padding: 0.5rem 1rem 0.7rem;
+      font-size: 0.72rem;
+      color: #6b7280;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    @media (min-width: 600px) {
+      main {
+        padding: 1rem 1.25rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <h1>Where Now?</h1>
+      <span>Lisbon • Coast • Setúbal</span>
+    </header>
+
+    <main>
+      <!-- 1. Category + Time + Location controls -->
+      <section class="card">
+        <div class="section-label">What are you in the mood for?</div>
+        <div class="pill-group" id="category-group">
+          <button class="pill pill--active" data-category="food">Food &amp; Drink</button>
+          <button class="pill" data-category="outdoor">Outdoor / Nature</button>
+          <button class="pill" data-category="culture">Culture &amp; Sites</button>
+          <button class="pill" data-category="wildcard">Wildcard</button>
+        </div>
+
+        <div class="section-label" style="margin-top: 0.75rem;">How much time do you have?</div>
+        <div class="time-options" id="time-group">
+          <button class="time-option time-option--active" data-minutes="30">30 min</button>
+          <button class="time-option" data-minutes="60">1 hr</button>
+          <button class="time-option" data-minutes="120">2 hrs</button>
+          <button class="time-option" data-minutes="240">Half day</button>
+          <button class="time-option" data-minutes="480">Full day</button>
+        </div>
+
+        <div class="section-label" style="margin-top: 0.75rem;">Where are you starting from?</div>
+        <div class="location-row">
+          <button id="use-location">Use my location</button>
+          <select id="base-location">
+            <option value="paco">Paço de Arcos</option>
+            <option value="lisbon">Lisbon center</option>
+            <option value="cascais">Cascais / Estoril</option>
+            <option value="caparica">Costa da Caparica</option>
+            <option value="sesimbra">Sesimbra</option>
+            <option value="setubal">Setúbal</option>
+          </select>
+        </div>
+
+        <button class="primary-button" id="surprise-btn">
+          🎲 Surprise me
+        </button>
+      </section>
+
+      <!-- 2. Result card (placeholder content for now) -->
+      <section class="card" id="result-card">
+        <div class="section-label">Suggestion</div>
+        <div class="result-header">
+          <div>
+            <div class="result-title" id="place-name">
+              Try this: Castelo de São Jorge
+            </div>
+            <div class="result-meta">
+              <div class="pill-small" id="place-category">
+                <span>Culture &amp; Sites</span>
+              </div>
+              <div class="pill-small" id="place-rating">
+                ⭐ 4.7 TripAdvisor
+              </div>
+              <div class="pill-small" id="place-weather-tag">
+                ☀ Good for sunny days
+              </div>
+            </div>
+          </div>
+          <div class="pill-small" id="place-status">
+            <span>Open now • closes 21:00</span>
+          </div>
+        </div>
+
+        <div class="result-description" id="place-description">
+          Hilltop castle with panoramic views over Lisbon. Mix of indoor and outdoor spaces,
+          easy to pair with a walk through Alfama.
+        </div>
+
+        <div class="row" style="margin-bottom: 0.4rem;">
+          <div style="font-size: 0.78rem; color: #4b5563;" id="place-distance">
+            ~18 min from your location • allow 90+ min
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn-secondary" id="go-here-btn">
+            ✅ Go here
+          </button>
+          <button class="btn-outline" id="another-btn">
+            ↻ Show another
+          </button>
+        </div>
+
+        <div style="margin-top: 0.5rem; font-size: 0.78rem;">
+          <a href="#" id="gmaps-link" target="_blank" rel="noopener noreferrer">
+            Open in Google Maps
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div id="weather-summary">
+        Weather: checking…
+      </div>
+      <div id="meta-summary">
+        v0.1 • Local only
+      </div>
+    </footer>
+  </div>
+
+<script>
+  // ---- CONSTANTS ----
+  const PLACES_STORAGE_KEY = 'whereNow_places_v1';
+  const PLACES_VERSION_KEY = 'whereNow_places_version';
+  const SEEN_STORAGE_KEY = 'whereNow_seen_v1';
+
+  // Bump this anytime you change places.json or selection behavior.
+  // (Any string works: date-based, semver, etc.)
+  const PLACES_VERSION = '2025-12-12-1';
+
+  const BASE_LOCATIONS = {
+    paco: { lat: 38.691, lon: -9.308 },         // Paço de Arcos
+    lisbon: { lat: 38.7223, lon: -9.1393 },     // Lisbon center
+    cascais: { lat: 38.6979, lon: -9.4218 },    // Cascais
+    caparica: { lat: 38.642, lon: -9.232 },     // Costa da Caparica
+    sesimbra: { lat: 38.444, lon: -9.101 },     // Sesimbra
+    setubal: { lat: 38.524, lon: -8.888 }       // Setúbal
+  };
+
+  // ---- CACHE VERSIONING (prevents stale places.json) ----
+  (function ensurePlacesCacheVersion() {
+    const savedVersion = localStorage.getItem(PLACES_VERSION_KEY);
+    if (savedVersion !== PLACES_VERSION) {
+      localStorage.removeItem(PLACES_STORAGE_KEY);
+      localStorage.setItem(PLACES_VERSION_KEY, PLACES_VERSION);
+      console.log('[Cache] places cache cleared due to version bump:', PLACES_VERSION);
+    }
+  })();
+
+  // ---- BASIC APP STATE ----
+  const appState = {
+    coords: {
+      // Default near Paço de Arcos if geolocation fails
+      lat: 38.691,
+      lon: -9.308
+    },
+    weather: {
+      tempC: null,
+      code: null,
+      label: 'checking…',
+      preferOutdoor: true,
+      preferIndoor: false
+    },
+    places: [],
+    placesLoaded: false,
+    selectedPlace: null
+  };
+
+  // ---- DOM ELEMENTS ----
+  const weatherSummaryEl = document.getElementById('weather-summary');
+  const metaSummaryEl = document.getElementById('meta-summary');
+
+  const nameEl = document.getElementById('place-name');
+  const catEl = document.getElementById('place-category');
+  const ratingEl = document.getElementById('place-rating');
+  const weatherTagEl = document.getElementById('place-weather-tag');
+  const statusEl = document.getElementById('place-status');
+  const descEl = document.getElementById('place-description');
+  const distanceEl = document.getElementById('place-distance');
+  const gmapsEl = document.getElementById('gmaps-link');
+
+  // ---- SMALL HELPERS ----
+
+  function todayKey() {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  function haversineKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const toRad = (deg) => deg * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  function getSelectedCategory() {
+    const active = document.querySelector('#category-group .pill--active');
+    return active ? active.dataset.category : 'wildcard';
+  }
+
+  function getSelectedTimeMinutes() {
+    const active = document.querySelector('#time-group .time-option--active');
+    return active ? Number(active.dataset.minutes) : 60;
+  }
+
+  function getOriginCoords() {
+    const baseKey = document.getElementById('base-location').value;
+    const base = BASE_LOCATIONS[baseKey] || BASE_LOCATIONS.paco;
+
+    if (appState.coords && typeof appState.coords.lat === 'number') {
+      return appState.coords;
+    }
+    return base;
+  }
+
+  // ---- SEEN-TODAY HANDLING ----
+
+  function loadSeenToday() {
+    const raw = localStorage.getItem(SEEN_STORAGE_KEY);
+    if (!raw) return { date: todayKey(), ids: [] };
+
+    try {
+      const parsed = JSON.parse(raw);
+      if (!parsed.date || parsed.date !== todayKey()) {
+        return { date: todayKey(), ids: [] };
+      }
+      if (!Array.isArray(parsed.ids)) return { date: todayKey(), ids: [] };
+      return parsed;
+    } catch {
+      return { date: todayKey(), ids: [] };
+    }
+  }
+
+  function saveSeenToday(seen) {
+    localStorage.setItem(SEEN_STORAGE_KEY, JSON.stringify(seen));
+  }
+
+  function markPlaceSeen(placeId) {
+    const seen = loadSeenToday();
+    if (!seen.ids.includes(placeId)) {
+      seen.ids.push(placeId);
+      saveSeenToday(seen);
+    }
+  }
+
+  // ---- CATEGORY + TIME UI HANDLERS ----
+
+  document.getElementById('category-group').addEventListener('click', (e) => {
+    if (!e.target.dataset.category) return;
+    [...document.querySelectorAll('#category-group .pill')]
+      .forEach(p => p.classList.remove('pill--active'));
+    e.target.classList.add('pill--active');
+  });
+
+  document.getElementById('time-group').addEventListener('click', (e) => {
+    if (!e.target.dataset.minutes) return;
+    [...document.querySelectorAll('#time-group .time-option')]
+      .forEach(p => p.classList.remove('time-option--active'));
+    e.target.classList.add('time-option--active');
+  });
+
+  // ---- LOCATION HANDLING ----
+
+  async function detectLocation() {
+    return new Promise((resolve) => {
+      if (!navigator.geolocation) {
+        console.warn('Geolocation not supported, using default coords.');
+        return resolve(false);
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          appState.coords.lat = pos.coords.latitude;
+          appState.coords.lon = pos.coords.longitude;
+          console.log('Using geolocation coords:', appState.coords);
+          resolve(true);
+        },
+        (err) => {
+          console.warn('Geolocation failed, using default coords.', err);
+          resolve(false);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000
+        }
+      );
+    });
+  }
+
+  document.getElementById('use-location').addEventListener('click', async () => {
+    const ok = await detectLocation();
+    if (ok) {
+      alert('Location updated. I’ll use this point for travel and weather.');
+      loadWeather();
+    } else {
+      alert('Could not get your location. Using default Paço de Arcos area.');
+    }
+  });
+
+  // ---- WEATHER LOGIC ----
+
+  function classifyWeatherCode(code) {
+    const rainy = [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82];
+    const snowy = [71, 73, 75, 77, 85, 86];
+    const foggy = [45, 48];
+    const stormy = [95, 96, 99];
+
+    if (rainy.includes(code)) return 'rain';
+    if (snowy.includes(code)) return 'snow';
+    if (stormy.includes(code)) return 'storm';
+    if (foggy.includes(code)) return 'fog';
+    return 'clear';
+  }
+
+  function buildWeatherPreference(code) {
+    const type = classifyWeatherCode(code);
+    const prefs = {
+      preferOutdoor: true,
+      preferIndoor: false,
+      label: ''
+    };
+
+    if (type === 'rain' || type === 'storm') {
+      prefs.preferOutdoor = false;
+      prefs.preferIndoor = true;
+      prefs.label = 'rainy – indoor is better';
+    } else if (type === 'snow' || type === 'fog') {
+      prefs.preferOutdoor = false;
+      prefs.preferIndoor = true;
+      prefs.label = 'low visibility – indoor/mixed';
+    } else {
+      prefs.preferOutdoor = true;
+      prefs.preferIndoor = false;
+      prefs.label = 'good for outdoor & sun';
+    }
+
+    return prefs;
+  }
+
+  async function loadWeather() {
+    const { lat, lon } = appState.coords;
+
+    const url =
+      `https://api.open-meteo.com/v1/forecast` +
+      `?latitude=${lat}&longitude=${lon}` +
+      `&current_weather=true&timezone=auto`;
+
+    try {
+      weatherSummaryEl.textContent = 'Weather: checking…';
+
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Weather HTTP error ' + res.status);
+
+      const data = await res.json();
+      const cw = data.current_weather;
+      if (!cw) throw new Error('Missing current_weather');
+
+      const prefs = buildWeatherPreference(cw.weathercode);
+
+      appState.weather.tempC = cw.temperature;
+      appState.weather.code = cw.weathercode;
+      appState.weather.preferOutdoor = prefs.preferOutdoor;
+      appState.weather.preferIndoor = prefs.preferIndoor;
+      appState.weather.label = prefs.label;
+
+      const emoji = prefs.preferIndoor && !prefs.preferOutdoor ? '🌧' : '☀';
+
+      weatherSummaryEl.textContent =
+        `Weather: ${emoji} ${cw.temperature.toFixed(0)}°C, ${prefs.label}`;
+    } catch (err) {
+      console.error('Error loading weather', err);
+      appState.weather.label = 'unavailable';
+      weatherSummaryEl.textContent = 'Weather: unavailable';
+    }
+  }
+
+  function scorePlaceForWeather(place, weather) {
+    let score = 0;
+
+    if (!weather || weather.label === 'unavailable') {
+      return 0;
+    }
+
+    if (weather.preferIndoor) {
+      if (place.indoorOutdoor === 'indoor') score += 3;
+      if (place.indoorOutdoor === 'mixed') score += 2;
+      if (place.goodInRain) score += 2;
+      if (place.indoorOutdoor === 'outdoor' && !place.goodInRain) score -= 3;
+    }
+
+    if (weather.preferOutdoor) {
+      if (place.indoorOutdoor === 'outdoor') score += 3;
+      if (place.indoorOutdoor === 'mixed') score += 2;
+      if (place.goodForSun) score += 2;
+    }
+
+    return score;
+  }
+
+  // ---- PLACES LOADING (with cache-busting + versioning) ----
+
+  async function loadPlaces() {
+    // 1) Try localStorage cache first (but it's versioned)
+    const cached = localStorage.getItem(PLACES_STORAGE_KEY);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          appState.places = parsed;
+          appState.placesLoaded = true;
+          updateMetaSummary();
+          console.log('Loaded places from localStorage:', parsed.length);
+          return;
+        }
+      } catch (e) {
+        console.warn('Failed to parse cached places, refetching...', e);
+      }
+    }
+
+    // 2) Fetch with cache-busting query (forces fresh request on GitHub Pages/CDN/Safari)
+    try {
+      const url = `./data/places.json?v=${encodeURIComponent(PLACES_VERSION)}&t=${Date.now()}`;
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error('Failed to fetch places.json: ' + res.status);
+
+      const list = await res.json();
+      if (!Array.isArray(list)) throw new Error('places.json is not an array');
+
+      appState.places = list;
+      appState.placesLoaded = true;
+
+      // Save to cache for offline-ish use
+      localStorage.setItem(PLACES_STORAGE_KEY, JSON.stringify(list));
+
+      console.log('Loaded places from network:', list.length, 'URL:', url);
+      updateMetaSummary();
+    } catch (err) {
+      console.error('Error loading places:', err);
+      appState.places = [];
+      appState.placesLoaded = false;
+      updateMetaSummary(true);
+    }
+  }
+
+  function updateMetaSummary(isError) {
+    if (isError) {
+      metaSummaryEl.textContent = `v0.7 • no places loaded`;
+      return;
+    }
+    const count = appState.places.length;
+    metaSummaryEl.textContent = `v0.7 • ${count} place${count === 1 ? '' : 's'} • data ${PLACES_VERSION}`;
+  }
+
+  // ---- NO-RESULT DISPLAY ----
+
+  function showNoResult(message) {
+    appState.selectedPlace = null;
+
+    nameEl.textContent = 'No suggestion right now';
+    catEl.textContent = '';
+    ratingEl.textContent = '';
+    weatherTagEl.textContent = '';
+    statusEl.textContent = '';
+    descEl.textContent =
+      message || 'Try changing the category, increasing your time window, or picking a different base location.';
+    distanceEl.textContent = '';
+    gmapsEl.href = '#';
+  }
+
+  // ---- EVALUATION (NO HARD FEASIBILITY FILTER) ----
+
+  function evaluatePlace(place, timeAvailableMin, originCoords) {
+    const distanceKm = haversineKm(
+      originCoords.lat, originCoords.lon,
+      place.lat, place.lng
+    );
+
+    // Simple travel time model: 30 km/h effective
+    const travelMinRaw = (distanceKm / 30) * 60;
+    const travelMin = Math.max(5, travelMinRaw);
+
+    const rawStay = timeAvailableMin - travelMin;
+    const suggestedMin = place.minVisitMinutes || 60;
+
+    const stayMin = rawStay > 0
+      ? Math.max(30, Math.min(suggestedMin, rawStay))
+      : suggestedMin;
+
+    const weatherScore = scorePlaceForWeather(place, appState.weather);
+
+    return {
+      feasible: true,
+      distanceKm,
+      travelMin,
+      weatherScore,
+      stayMin
+    };
+  }
+
+  // ---- SELECTION LOGIC ----
+
+  function chooseRandomPlace(skipId = null) {
+    if (!appState.placesLoaded || appState.places.length === 0) {
+      showNoResult('Places data is not loaded. Check your connection or JSON file.');
+      return null;
+    }
+
+    const category = getSelectedCategory(); // food | outdoor | culture | wildcard
+    const timeAvailableMin = getSelectedTimeMinutes();
+    const originCoords = getOriginCoords();
+
+    // 1) Category + rating filter
+    let candidates = appState.places.filter(p => {
+      if (typeof p.lat !== 'number' || typeof p.lng !== 'number') return false;
+      if (typeof p.tripAdvisorRating === 'number' && p.tripAdvisorRating < 4.0) return false;
+      if (category !== 'wildcard' && p.category !== category) return false;
+      return true;
+    });
+
+    if (skipId) candidates = candidates.filter(p => p.id !== skipId);
+
+    console.log('Candidates after category/rating filter:', candidates.length, 'category:', category);
+
+    if (candidates.length === 0) {
+      showNoResult('No matching places for this category. Try wildcard or add more places.');
+      return null;
+    }
+
+    // 2) Evaluate (no feasibility filter)
+    let evaluated = candidates.map(p => ({
+      place: p,
+      eval: evaluatePlace(p, timeAvailableMin, originCoords)
+    }));
+
+    // 3) Seen-today filter
+    const seen = loadSeenToday();
+    const unseen = evaluated.filter(x => !seen.ids.includes(x.place.id));
+    if (unseen.length > 0) evaluated = unseen;
+
+    if (evaluated.length === 0) {
+      showNoResult('You’ve seen everything in this category today. Reset today’s suggestions or switch category.');
+      return null;
+    }
+
+    // 4) Weather-weighted randomness (pick from top N)
+    evaluated.sort((a, b) => b.eval.weatherScore - a.eval.weatherScore);
+
+    const topN = Math.min(6, evaluated.length);
+    const pool = evaluated.slice(0, topN);
+
+    const randIndex = Math.floor(Math.random() * pool.length);
+    return pool[randIndex];
+  }
+
+  function renderPlaceChoice(choice) {
+    const { place, eval: info } = choice;
+    appState.selectedPlace = place;
+
+    markPlaceSeen(place.id);
+
+    // Name & category
+    nameEl.textContent = place.name;
+    catEl.textContent = place.category === 'food'
+      ? 'Food & Drink'
+      : place.category === 'outdoor'
+        ? 'Outdoor / Nature'
+        : 'Culture & Sites';
+
+    // Rating
+    const ratingValue = typeof place.tripAdvisorRating === 'number'
+      ? place.tripAdvisorRating.toFixed(1)
+      : '4.0';
+    ratingEl.textContent = `⭐ ${ratingValue} TripAdvisor`;
+
+    // Weather tag
+    let weatherTag = '';
+    if (place.indoorOutdoor === 'indoor') weatherTag = '🏠 Mostly indoor';
+    else if (place.indoorOutdoor === 'outdoor') weatherTag = '☀ Outdoor spot';
+    else weatherTag = '🌤 Indoor & outdoor mix';
+
+    if (appState.weather.preferIndoor && place.goodInRain) weatherTag += ' • good in rain';
+    else if (appState.weather.preferOutdoor && place.goodForSun) weatherTag += ' • great in sun';
+
+    weatherTagEl.textContent = weatherTag;
+
+    // Status (we're not checking exact hours now)
+    statusEl.textContent = 'Check opening hours before you go';
+
+    // Notes
+    descEl.textContent = place.notes || '';
+
+    // Distance & time
+    const distText = info.distanceKm < 1 ? '< 1 km away' : `${info.distanceKm.toFixed(1)} km away`;
+    const travelText = Math.round(info.travelMin);
+    const stayText = Math.round(info.stayMin);
+
+    distanceEl.textContent =
+      `~${travelText} min from you (${distText}) • allow around ${stayText} min there`;
+
+    // Google Maps link
+    gmapsEl.href = place.gmapsUrl || '#';
+  }
+
+  // ---- BUTTON HANDLERS ----
+
+  document.getElementById('surprise-btn').addEventListener('click', () => {
+    const choice = chooseRandomPlace();
+    if (!choice) return;
+    renderPlaceChoice(choice);
+  });
+
+  document.getElementById('another-btn').addEventListener('click', () => {
+    const currentId = appState.selectedPlace ? appState.selectedPlace.id : null;
+    const choice = chooseRandomPlace(currentId);
+    if (!choice) return;
+    renderPlaceChoice(choice);
+  });
+
+  document.getElementById('go-here-btn').addEventListener('click', () => {
+    if (!appState.selectedPlace) {
+      alert('Pick a place first.');
+      return;
+    }
+    markPlaceSeen(appState.selectedPlace.id);
+    alert(`Nice. Marked "${appState.selectedPlace.name}" as done for today.`);
+  });
+
+  const resetBtn = document.getElementById('reset-today-btn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      localStorage.removeItem(SEEN_STORAGE_KEY);
+      showNoResult('Cleared today’s history. Hit “Surprise me” to start again.');
+    });
+  }
+
+  // Optional: a debug hotkey to clear places cache (press "c")
+  window.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === 'c' && (e.ctrlKey || e.metaKey)) {
+      localStorage.removeItem(PLACES_STORAGE_KEY);
+      localStorage.removeItem(PLACES_VERSION_KEY);
+      console.log('[Cache] cleared via keyboard shortcut');
+    }
+  });
+
+  // ---- INITIALIZE ON LOAD ----
+  (async function init() {
+    await detectLocation();
+    await loadWeather();
+    await loadPlaces();
+  })();
+</script>
+</body>
+</html>
