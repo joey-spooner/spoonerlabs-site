@@ -414,12 +414,12 @@ a:hover {
   line-height: 1.1;
   margin-bottom: var(--space-6);
   max-width: 18ch;
-  color: #ffffff;
+  color: var(--color-text);
 }
 
 .hero__sub {
   font-size: var(--size-lg);
-  color: rgba(255,255,255,0.85);
+  color: var(--color-muted);
   max-width: 52ch;
   line-height: 1.55;
   margin-bottom: var(--space-8);
@@ -472,14 +472,14 @@ a:hover {
 
 .btn--ghost-light {
   background: transparent;
-  color: #ffffff;
-  border-color: rgba(255,255,255,0.5);
+  color: var(--color-text);
+  border-color: var(--color-border);
 }
 
 .btn--ghost-light:hover {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.85);
-  color: #ffffff;
+  background: var(--color-surface);
+  border-color: var(--color-text);
+  color: var(--color-text);
   opacity: 1;
 }
 
