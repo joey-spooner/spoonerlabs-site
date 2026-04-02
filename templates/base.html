@@ -23,6 +23,9 @@
           <li><a href="/projects/" {% if active_page == 'projects' %}aria-current="page"{% endif %}>Projects</a></li>
           <li><a href="/about.html" {% if active_page == 'about' %}aria-current="page"{% endif %}>About</a></li>
         </ul>
+        <button class="site-nav__toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </nav>
@@ -54,5 +57,6 @@
   </footer>
 
   <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+  <script>(function(){var t=document.querySelector('.site-nav__toggle'),l=document.querySelector('.site-nav__links');if(t)t.addEventListener('click',function(){var o=l.classList.toggle('is-open');this.setAttribute('aria-expanded',o);this.setAttribute('aria-label',o?'Close menu':'Open menu');});})();</script>
 </body>
 </html>

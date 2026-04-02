@@ -1095,8 +1095,9 @@ a:hover {
   }
 
   .site-footer__links {
-    flex-direction: column;
-    gap: var(--space-3);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
   }
 }
 
