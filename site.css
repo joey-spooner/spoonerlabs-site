@@ -57,7 +57,7 @@ body {
   font-size: var(--size-base);
   line-height: 1.6;
   color: var(--color-text);
-  background: var(--color-bg);
+  background: #ffffff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -122,6 +122,7 @@ a:hover {
 
 /* ─── Navigation ─────────────────────────────────────────── */
 .site-nav {
+  background: #ffffff;
   border-bottom: 1px solid var(--color-border);
   padding: var(--space-4) 0;
 }
@@ -168,6 +169,16 @@ a:hover {
 
 /* ─── Footer ─────────────────────────────────────────────── */
 .site-footer {
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.9),
+      rgba(255,255,255,0.7)
+    ),
+    url('/assets/backgrounds/bg-soft.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-top: 1px solid var(--color-border);
   padding: var(--space-8) 0;
   margin-top: var(--space-24);
@@ -370,6 +381,16 @@ a:hover {
 
 /* ─── Home hero ──────────────────────────────────────────── */
 .hero {
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.35),
+      rgba(0,0,0,0.15)
+    ),
+    url('/assets/backgrounds/bg-hero.png');
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
   padding: var(--space-24) 0 var(--space-16);
 }
 
@@ -379,11 +400,12 @@ a:hover {
   line-height: 1.1;
   margin-bottom: var(--space-6);
   max-width: 18ch;
+  color: #ffffff;
 }
 
 .hero__sub {
   font-size: var(--size-lg);
-  color: var(--color-muted);
+  color: rgba(255,255,255,0.85);
   max-width: 52ch;
   line-height: 1.55;
   margin-bottom: var(--space-8);
@@ -392,8 +414,7 @@ a:hover {
 .hero__actions {
   display: flex;
   gap: var(--space-4);
-  flex-wrap: wrap;
-}
+  flex-wrap: wrap;}
 
 /* ─── Buttons / links ────────────────────────────────────── */
 .btn {
@@ -431,6 +452,19 @@ a:hover {
   background: var(--color-surface);
   border-color: var(--color-text);
   color: var(--color-text);
+  opacity: 1;
+}
+
+.btn--ghost-light {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.5);
+}
+
+.btn--ghost-light:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.85);
+  color: #ffffff;
   opacity: 1;
 }
 
