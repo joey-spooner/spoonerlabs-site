@@ -157,8 +157,8 @@ a:hover {
   background-image:
     linear-gradient(
       to bottom,
-      rgba(12,16,40,0.93),
-      rgba(12,16,40,0.97)
+      rgba(255,255,255,0.85),
+      rgba(255,255,255,0.7)
     ),
     url('/assets/backgrounds/bg-soft.png');
   background-size: cover;
@@ -190,9 +190,8 @@ a:hover {
 .site-footer__logo-wrap {
   display: inline-flex;
   align-items: center;
-  background: rgba(255,255,255,0.92);
-  border-radius: 6px;
-  padding: 6px 12px;
+  background: transparent;
+  padding: 0;
 }
 
 .site-footer__logo {
@@ -203,7 +202,7 @@ a:hover {
 
 .site-footer__copy {
   font-size: var(--size-xs);
-  color: rgba(255,255,255,0.35);
+  color: var(--color-muted);
 }
 
 .site-footer__links {
@@ -216,12 +215,12 @@ a:hover {
 
 .site-footer__links a {
   font-size: var(--size-xs);
-  color: rgba(255,255,255,0.55);
+  color: var(--color-muted);
   text-decoration: none;
 }
 
 .site-footer__links a:hover {
-  color: #ffffff;
+  color: var(--color-text);
   opacity: 1;
 }
 
@@ -392,21 +391,42 @@ a:hover {
 
 /* ─── Home hero ──────────────────────────────────────────── */
 .hero {
+  position: relative;
+  height: 75vh;
   background-image:
     linear-gradient(
-      to top,
-      rgba(0,0,0,0.55) 0%,
-      rgba(0,0,0,0.2) 40%,
-      rgba(0,0,0,0) 100%
+      to bottom,
+      rgba(10,10,15,0.55),
+      rgba(10,10,15,0.25)
     ),
     url('/assets/backgrounds/bg-hero.png');
-  background-size: cover;
-  background-position: center;
+  background-size: 120% auto;
+  background-position: 80% center;
   background-repeat: no-repeat;
-  min-height: 58vh;
+  background-attachment: fixed;
   display: flex;
   align-items: flex-end;
   padding: var(--space-24) 0 var(--space-16);
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 70% 40%,
+    rgba(255,255,255,0.08),
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero > .container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
 }
 
 .hero__title {
@@ -430,10 +450,6 @@ a:hover {
   display: flex;
   gap: var(--space-4);
   flex-wrap: wrap;
-}
-
-.hero > .container {
-  width: 100%;
 }
 
 /* ─── Buttons / links ────────────────────────────────────── */
@@ -977,6 +993,11 @@ a:hover {
   }
 
   .hero {
+    height: auto;
+    min-height: 65vh;
+    background-attachment: scroll;
+    background-size: cover;
+    background-position: center;
     padding: var(--space-16) 0 var(--space-12);
   }
 
