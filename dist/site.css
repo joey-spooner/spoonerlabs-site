@@ -105,21 +105,6 @@ a:hover {
   max-width: var(--max-width);
 }
 
-/* ─── Background canvas ──────────────────────────────────── */
-#bg-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.site-nav, main, .site-footer {
-  position: relative;
-  z-index: 1;
-}
-
 /* ─── Navigation ─────────────────────────────────────────── */
 .site-nav {
   background: #ffffff;
@@ -172,15 +157,14 @@ a:hover {
   background-image:
     linear-gradient(
       to bottom,
-      rgba(255,255,255,0.9),
-      rgba(255,255,255,0.7)
+      rgba(12,16,40,0.93),
+      rgba(12,16,40,0.97)
     ),
     url('/assets/backgrounds/bg-soft.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-top: 1px solid var(--color-border);
-  padding: var(--space-8) 0;
+  padding: var(--space-12) 0 var(--space-8);
   margin-top: var(--space-24);
 }
 
@@ -194,23 +178,24 @@ a:hover {
 
 .site-footer__copy {
   font-size: var(--size-xs);
-  color: var(--color-muted);
+  color: rgba(255,255,255,0.35);
 }
 
 .site-footer__links {
   list-style: none;
   display: flex;
   gap: var(--space-4);
+  flex-wrap: wrap;
 }
 
 .site-footer__links a {
   font-size: var(--size-xs);
-  color: var(--color-muted);
+  color: rgba(255,255,255,0.55);
   text-decoration: none;
 }
 
 .site-footer__links a:hover {
-  color: var(--color-text);
+  color: #ffffff;
   opacity: 1;
 }
 
@@ -383,15 +368,16 @@ a:hover {
 .hero {
   background-image:
     linear-gradient(
-      to bottom,
-      rgba(0,0,0,0.35),
-      rgba(0,0,0,0.15)
+      to top,
+      rgba(0,0,0,0.55) 0%,
+      rgba(0,0,0,0.2) 40%,
+      rgba(0,0,0,0) 100%
     ),
     url('/assets/backgrounds/bg-hero.png');
   background-size: cover;
-  background-position: center right;
+  background-position: center;
   background-repeat: no-repeat;
-  min-height: 52vh;
+  min-height: 58vh;
   display: flex;
   align-items: flex-end;
   padding: var(--space-24) 0 var(--space-16);
@@ -883,6 +869,45 @@ a:hover {
   margin-top: var(--space-4);
   font-size: var(--size-sm);
   font-weight: 500;
+  color: var(--color-accent);
+}
+
+/* ─── Explore tile category variants ──────────────────────── */
+.explore-tile--experiments {
+  border-top: 3px solid #E97825;
+}
+.explore-tile--experiments .explore-tile__eyebrow { color: #E97825; }
+.explore-tile--experiments .explore-tile__arrow   { color: #E97825; }
+.explore-tile--experiments:hover { border-color: #E97825; background: #fff5ed; }
+
+.explore-tile--projects {
+  border-top: 3px solid var(--color-accent);
+}
+.explore-tile--projects .explore-tile__eyebrow { color: var(--color-accent); }
+.explore-tile--projects .explore-tile__arrow   { color: var(--color-accent); }
+
+.explore-tile--ideas {
+  border-top: 3px solid #b07d0a;
+}
+.explore-tile--ideas .explore-tile__eyebrow { color: #b07d0a; }
+
+/* ─── Tagline bridge ─────────────────────────────────────── */
+.tagline-bridge {
+  padding: var(--space-12) 0;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-4);
+}
+
+.tagline-bridge p {
+  font-size: var(--size-xl);
+  font-weight: 500;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+  max-width: none;
+}
+
+.tagline-bridge strong {
   color: var(--color-accent);
 }
 

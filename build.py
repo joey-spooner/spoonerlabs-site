@@ -46,8 +46,6 @@ def build():
 
     # ── Copy static assets ───────────────────────────────────
     shutil.copy(ROOT / "site.css",   DIST_DIR / "site.css")
-    shutil.copy(ROOT / "bg.js",      DIST_DIR / "bg.js")
-    shutil.copy(ROOT / "audio.js",   DIST_DIR / "audio.js")
 
     # Copy assets/ directory (brand files, icons, etc.)
     src_assets = ROOT / "assets"
