@@ -391,6 +391,9 @@ a:hover {
   background-size: cover;
   background-position: center right;
   background-repeat: no-repeat;
+  min-height: 52vh;
+  display: flex;
+  align-items: flex-end;
   padding: var(--space-24) 0 var(--space-16);
 }
 
@@ -414,7 +417,12 @@ a:hover {
 .hero__actions {
   display: flex;
   gap: var(--space-4);
-  flex-wrap: wrap;}
+  flex-wrap: wrap;
+}
+
+.hero > .container {
+  width: 100%;
+}
 
 /* ─── Buttons / links ────────────────────────────────────── */
 .btn {
@@ -751,6 +759,152 @@ a:hover {
   font-weight: 500;
 }
 
+/* ─── Lab feed ────────────────────────────────────────────── */
+.feed {
+  display: flex;
+  flex-direction: column;
+}
+
+.feed-item {
+  padding: var(--space-6) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.feed-item:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+.feed-item__type {
+  display: inline-block;
+  font-size: var(--size-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+
+.feed-item__title {
+  font-size: var(--size-xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-2);
+}
+
+.feed-item__title a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.feed-item__title a:hover {
+  color: var(--color-accent);
+}
+
+.feed-item__excerpt {
+  font-size: var(--size-sm);
+  color: var(--color-muted);
+  line-height: 1.55;
+  max-width: 60ch;
+  margin-bottom: var(--space-3);
+}
+
+.feed-item__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.feed-item__link {
+  font-size: var(--size-xs);
+  font-weight: 500;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.feed-item__link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+/* ─── Explore grid ─────────────────────────────────────────── */
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.explore-tile {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  background: #F7F7F8;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.explore-tile:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-bg);
+}
+
+.explore-tile--soon {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
+.explore-tile__eyebrow {
+  font-size: var(--size-xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: var(--space-3);
+}
+
+.explore-tile__title {
+  font-size: var(--size-xl);
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-2);
+}
+
+.explore-tile__desc {
+  font-size: var(--size-sm);
+  color: var(--color-muted);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.explore-tile__arrow {
+  margin-top: var(--space-4);
+  font-size: var(--size-sm);
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+/* ─── Evolving Orgs bridge ─────────────────────────────────── */
+.evolving-bridge {
+  border-top: none !important;
+  padding-top: 0 !important;
+  padding-bottom: var(--space-8);
+}
+
+.evolving-bridge p {
+  font-size: var(--size-sm);
+  color: var(--color-muted);
+  text-align: center;
+  max-width: none;
+}
+
+/* ─── Footer external link ─────────────────────────────────── */
+.site-footer__external {
+  font-style: normal;
+}
+
 /* ─── Utilities ──────────────────────────────────────────── */
 .text-muted { color: var(--color-muted); }
 .text-sm    { font-size: var(--size-sm); }
@@ -775,7 +929,8 @@ a:hover {
     padding: var(--space-16) 0 var(--space-12);
   }
 
-  .card-grid {
+  .card-grid,
+  .explore-grid {
     grid-template-columns: 1fr;
   }
 

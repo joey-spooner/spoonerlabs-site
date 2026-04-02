@@ -1,51 +1,71 @@
 {% extends "base.html" %}
 
 {% block title %}Spooner Labs{% endblock %}
-{% block description %}Experiments and thoughts in systems, technology, organizations, and whatever else is worth exploring.{% endblock %}
+{% block description %}Experiments in systems, organizational behavior, and applied AI.{% endblock %}
 
 {% block content %}
 
 <section class="hero">
   <div class="container">
-    <h1 class="hero__title">Spooner Labs</h1>
-    <p class="hero__sub">Experiments and thoughts in systems, technology, organizations, and whatever else is worth exploring.</p>
+    <h1 class="hero__title">How Systems Shape Outcomes</h1>
+    <p class="hero__sub">Experiments in systems, organizational behavior, and applied AI</p>
     <div class="hero__actions">
       <a href="/experiments/" class="btn btn--primary">Browse experiments</a>
-      <a href="/about.html" class="btn btn--ghost-light">About this site</a>
     </div>
   </div>
 </section>
 
 <div class="container">
+
   <section class="section">
-    <p class="section__label">Recent experiments</p>
-    <div class="card-grid">
-      {% for exp in experiments[:3] %}
-      {% if exp.repo %}
-      <div class="card">
-        <p class="card__title">{{ exp.title }}</p>
-        <p class="card__desc">{{ exp.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-{{ exp.status }}">{{ exp.status | replace('-', ' ') | title }}</span>
-          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
-          {% if exp.link %}<a href="{{ exp.link }}" class="card__link">View →</a>{% endif %}
-          <a href="{{ exp.repo }}" class="card__link">GitHub →</a>
+    <p class="section__label">Latest from the Lab</p>
+    <div class="feed">
+      {% for item in feed %}
+      <article class="feed-item">
+        <span class="feed-item__type">{{ item.type | title }}</span>
+        {% if item.link %}
+        <h3 class="feed-item__title"><a href="{{ item.link }}">{{ item.title }}</a></h3>
+        {% else %}
+        <h3 class="feed-item__title">{{ item.title }}</h3>
+        {% endif %}
+        <p class="feed-item__excerpt">{{ item.excerpt }}</p>
+        <div class="feed-item__footer">
+          <span class="tag tag--status-{{ item.status }}">{{ item.status | replace('-', ' ') | title }}</span>
+          {% if item.link %}<a href="{{ item.link }}" class="feed-item__link">View →</a>{% endif %}
         </div>
-      </div>
-      {% else %}
-      <{% if exp.link %}a href="{{ exp.link }}"{% else %}div{% endif %} class="card">
-        <p class="card__title">{{ exp.title }}</p>
-        <p class="card__desc">{{ exp.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-{{ exp.status }}">{{ exp.status | replace('-', ' ') | title }}</span>
-          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
-        </div>
-      </{% if exp.link %}a{% else %}div{% endif %}>
-      {% endif %}
+      </article>
       {% endfor %}
     </div>
     <p class="mt-6"><a href="/experiments/" class="arrow-link">All experiments</a></p>
   </section>
+
+  <section class="section">
+    <p class="section__label">Explore the Lab</p>
+    <div class="explore-grid">
+      <a href="/experiments/" class="explore-tile">
+        <span class="explore-tile__eyebrow">Active builds</span>
+        <h3 class="explore-tile__title">Experiments</h3>
+        <p class="explore-tile__desc">Tools, maps, and research in progress</p>
+        <span class="explore-tile__arrow">View all →</span>
+      </a>
+      <a href="/projects/" class="explore-tile">
+        <span class="explore-tile__eyebrow">Longer-form work</span>
+        <h3 class="explore-tile__title">Projects</h3>
+        <p class="explore-tile__desc">Ongoing initiatives and deeper dives</p>
+        <span class="explore-tile__arrow">View all →</span>
+      </a>
+      <div class="explore-tile explore-tile--soon">
+        <span class="explore-tile__eyebrow">Coming soon</span>
+        <h3 class="explore-tile__title">Random Ideas</h3>
+        <p class="explore-tile__desc">Observations, provocations, and half-formed thoughts</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section evolving-bridge">
+    <p>Some of this work finds its way into <a href="#">Evolving Orgs</a> — writing and research on organizations in motion.</p>
+  </section>
+
 </div>
 
 {% endblock %}

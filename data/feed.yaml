@@ -1,0 +1,21 @@
+# Homepage feed — curated items for "Latest from the Lab"
+# Types: experiment, project, idea
+# Add new items at the top. type and title are required; link is optional.
+
+- type: experiment
+  title: "Florida Politics"
+  excerpt: "An interactive map of how Florida has shifted politically by county — gubernatorial primaries and general elections from 1994 to 2022."
+  link: "https://spoonerlabs.com/florida-politics/"
+  status: live
+
+- type: experiment
+  title: "Where Now?"
+  excerpt: "A random food and trip generator for the Lisbon area. Built for the moment when indecision wins."
+  link: "https://spoonerlabs.com/where-now/"
+  status: live
+
+- type: experiment
+  title: "Portuguese Phrases for Tidbyt"
+  excerpt: "A Tidbyt app for passive daily exposure to European Portuguese. Small tool, genuine use."
+  link: "https://github.com/joey-spooner/ptpt-tidbyt-phrases"
+  status: live

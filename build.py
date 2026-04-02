@@ -31,6 +31,7 @@ def build():
     experiments = load_yaml("experiments.yaml") or []
     projects = load_yaml("projects.yaml") or []
     speaking = load_yaml("speaking.yaml")
+    feed = load_yaml("feed.yaml") or []
 
     # ── Jinja2 env ───────────────────────────────────────────
     env = Environment(
@@ -84,6 +85,7 @@ def build():
             "experiments": experiments,
             "projects": projects,
             "speaking": speaking,
+            "feed": feed,
         }
         base.update(kwargs)
         return base
