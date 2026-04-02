@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Spooner Labs icon">
+  <rect width="256" height="256" fill="none"/>
+  <g transform="translate(20,28)">
+    <circle cx="40" cy="148" r="16" fill="#1D2254"/>
+    <circle cx="104" cy="104" r="15" fill="#E97825"/>
+    <circle cx="172" cy="40" r="17" fill="#F0952B"/>
+    <path d="M54 148 C102 150, 150 122, 166 68 C163 108, 137 146, 93 158 C78 162, 64 158, 54 148 Z"
+          fill="#1D2254"/>
+    <path d="M66 141 C93 141, 122 126, 144 108" fill="none" stroke="#1D2254" stroke-width="4" stroke-linecap="round"/>
+    <path d="M118 103 C138 93, 156 78, 171 59" fill="none" stroke="#E88B29" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>
