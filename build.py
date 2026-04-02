@@ -47,8 +47,11 @@ def build():
     shutil.copy(ROOT / "site.css",   DIST_DIR / "site.css")
     shutil.copy(ROOT / "bg.js",      DIST_DIR / "bg.js")
     shutil.copy(ROOT / "audio.js",   DIST_DIR / "audio.js")
-    shutil.copy(ROOT / "logo.svg",   DIST_DIR / "logo.svg")
-    shutil.copy(ROOT / "favicon.svg",DIST_DIR / "favicon.svg")
+
+    # Copy assets/ directory (brand files, icons, etc.)
+    src_assets = ROOT / "assets"
+    if src_assets.exists():
+        shutil.copytree(src_assets, DIST_DIR / "assets")
 
     # Copy any other static assets if present
     for pattern in ("*.png", "*.jpg", "*.jpeg", "*.webp", "*.ico", "*.xml", "robots.txt", "sitemap.xml"):

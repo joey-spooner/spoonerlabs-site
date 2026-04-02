@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="300 380 940 200" role="img" aria-label="Spooner Labs logo">
+  <g transform="translate(210,378)">
+    <!-- icon -->
+    <circle cx="132" cy="160" r="18" fill="#1D2254"/>
+    <circle cx="226" cy="108" r="17" fill="#E97825"/>
+    <circle cx="333" cy="35" r="19" fill="#F0952B"/>
+    <!-- main navy arc -->
+    <path d="M145 160 C210 164, 300 118, 326 62 C323 112, 286 157, 222 171 C196 176, 168 171, 145 160 Z"
+          fill="#1D2254"/>
+    <!-- thin navy guide arc -->
+    <path d="M160 151 C202 151, 253 126, 286 95" fill="none" stroke="#1D2254" stroke-width="4" stroke-linecap="round"/>
+    <!-- orange arc -->
+    <path d="M242 111 C279 95, 309 72, 330 48" fill="none" stroke="#E88B29" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(590,465)">
+    <text x="0" y="0" font-family="Inter, Arial, Helvetica, sans-serif" font-size="86" font-weight="400" fill="#1D2254" letter-spacing="-1.5">Spooner Labs</text>
+  </g>
+</svg>
