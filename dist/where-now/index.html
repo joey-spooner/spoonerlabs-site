@@ -839,11 +839,17 @@
     const timeAvailableMin = getSelectedTimeMinutes();
     const originCoords = getOriginCoords();
 
-    // 1) Category + rating filter
+    // 1) Category + rating + region filter
+    const baseKey = document.getElementById('base-location').value;
+    const isAmsterdam = baseKey === 'amsterdam';
+
     let candidates = appState.places.filter(p => {
       if (typeof p.lat !== 'number' || typeof p.lng !== 'number') return false;
       if (typeof p.tripAdvisorRating === 'number' && p.tripAdvisorRating < 4.0) return false;
       if (category !== 'wildcard' && p.category !== category) return false;
+      // Only show places that match the selected region
+      if (isAmsterdam && p.region !== 'amsterdam') return false;
+      if (!isAmsterdam && p.region === 'amsterdam') return false;
       return true;
     });
 
