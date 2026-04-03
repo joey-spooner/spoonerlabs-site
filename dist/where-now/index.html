@@ -358,6 +358,7 @@
             <option value="caparica">Costa da Caparica</option>
             <option value="sesimbra">Sesimbra</option>
             <option value="setubal">Setúbal</option>
+            <option value="amsterdam">Amsterdam</option>
           </select>
         </div>
 
@@ -438,7 +439,7 @@
 
   // Bump this anytime you change places.json or selection behavior.
   // (Any string works: date-based, semver, etc.)
-  const PLACES_VERSION = '2025-12-12-1';
+  const PLACES_VERSION = '2026-04-03-1';
 
   const BASE_LOCATIONS = {
     paco: { lat: 38.691, lon: -9.308 },         // Paço de Arcos
@@ -446,7 +447,8 @@
     cascais: { lat: 38.6979, lon: -9.4218 },    // Cascais
     caparica: { lat: 38.642, lon: -9.232 },     // Costa da Caparica
     sesimbra: { lat: 38.444, lon: -9.101 },     // Sesimbra
-    setubal: { lat: 38.524, lon: -8.888 }       // Setúbal
+    setubal: { lat: 38.524, lon: -8.888 },      // Setúbal
+    amsterdam: { lat: 52.3676, lon: 4.9041 }    // Amsterdam center
   };
 
   // ---- CACHE VERSIONING (prevents stale places.json) ----
@@ -740,20 +742,27 @@
 
     // 2) Fetch with cache-busting query (forces fresh request on GitHub Pages/CDN/Safari)
     try {
-      const url = `./data/places.json?v=${encodeURIComponent(PLACES_VERSION)}&t=${Date.now()}`;
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) throw new Error('Failed to fetch places.json: ' + res.status);
+      const v = encodeURIComponent(PLACES_VERSION);
+      const t = Date.now();
+      const [res1, res2] = await Promise.all([
+        fetch(`./data/places.json?v=${v}&t=${t}`, { cache: 'no-store' }),
+        fetch(`./data/amsterdam.json?v=${v}&t=${t}`, { cache: 'no-store' })
+      ]);
+      if (!res1.ok) throw new Error('Failed to fetch places.json: ' + res1.status);
+      if (!res2.ok) throw new Error('Failed to fetch amsterdam.json: ' + res2.status);
 
-      const list = await res.json();
-      if (!Array.isArray(list)) throw new Error('places.json is not an array');
+      const [list1, list2] = await Promise.all([res1.json(), res2.json()]);
+      if (!Array.isArray(list1)) throw new Error('places.json is not an array');
+      if (!Array.isArray(list2)) throw new Error('amsterdam.json is not an array');
 
+      const list = [...list1, ...list2];
       appState.places = list;
       appState.placesLoaded = true;
 
       // Save to cache for offline-ish use
       localStorage.setItem(PLACES_STORAGE_KEY, JSON.stringify(list));
 
-      console.log('Loaded places from network:', list.length, 'URL:', url);
+      console.log('Loaded places from network:', list.length, '(places:', list1.length, '+ amsterdam:', list2.length, ')');
       updateMetaSummary();
     } catch (err) {
       console.error('Error loading places:', err);
