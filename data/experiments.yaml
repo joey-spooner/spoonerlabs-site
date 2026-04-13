@@ -9,13 +9,13 @@
   repo: "https://github.com/joey-spooner/florida-politics"
 
 - title: "Portuguese Phrases for Tidbyt"
-  description: "A Tidbyt app that cycles through European Portuguese phrases and words on the device display. Built for daily passive exposure to the language."
+  description: "Passive Portuguese, built into your day. Small system, real behavior change."
   category: "Tool"
   status: "live"
   link: "https://github.com/joey-spooner/ptpt-tidbyt-phrases"
 
 - title: "Where Now?"
-  description: "A random food and trip generator for the Lisbon area. Useful when you can't decide where to eat or what to do next."
+  description: "A decision-killer for Lisbon. When you don’t know where to go, this decides for you."
   category: "Tool"
   status: "live"
   link: "https://spoonerlabs.com/where-now/"
