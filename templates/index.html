@@ -150,23 +150,24 @@
   var NAVY   = '#1D2254';
   var ORANGE = '#E97825';
 
-  // Blips: [radar-angle (0=right, PI=left), radius-fraction, dot-radius, color]
-  // Center anchored at bottom-center-right; angles spread across visible arc area.
+  // ── Blips: [angle (0..2PI), ring (1..N_RINGS), dot-radius, color] ────────
+  var N_RINGS = 5;
   var BLIPS = [
-    [0.22 * Math.PI, 0.55, 8,  ORANGE],
-    [0.38 * Math.PI, 0.75, 10, NAVY  ],
-    [0.54 * Math.PI, 0.42, 8,  NAVY  ],
-    [0.65 * Math.PI, 0.88, 7,  ORANGE],
-    [0.78 * Math.PI, 0.62, 9,  ORANGE],
-    [0.91 * Math.PI, 0.78, 6,  NAVY  ],
+    [0.50, 5, 8,  ORANGE],
+    [1.30, 3, 10, NAVY  ],
+    [2.20, 5, 7,  ORANGE],
+    [2.90, 2, 8,  NAVY  ],
+    [3.80, 4, 9,  ORANGE],
+    [4.60, 1, 6,  NAVY  ],
+    [5.50, 4, 7,  ORANGE],
   ];
-  var glows = BLIPS.map(function () { return 0; });
+  var blipGlows = BLIPS.map(function () { return 0; });
 
-  var W, H, CX, CY, MAXR, dots;
-  var sweepT = 0.12;    // start offset so sweep is visible immediately
-  var SPEED  = 1 / 720; // 180° sweep ≈ 12 s at 60 fps
-  var N_ARCS = 5;
+  var W, H, CX, CY, RING_MAX, dots;
+  var sweepT = 0.05;     // start slightly offset so sweep is visible immediately
+  var SPEED  = 1 / 900;  // full 360° rotation ≈ 15 s at 60 fps
   var paused = false;
+  var TAU    = Math.PI * 2;
 
   // ── Setup ────────────────────────────────────────────────────────────────
   function setup() {
@@ -175,96 +176,138 @@
     H = rect.height;
     canvas.width  = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
-    CX   = W * 0.72;        // anchor: bottom-center of the right half
-    CY   = H;
-    MAXR = Math.hypot(W, H);
+    CX       = W * 0.68;                      // center of the right half
+    CY       = H * 0.5;                       // vertically centered in the hero
+    RING_MAX = Math.min(W * 0.27, H * 0.44);  // outermost ring radius
     buildDots();
   }
 
+  // Each dot stores its angle from center so the sweep can light it up.
   function buildDots() {
     dots = [];
-    var n = Math.round((W * H) / 2200);
+    var n = Math.round((W * H) / 2000);
     for (var i = 0; i < n; i++) {
-      var ca = -(Math.random() * Math.PI); // canvas angle -PI..0 (upper half from anchor)
-      var r  = Math.pow(Math.random(), 0.55) * MAXR * 0.96;
-      dots.push([
-        CX + Math.cos(ca) * r,
-        CY + Math.sin(ca) * r,
-        Math.random() * 2.2 + 0.8,   // larger dots
-        Math.random() * 0.32 + 0.14, // more opaque
-      ]);
+      var angle = Math.random() * TAU;
+      var r     = Math.pow(Math.random(), 0.6) * RING_MAX * 1.08;
+      dots.push({
+        x: CX + Math.cos(angle) * r,
+        y: CY + Math.sin(angle) * r,
+        r: Math.random() * 2.0 + 0.7,
+        o: Math.random() * 0.28 + 0.12,  // base opacity
+        a: angle,                          // pre-computed angle for sweep detection
+        g: 0,                              // glow state 0..1
+      });
     }
   }
 
   // ── Draw ─────────────────────────────────────────────────────────────────
-  function draw(sweepAlpha) {
+  function draw() {
     ctx.save();
     ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, W, H);
 
-    var arcStep = MAXR / (N_ARCS + 0.5);
-    // canvas angle of sweep line: 0 (right) → -PI (left), counterclockwise
-    var sa = -(sweepT * Math.PI);
+    var ringStep   = RING_MAX / N_RINGS;
+    var sweepAngle = sweepT * TAU;
+    var wedge      = Math.PI / 5;  // 36° trailing glow
 
-    // 1. Dot field
+    // 1. Dot field — each dot brightens when the sweep hits its angle
     for (var i = 0; i < dots.length; i++) {
-      var d = dots[i];
+      var d  = dots[i];
+      var op = d.o + d.g * (0.75 - d.o);        // ramp opacity toward 0.75
+      var dr = d.r + d.g * 1.8;                  // slightly larger when glowing
       ctx.beginPath();
-      ctx.arc(d[0], d[1], d[2], 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(29,34,84,' + d[3] + ')';
+      ctx.arc(d.x, d.y, dr, 0, TAU);
+      ctx.fillStyle = 'rgba(29,34,84,' + op + ')';
       ctx.fill();
     }
 
-    // 2. Sweep wedge — clockwise from sweep angle to trailing edge
-    if (sweepAlpha > 0.01) {
-      ctx.beginPath();
-      ctx.moveTo(CX, CY);
-      ctx.arc(CX, CY, MAXR, sa, sa + (Math.PI / 7), false);
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(54,99,193,' + (0.08 * sweepAlpha) + ')';
-      ctx.fill();
-    }
+    // 2. Dashed crosshairs through center
+    ctx.save();
+    ctx.strokeStyle = 'rgba(140,148,178,0.2)';
+    ctx.lineWidth   = 0.75;
+    ctx.setLineDash([3, 6]);
+    ctx.beginPath();
+    ctx.moveTo(CX - RING_MAX * 1.08, CY);
+    ctx.lineTo(CX + RING_MAX * 1.08, CY);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(CX, CY - RING_MAX * 1.08);
+    ctx.lineTo(CX, CY + RING_MAX * 1.08);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
 
-    // 3. Arcs — counterclockwise PI→0 gives the upper semicircle from anchor
-    ctx.strokeStyle = 'rgba(140,148,178,0.28)';
-    ctx.lineWidth   = 1.2;
-    for (var i = 1; i <= N_ARCS; i++) {
+    // 3. Sweep wedge (trailing glow behind sweep line)
+    ctx.beginPath();
+    ctx.moveTo(CX, CY);
+    ctx.arc(CX, CY, RING_MAX * 1.06, sweepAngle - wedge, sweepAngle, false);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(54,99,193,0.09)';
+    ctx.fill();
+
+    // 4. Proximity rings + cardinal tick marks
+    var dirs = [[1,0],[0,1],[-1,0],[0,-1]];
+    var TICK = 6;
+    for (var i = 1; i <= N_RINGS; i++) {
+      var r = ringStep * i;
+
+      // Ring
       ctx.beginPath();
-      ctx.arc(CX, CY, arcStep * i, Math.PI, 0, true);
+      ctx.arc(CX, CY, r, 0, TAU);
+      ctx.strokeStyle = 'rgba(140,148,178,0.28)';
+      ctx.lineWidth   = 1.2;
       ctx.stroke();
+
+      // Cardinal ticks — short marks at N/E/S/W on each ring
+      for (var d = 0; d < 4; d++) {
+        var dx = dirs[d][0], dy = dirs[d][1];
+        ctx.beginPath();
+        ctx.moveTo(CX + dx * (r - TICK), CY + dy * (r - TICK));
+        ctx.lineTo(CX + dx * (r + TICK), CY + dy * (r + TICK));
+        ctx.strokeStyle = 'rgba(140,148,178,0.45)';
+        ctx.lineWidth   = 1;
+        ctx.stroke();
+      }
     }
 
-    // 4. Sweep line
-    if (sweepAlpha > 0.01) {
-      ctx.beginPath();
-      ctx.moveTo(CX, CY);
-      ctx.lineTo(CX + Math.cos(sa) * MAXR, CY + Math.sin(sa) * MAXR);
-      ctx.strokeStyle = 'rgba(54,99,193,' + (0.5 * sweepAlpha) + ')';
-      ctx.lineWidth   = 1.5;
-      ctx.stroke();
-    }
+    // 5. Sweep line
+    ctx.beginPath();
+    ctx.moveTo(CX, CY);
+    ctx.lineTo(
+      CX + Math.cos(sweepAngle) * RING_MAX * 1.06,
+      CY + Math.sin(sweepAngle) * RING_MAX * 1.06
+    );
+    ctx.strokeStyle = 'rgba(54,99,193,0.55)';
+    ctx.lineWidth   = 1.5;
+    ctx.stroke();
 
-    // 5. Blips
+    // 6. Center dot
+    ctx.beginPath();
+    ctx.arc(CX, CY, 3, 0, TAU);
+    ctx.fillStyle = 'rgba(140,148,178,0.55)';
+    ctx.fill();
+
+    // 7. Blips — positioned exactly on their ring at their angle
     for (var i = 0; i < BLIPS.length; i++) {
       var b  = BLIPS[i];
-      var r  = MAXR * b[1];
-      // cos(-b[0]) = cos(b[0]);  sin(-b[0]) = -sin(b[0])
-      var bx = CX + Math.cos(b[0]) * r;
-      var by = CY - Math.sin(b[0]) * r;
-      var g  = glows[i];
+      var br = ringStep * b[1];
+      var bx = CX + Math.cos(b[0]) * br;
+      var by = CY + Math.sin(b[0]) * br;
+      var g  = blipGlows[i];
 
+      // Glow halo
       if (g > 0.01) {
         ctx.beginPath();
-        ctx.arc(bx, by, b[2] + 5 + g * 5, 0, Math.PI * 2);
+        ctx.arc(bx, by, b[2] + 5 + g * 6, 0, TAU);
         var gc = b[3] === ORANGE ? '233,120,37' : '29,34,84';
-        ctx.fillStyle = 'rgba(' + gc + ',' + (g * 0.22) + ')';
+        ctx.fillStyle = 'rgba(' + gc + ',' + (g * 0.25) + ')';
         ctx.fill();
       }
-
+      // Main dot
       ctx.beginPath();
-      ctx.arc(bx, by, b[2], 0, Math.PI * 2);
+      ctx.arc(bx, by, b[2], 0, TAU);
       ctx.fillStyle   = b[3];
-      ctx.globalAlpha = 0.72 + g * 0.28;
+      ctx.globalAlpha = 0.70 + g * 0.30;
       ctx.fill();
       ctx.globalAlpha = 1;
     }
@@ -273,21 +316,38 @@
   }
 
   // ── Loop ─────────────────────────────────────────────────────────────────
+  function angularDiff(a, b) {
+    // Smallest difference between two angles on a circle
+    var d = Math.abs(a - b) % TAU;
+    return d > Math.PI ? TAU - d : d;
+  }
+
   function frame() {
     requestAnimationFrame(frame);
     if (paused) return;
 
     sweepT = (sweepT + SPEED) % 1;
-    // Fade in/out near 0 and 1 to hide the jump-back
-    var alpha = Math.min(sweepT * 14, (1 - sweepT) * 14, 1);
+    var sweepAngle = sweepT * TAU;
 
-    var cur = sweepT * Math.PI;
-    for (var i = 0; i < BLIPS.length; i++) {
-      if (Math.abs(cur - BLIPS[i][0]) < 0.055) glows[i] = 1.0;
-      else glows[i] = Math.max(0, glows[i] - 0.007);
+    // Light up dots the sweep passes over
+    for (var i = 0; i < dots.length; i++) {
+      if (angularDiff(sweepAngle, dots[i].a) < 0.07) {
+        dots[i].g = 1.0;
+      } else {
+        dots[i].g = Math.max(0, dots[i].g - 0.018);
+      }
     }
 
-    draw(alpha);
+    // Light up blips
+    for (var i = 0; i < BLIPS.length; i++) {
+      if (angularDiff(sweepAngle, BLIPS[i][0]) < 0.07) {
+        blipGlows[i] = 1.0;
+      } else {
+        blipGlows[i] = Math.max(0, blipGlows[i] - 0.007);
+      }
+    }
+
+    draw();
   }
 
   // ── Boot ─────────────────────────────────────────────────────────────────
