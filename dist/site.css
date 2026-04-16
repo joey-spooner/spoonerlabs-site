@@ -1161,12 +1161,13 @@ a:hover {
 
 .home-hero__radar {
   position: absolute;
-  right: -4%;
+  right: -6%;
   top: 50%;
   transform: translateY(-50%);
-  width: 58%;
-  max-width: 580px;
+  width: 54%;
+  max-width: 560px;
   height: auto;
+  aspect-ratio: 1 / 1;
   display: block;
   z-index: 0;
 }
