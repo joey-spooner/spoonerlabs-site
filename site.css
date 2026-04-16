@@ -1150,14 +1150,32 @@ a:hover {
 /* ─── Home hero ──────────────────────────────────────────── */
 .home-hero {
   padding: var(--space-16) 0 var(--space-12);
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
 }
 
-.home-hero__layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-8);
-  align-items: center;
-  min-height: 300px;
+.home-hero__radar {
+  position: absolute;
+  right: -4%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 58%;
+  max-width: 580px;
+  height: auto;
+  display: block;
+  z-index: 0;
+}
+
+.home-hero__text {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.92);
+  padding: var(--space-8);
+  border-radius: 8px;
+  max-width: 36rem;
 }
 
 .home-hero__title {
@@ -1175,19 +1193,6 @@ a:hover {
   color: var(--color-muted);
   max-width: none;
   line-height: 1.5;
-}
-
-.home-hero__visual {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.home-hero__svg {
-  width: 100%;
-  max-width: 480px;
-  height: auto;
-  display: block;
 }
 
 /* ─── Featured project ───────────────────────────────────── */
@@ -1212,10 +1217,10 @@ a:hover {
 }
 
 .experiment-card__img {
-  width: 260px;
+  width: 140px;
   flex-shrink: 0;
   height: auto;
-  min-height: 180px;
+  min-height: 160px;
   object-fit: cover;
   object-position: center;
   display: block;
@@ -1312,7 +1317,7 @@ a:hover {
 
 .experiments-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-6);
 }
 
@@ -1375,23 +1380,23 @@ a:hover {
 
 /* ─── Home responsive ────────────────────────────────────── */
 @media (max-width: 768px) {
-  .home-hero__layout {
-    grid-template-columns: 1fr;
+  .home-hero__radar {
+    width: 90%;
+    right: -15%;
+    opacity: 0.4;
   }
 
-  .home-hero__visual {
-    justify-content: center;
-    margin-top: var(--space-4);
-  }
-
-  .home-hero__svg {
-    max-width: 320px;
-    opacity: 0.7;
+  .home-hero__text {
+    background: rgba(255, 255, 255, 0.96);
   }
 
   .featured-project__layout {
     grid-template-columns: 1fr;
     gap: var(--space-8);
+  }
+
+  .experiments-grid {
+    grid-template-columns: 1fr;
   }
 
   .experiment-card {
