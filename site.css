@@ -158,8 +158,7 @@ a:hover {
 .home-tagline p {
   font-size: var(--size-sm);
   color: var(--color-muted);
-  max-width: none;
-  white-space: nowrap;
+  max-width: 64ch;
   line-height: 1.5;
 }
 
