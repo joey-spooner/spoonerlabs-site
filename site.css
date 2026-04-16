@@ -1154,7 +1154,7 @@ a:hover {
   padding: var(--space-16) 0 var(--space-12);
   position: relative;
   overflow: hidden;
-  min-height: 340px;
+  min-height: 400px;
   display: flex;
   align-items: center;
 }

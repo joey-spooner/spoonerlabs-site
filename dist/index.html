@@ -201,14 +201,14 @@
   var ORANGE = '#E97825';
 
   // Blips: [radar-angle (0=right, PI=left), radius-fraction, dot-radius, color]
-  // Center anchored at bottom-right of canvas; arcs sweep left/upward from there.
+  // Center anchored at bottom-center-right; angles spread across visible arc area.
   var BLIPS = [
-    [0.18 * Math.PI, 0.90, 8,  ORANGE],
-    [0.34 * Math.PI, 0.68, 10, NAVY  ],
-    [0.50 * Math.PI, 0.44, 8,  NAVY  ],
-    [0.63 * Math.PI, 0.82, 7,  ORANGE],
-    [0.76 * Math.PI, 0.57, 9,  ORANGE],
-    [0.90 * Math.PI, 0.76, 6,  NAVY  ],
+    [0.22 * Math.PI, 0.55, 8,  ORANGE],
+    [0.38 * Math.PI, 0.75, 10, NAVY  ],
+    [0.54 * Math.PI, 0.42, 8,  NAVY  ],
+    [0.65 * Math.PI, 0.88, 7,  ORANGE],
+    [0.78 * Math.PI, 0.62, 9,  ORANGE],
+    [0.91 * Math.PI, 0.78, 6,  NAVY  ],
   ];
   var glows = BLIPS.map(function () { return 0; });
 
@@ -225,7 +225,7 @@
     H = rect.height;
     canvas.width  = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
-    CX   = W;               // anchor: bottom-right corner
+    CX   = W * 0.72;        // anchor: bottom-center of the right half
     CY   = H;
     MAXR = Math.hypot(W, H);
     buildDots();
@@ -233,15 +233,15 @@
 
   function buildDots() {
     dots = [];
-    var n = Math.round((W * H) / 2800);
+    var n = Math.round((W * H) / 2200);
     for (var i = 0; i < n; i++) {
       var ca = -(Math.random() * Math.PI); // canvas angle -PI..0 (upper half from anchor)
       var r  = Math.pow(Math.random(), 0.55) * MAXR * 0.96;
       dots.push([
         CX + Math.cos(ca) * r,
         CY + Math.sin(ca) * r,
-        Math.random() * 1.3 + 0.4,
-        Math.random() * 0.15 + 0.05,
+        Math.random() * 2.2 + 0.8,   // larger dots
+        Math.random() * 0.32 + 0.14, // more opaque
       ]);
     }
   }
