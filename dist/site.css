@@ -1152,11 +1152,18 @@ a:hover {
 /* ─── Home hero ──────────────────────────────────────────── */
 .home-hero {
   padding: var(--space-16) 0 var(--space-12);
-  position: relative;
-  overflow: hidden;
-  min-height: 400px;
-  display: flex;
+}
+
+.home-hero__layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
   align-items: center;
+}
+
+.home-hero__radar-wrap {
+  position: relative;
+  min-height: 380px;
 }
 
 #radar-canvas {
@@ -1165,16 +1172,6 @@ a:hover {
   width: 100%;
   height: 100%;
   display: block;
-  z-index: 0;
-}
-
-.home-hero__text {
-  position: relative;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.92);
-  padding: var(--space-8);
-  border-radius: 8px;
-  max-width: 36rem;
 }
 
 .home-hero__title {
@@ -1379,12 +1376,12 @@ a:hover {
 
 /* ─── Home responsive ────────────────────────────────────── */
 @media (max-width: 768px) {
-  #radar-canvas {
-    opacity: 0.4;
+  .home-hero__layout {
+    grid-template-columns: 1fr;
   }
 
-  .home-hero__text {
-    background: rgba(255, 255, 255, 0.96);
+  .home-hero__radar-wrap {
+    min-height: 280px;
   }
 
   .featured-project__layout {

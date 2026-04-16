@@ -35,11 +35,15 @@
 
 <!-- ─── Hero ─────────────────────────────────────────────── -->
 <section class="home-hero">
-  <canvas id="radar-canvas" aria-hidden="true"></canvas>
   <div class="container">
-    <div class="home-hero__text">
-      <h1 class="home-hero__title">Observing how systems actually behave.</h1>
-      <p class="home-hero__sub">Observe. Test. Learn. In public.</p>
+    <div class="home-hero__layout">
+      <div class="home-hero__text">
+        <h1 class="home-hero__title">Observing how systems actually behave.</h1>
+        <p class="home-hero__sub">Observe. Test. Learn. In public.</p>
+      </div>
+      <div class="home-hero__radar-wrap" aria-hidden="true">
+        <canvas id="radar-canvas"></canvas>
+      </div>
     </div>
   </div>
 </section>
@@ -226,9 +230,9 @@
     H = rect.height;
     canvas.width  = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
-    CX       = W * 0.68;                      // center of the right half
-    CY       = H * 0.5;                       // vertically centered in the hero
-    RING_MAX = Math.min(W * 0.27, H * 0.44);  // outermost ring radius
+    CX       = W * 0.5;                        // centered within the canvas wrapper
+    CY       = H * 0.5;                        // vertically centered
+    RING_MAX = Math.min(W * 0.44, H * 0.44);  // outermost ring radius
     buildDots();
   }
 
