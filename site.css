@@ -17,8 +17,8 @@
   --color-border:   #ddddd8;
   --color-text:     #1a1a18;
   --color-muted:    #6b6b66;
-  --color-accent:   #1a4cc8;
-  --color-accent-hover: #1440aa;
+  --color-accent:   #3663C1;
+  --color-accent-hover: #2a52a8;
   --color-accent-bg: #eef2fc;
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
@@ -72,6 +72,7 @@ h1, h2, h3, h4 {
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
+  color: #030C2C;
 }
 
 h1 { font-size: var(--size-3xl); }
@@ -157,7 +158,8 @@ a:hover {
 .home-tagline p {
   font-size: var(--size-sm);
   color: var(--color-muted);
-  max-width: 64ch;
+  max-width: none;
+  white-space: nowrap;
   line-height: 1.5;
 }
 
