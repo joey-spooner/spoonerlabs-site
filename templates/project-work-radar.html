@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% set active_page = 'projects' %}
+
+{% block title %}Work Radar — Spooner Labs{% endblock %}
+{% block description %}A system for tracking job opportunities, scoring fit, and managing the full job search process.{% endblock %}
+{% block og_title %}Work Radar — Spooner Labs{% endblock %}
+{% block og_description %}A system for tracking job opportunities, scoring fit, and managing the full job search process.{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/projects/">Projects</a></li>
+      <li aria-current="page">Work Radar</li>
+    </ol>
+  </nav>
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <header class="project-hero">
+    <div class="project-hero__layout">
+      <div class="project-hero__content">
+        <p class="page-header__eyebrow">Project</p>
+        <h1 class="project-hero__title">Work Radar</h1>
+        <p class="project-hero__desc">A system for tracking opportunities, scoring fit, and managing the full job search process.</p>
+        <div class="project-hero__tags">
+          <span class="tag tag--status-live">Live</span>
+          <span class="tag">AI-assisted</span>
+          <span class="tag">Notion</span>
+        </div>
+        <div class="project-hero__actions">
+          <a href="#notes" class="btn btn--ghost">Read notes →</a>
+        </div>
+      </div>
+      <div class="project-hero__preview">
+        <img src="/assets/images/work-radar.png" alt="Work Radar interface showing the jobs board and scoring view" class="project-hero__img">
+      </div>
+    </div>
+  </header>
+
+  <!-- ── What it does ──────────────────────────────────────── -->
+  <section class="section">
+    <p class="section__label">What it does</p>
+    <div class="feature-grid">
+
+      <div class="feature-item">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="16" height="14" rx="2"/>
+            <path d="M2 7h16"/>
+            <path d="M6 3v4M14 3v4"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">Jobs board</strong>
+          <p class="feature-item__desc">Track roles from any source in one place. Status, timeline, and next steps — all visible at a glance.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 2l2.4 5 5.6.8-4 3.9.9 5.5L10 14.5l-4.9 2.7.9-5.5L2 7.8l5.6-.8L10 2z"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">AI-assisted</strong>
+          <p class="feature-item__desc">Score opportunities for fit, surface relevant contacts, and draft outreach — without outsourcing the judgment.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="10" cy="7" r="3"/>
+            <path d="M4 18c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">Contacts</strong>
+          <p class="feature-item__desc">Log every person and company involved. Track relationships, warm connections, and touchpoints over time.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="10" cy="10" r="8"/>
+            <path d="M10 6v4l3 2"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">History</strong>
+          <p class="feature-item__desc">Every stage, decision, and follow-up is timestamped. Never lose context on a role you were pursuing months ago.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 15l4-5 3 3 3-4 4 6"/>
+            <path d="M2 18h16"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">Scoring</strong>
+          <p class="feature-item__desc">Rate each role across criteria that matter to you — scope, team, comp, growth — with adjustable weights.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="14" height="14" rx="2"/>
+            <path d="M7 10h6M7 13h4"/>
+            <circle cx="10" cy="7" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">Private &amp; portable</strong>
+          <p class="feature-item__desc">Lives in Notion. No SaaS lock-in, no recruiter-facing dashboard. Your data, fully in your control.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Why I built it ────────────────────────────────────── -->
+  <section class="section">
+    <p class="section__label">Why I built it</p>
+    <div class="prose">
+      <p>During an extended job search I couldn't find a tool that treated the process seriously. Most trackers were basic spreadsheets, and the SaaS options were optimized for recruiters, not candidates. They didn't help with the hard parts: evaluating whether a role was actually a fit, remembering who was connected to what, or knowing what deserved attention that week.</p>
+      <p>I wanted something that would let me think clearly about fit, track history rigorously, and use AI selectively — to surface signal, not replace judgment. Work Radar is what I built to run my own search. It's Notion-native so it stays flexible, and because I built it for myself, it's opinionated in exactly the ways I needed.</p>
+    </div>
+  </section>
+
+  <!-- ── How it works ──────────────────────────────────────── -->
+  <section class="section">
+    <p class="section__label">How it works</p>
+    <div class="steps-grid">
+
+      <div class="step">
+        <span class="step__num">1</span>
+        <strong class="step__title">Capture</strong>
+        <p class="step__desc">Add a role, paste a job description, tag the source. Takes under a minute.</p>
+      </div>
+
+      <div class="step">
+        <span class="step__num">2</span>
+        <strong class="step__title">Evaluate</strong>
+        <p class="step__desc">AI scores the role against your criteria. You review and adjust weights to match what actually matters.</p>
+      </div>
+
+      <div class="step">
+        <span class="step__num">3</span>
+        <strong class="step__title">Track contacts</strong>
+        <p class="step__desc">Link people and companies. Note how you know them, warm connections, and who's already in your network.</p>
+      </div>
+
+      <div class="step">
+        <span class="step__num">4</span>
+        <strong class="step__title">Move through stages</strong>
+        <p class="step__desc">Outreach → screen → interview → offer, with full history at every transition.</p>
+      </div>
+
+      <div class="step">
+        <span class="step__num">5</span>
+        <strong class="step__title">Review the board</strong>
+        <p class="step__desc">A dashboard view surfaces what's gone stale, what's active, and where to focus your energy.</p>
+      </div>
+
+      <div class="step">
+        <span class="step__num">6</span>
+        <strong class="step__title">Weekly summary</strong>
+        <p class="step__desc">Generate a snapshot of pipeline activity, high-priority roles, and next steps — useful for staying honest with yourself.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Inside Work Radar ─────────────────────────────────── -->
+  <section class="section">
+    <p class="section__label">Inside Work Radar</p>
+    <div class="screenshot-gallery">
+      <img src="/assets/images/work-radar.png" alt="Work Radar jobs board view" class="screenshot-gallery__img screenshot-gallery__img--wide">
+    </div>
+  </section>
+
+  <!-- ── Notes from the build ──────────────────────────────── -->
+  <section class="section" id="notes">
+    <p class="section__label">Notes from the build</p>
+    <div class="prose">
+      <ul>
+        <li>Notion's formula fields are more capable than they look but hit limits on complex multi-step scoring — worth knowing before you lean on them heavily.</li>
+        <li>The hardest UX problem was surfacing "what needs attention today" without overwhelming the board overview. Filters saved it.</li>
+        <li>Scoring is opinionated. The default weights are mine; they're easy to change but most people won't. That's probably fine.</li>
+        <li>AI-drafted outreach gets about 60% of the way there. The remaining 40% is judgment about tone, timing, and what the person actually cares about.</li>
+        <li>History is underrated. Being able to look back at why I passed on a role — or why I was excited — turned out to be genuinely useful for calibrating over time.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── Related work ──────────────────────────────────────── -->
+  <section class="section">
+    <p class="section__label">Related work</p>
+    <div class="card-grid">
+
+      <a href="/florida-politics/" class="card">
+        <div class="related-card__thumb related-card__thumb--florida" aria-hidden="true"></div>
+        <p class="card__title">Florida Politics</p>
+        <p class="card__desc">An interactive map showing how political control shifted across Florida counties over time.</p>
+        <div class="card__meta">
+          <span class="tag tag--status-live">Live</span>
+          <span class="tag">Experiment</span>
+        </div>
+      </a>
+
+      <a href="/where-now/" class="card">
+        <div class="related-card__thumb related-card__thumb--wherenow" aria-hidden="true"></div>
+        <p class="card__title">Where Now?</p>
+        <p class="card__desc">A Lisbon neighborhood generator. Asks where you are, suggests somewhere worth going.</p>
+        <div class="card__meta">
+          <span class="tag tag--status-live">Live</span>
+          <span class="tag">Experiment</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</div>
+{% endblock %}

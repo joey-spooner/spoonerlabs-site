@@ -97,6 +97,7 @@ def build():
         ("speaking.html",       "speaking.html",                   {"active_page": "speaking"}),
         ("experiments.html",    "experiments/index.html",          {"active_page": "experiments"}),
         ("projects.html",       "projects/index.html",             {"active_page": "projects"}),
+        ("project-work-radar.html", "projects/work-radar/index.html", {"active_page": "projects"}),
         ("thankyou.html",       "thankyou.html",                   {}),
     ]
 
