@@ -19,21 +19,48 @@
   {% set archived = projects | selectattr('status', 'eq', 'archived') | list %}
 
   {% if active %}
-  <section class="section">
-    <p class="section__label">Active</p>
-    <div class="card-grid">
-      {% for proj in active %}
-      <{% if proj.link %}a href="{{ proj.link }}"{% else %}div{% endif %} class="card">
-        <p class="card__title">{{ proj.title }}</p>
-        <p class="card__desc">{{ proj.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-{{ proj.status }}">{{ proj.status | title }}</span>
-          {% if proj.category %}<span class="tag">{{ proj.category }}</span>{% endif %}
+    {% set featured = active[0] %}
+    {% set rest = active[1:] %}
+
+    <section class="section">
+      <div class="featured-project__layout">
+        {% if featured.image %}
+        <div class="featured-project__image">
+          <img src="{{ featured.image }}" alt="{{ featured.title }}" class="featured-project__img">
         </div>
-      </{% if proj.link %}a{% else %}div{% endif %}>
-      {% endfor %}
-    </div>
-  </section>
+        {% endif %}
+        <div class="featured-project__details">
+          <p class="featured-project__eyebrow">{{ featured.category or 'Project' }}</p>
+          <h2 class="featured-project__title">{{ featured.title }}</h2>
+          <p class="featured-project__desc">{{ featured.description }}</p>
+          <div class="project-hero__tags">
+            <span class="tag tag--status-{{ featured.status }}">{{ featured.status | title }}</span>
+            {% if featured.category %}<span class="tag">{{ featured.category }}</span>{% endif %}
+          </div>
+          {% if featured.link %}
+          <a href="{{ featured.link }}" class="arrow-link" style="margin-top: var(--space-6); display: inline-block;">View project</a>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    {% if rest %}
+    <section class="section">
+      <p class="section__label">More</p>
+      <div class="card-grid">
+        {% for proj in rest %}
+        <{% if proj.link %}a href="{{ proj.link }}"{% else %}div{% endif %} class="card">
+          <p class="card__title">{{ proj.title }}</p>
+          <p class="card__desc">{{ proj.description }}</p>
+          <div class="card__meta">
+            <span class="tag tag--status-{{ proj.status }}">{{ proj.status | title }}</span>
+            {% if proj.category %}<span class="tag">{{ proj.category }}</span>{% endif %}
+          </div>
+        </{% if proj.link %}a{% else %}div{% endif %}>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
   {% endif %}
 
   {% if archived %}
