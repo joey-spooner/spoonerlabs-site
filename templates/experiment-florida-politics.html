@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% set active_page = 'experiments' %}
+
+{% block title %}Florida Politics — Spooner Labs{% endblock %}
+{% block description %}An interactive map showing how political control shifted across Florida counties over time — gubernatorial primaries and generals from 1994 to 2022, plus legislative party balance since 1992.{% endblock %}
+{% block og_title %}Florida Politics — Spooner Labs{% endblock %}
+{% block og_description %}An interactive map showing how political control shifted across Florida counties over time — gubernatorial primaries and generals from 1994 to 2022, plus legislative party balance since 1992.{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/experiments/">Experiments</a></li>
+      <li aria-current="page">Florida Politics</li>
+    </ol>
+  </nav>
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <header class="project-hero">
+    <div class="project-hero__layout">
+      <div class="project-hero__content">
+        <p class="page-header__eyebrow">Experiment</p>
+        <h1 class="project-hero__title">Florida Politics</h1>
+        <p class="project-hero__desc">An interactive map showing how political control shifted across Florida counties over time.</p>
+        <div class="project-hero__tags">
+          <span class="tag tag--status-live">Live</span>
+          <span class="tag">Data / Politics</span>
+          <span class="tag">1994–2022</span>
+        </div>
+        <div class="project-hero__actions">
+          <a href="/florida-politics/" class="btn btn--primary">Explore the map ↗</a>
+          <a href="#notes" class="btn btn--ghost">Read notes →</a>
+        </div>
+      </div>
+      <div class="project-hero__preview">
+        <img src="/assets/images/florida-politics.png" alt="Florida county choropleth map showing political party results by county" class="project-hero__img">
+      </div>
+    </div>
+  </header>
+
+  <!-- ── What it shows ──────────────────────────────────────── -->
+  <section class="section">
+    <p class="section__label">What it shows</p>
+    <div class="feature-grid feature-grid--5">
+
+      <div class="feature-item feature-item--stacked">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 5l5 2 4-3 5 2v9l-5-2-4 3-5-2V5z"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">County results</strong>
+          <p class="feature-item__desc">All 67 Florida counties, colored by the winning party in each election.</p>
+        </div>
+      </div>
+
+      <div class="feature-item feature-item--stacked">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="16" height="14" rx="2"/>
+            <path d="M2 7h16M6 3v4M14 3v4"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">Year by year</strong>
+          <p class="feature-item__desc">Step through elections from 1994 to 2022. Animate or jump to any year.</p>
+        </div>
+      </div>
+
+      <div class="feature-item feature-item--stacked">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="6" cy="10" r="3"/>
+            <circle cx="14" cy="10" r="3"/>
+            <path d="M9 10h2"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">Primary vs. general</strong>
+          <p class="feature-item__desc">Toggle between gubernatorial primary and general election results.</p>
+        </div>
+      </div>
+
+      <div class="feature-item feature-item--stacked">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="4" height="16" rx="1"/>
+            <rect x="8" y="6" width="4" height="12" rx="1"/>
+            <rect x="14" y="10" width="4" height="8" rx="1"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">Legislature balance</strong>
+          <p class="feature-item__desc">Combined House + Senate party control, charted from 1992 to present.</p>
+        </div>
+      </div>
+
+      <div class="feature-item feature-item--stacked">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="10" cy="8" r="3"/>
+            <path d="M10 11c-4 0-7 2-7 4h14c0-2-3-4-7-4z"/>
+            <path d="M10 3v1M10 13v1M5 8H4M16 8h-1M6.5 4.5l-.7-.7M14.2 12.2l-.7-.7M13.5 4.5l.7-.7M5.8 12.2l.7-.7"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">Geographic patterns</strong>
+          <p class="feature-item__desc">Click any county for detailed results and a comparison across elections.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Explore the map ────────────────────────────────────── -->
+  <section class="section">
+    <p class="section__label">Explore the map</p>
+    <div class="screenshot-gallery">
+      <img src="/assets/images/florida-politics.png" alt="Florida Politics app showing the county choropleth map and legislature balance chart" class="screenshot-gallery__img">
+    </div>
+  </section>
+
+  <!-- ── Insights from the data ─────────────────────────────── -->
+  <section class="section">
+    <p class="section__label">Insights from the data</p>
+    <div class="insight-grid">
+
+      <div class="insight-card insight-card--blue">
+        <h3 class="insight-card__title">14 counties always voted blue</h3>
+        <p class="insight-card__body"><strong>14 counties voted Democratic in every contested gubernatorial primary on record</strong> — including years when Republicans ran competitive races. These include the state capital (Leon), Florida's largest university town (Alachua/Gainesville), majority-Black counties in the historic Black Belt (Gadsden, Jefferson, Madison, Hamilton), and South Florida population centers (Broward, Palm Beach).</p>
+        <p class="insight-card__counties">Alachua · Broward · Calhoun · DeSoto · Franklin · Gadsden · Hamilton · Jackson · Jefferson · Leon · Liberty · Madison · Palm Beach · Taylor</p>
+      </div>
+
+      <div class="insight-card insight-card--red">
+        <h3 class="insight-card__title">20 counties always voted red (when contested)</h3>
+        <p class="insight-card__body"><strong>No county voted Republican in every election in the dataset</strong> — because the 2002 and 2022 Republican primaries were uncontested, leaving only Democratic primary votes to color those maps. That's a data artifact, not a political shift.</p>
+        <p class="insight-card__body">In the <strong>five years when both parties held contested primaries</strong> (1994, 2006, 2010, 2014, 2018), <strong>20 counties voted Republican every time</strong> — suburban Central Florida, the Gulf Coast, and the Space Coast.</p>
+        <p class="insight-card__counties">Brevard · Charlotte · Clay · Collier · Flagler · Hernando · Highlands · Indian River · Lake · Lee · Manatee · Marion · Martin · Okaloosa · Pasco · Pinellas · Sarasota · Seminole · St. Johns · Volusia</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Notes from the experiment ─────────────────────────── -->
+  <section class="section" id="notes">
+    <p class="section__label">Notes from the experiment</p>
+    <div class="prose">
+      <ul>
+        <li>Data sourced from the Florida Division of Elections and Ballotpedia. Normalizing 30 years of inconsistent CSV formats was most of the work — election years have different column layouts, encodings, and candidate name formats.</li>
+        <li>1998 is excluded from the county map. Both primaries were uncontested that year, and available data was found to display general election results mislabeled as primary data. Legislature data for 1998 is still included in the chart.</li>
+        <li>Uncontested primaries (2002 and 2022 on the Republican side) produce misleading solid-color maps. The app uses a threshold and labeling to flag these cases rather than color them as decisive wins.</li>
+        <li>The playback animation required separating the D3 update loop from React's render cycle. Tying them together caused jank on older hardware — decoupling them and batching the state updates resolved it.</li>
+        <li>County boundaries from US Census TIGER/Line data, simplified with Mapshaper. Raw GeoJSON was too large for acceptable load time without noticeable loss of map fidelity at the chosen simplification level.</li>
+        <li>The biggest geographic story in the data isn't in the primary map — it's in the legislature chart. Republican legislative dominance built steadily from the mid-90s onward while the gubernatorial map stayed genuinely competitive much longer.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── Related work ──────────────────────────────────────── -->
+  <section class="section">
+    <p class="section__label">Related work</p>
+    <div class="card-grid">
+
+      <a href="/projects/work-radar/" class="card">
+        <div class="related-card__thumb related-card__thumb--workradar" aria-hidden="true"></div>
+        <p class="card__title">Work Radar</p>
+        <p class="card__desc">A local-first desktop app for tracking job opportunities, scoring fit, and managing the full search process.</p>
+        <div class="card__meta">
+          <span class="tag tag--status-live">Live</span>
+          <span class="tag">Project</span>
+        </div>
+      </a>
+
+      <a href="/where-now/" class="card">
+        <div class="related-card__thumb related-card__thumb--wherenow" aria-hidden="true"></div>
+        <p class="card__title">Where Now?</p>
+        <p class="card__desc">A Lisbon neighborhood generator. Asks where you are, suggests somewhere worth going.</p>
+        <div class="card__meta">
+          <span class="tag tag--status-live">Live</span>
+          <span class="tag">Experiment</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</div>
+{% endblock %}
