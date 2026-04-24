@@ -1,5 +1,5 @@
 # Experiments
-# Each entry: title, description, category, status (live|in-progress|idea|archived), link (optional)
+# Each entry: title, description, category, status (live|in-progress|idea|archived), link (optional), image (optional)
 
 - title: "Florida Politics"
   description: "An interactive exploration of how Florida has shifted politically over time. Tracks gubernatorial primary and general election results by county alongside legislative party balance from 1992 to 2024."
@@ -7,34 +7,14 @@
   status: "live"
   link: "/experiments/florida-politics/"
   repo: "https://github.com/joey-spooner/florida-politics"
-
-- title: "Portuguese Phrases for Tidbyt"
-  description: "Passive Portuguese, built into your day. Small system, real behavior change."
-  category: "Tool"
-  status: "live"
-  link: "https://github.com/joey-spooner/ptpt-tidbyt-phrases"
+  image: "/assets/images/florida-politics.png"
+  image_alt: "Florida political map showing county-level results"
 
 - title: "Where Now?"
-  description: "A decision-killer for Lisbon. When you don’t know where to go, this decides for you."
+  description: "A decision-killer for Lisbon. When you don't know where to go, this decides for you."
   category: "Tool"
   status: "live"
   link: "https://spoonerlabs.com/where-now/"
   repo: "https://github.com/joey-spooner/where-now"
-
-- title: "URL Readability Scorer"
-  description: "An Excel macro that parses a list of URLs and returns Flesch Reading Ease and Flesch-Kincaid Grade Level scores for each page's content. A content audit utility from an earlier era."
-  category: "Tool"
-  status: "archived"
-  link: "https://github.com/joey-spooner/readability"
-
-- title: "Macropad Hotkeys"
-  description: "Custom hotkey layout for the Adafruit Macropad RP2040. A personal fork with tweaked key mappings for a physical shortcut pad."
-  category: "Hardware"
-  status: "archived"
-  link: "https://github.com/joey-spooner/hotkeys"
-
-- title: "Office JS Snippets"
-  description: "A collection of code snippets for Office add-in development using Script Lab. Forked and maintained as a personal reference for Office JS work."
-  category: "Tool"
-  status: "archived"
-  link: "https://github.com/joey-spooner/office-js-snippets"
+  image: "/assets/images/where-now.png"
+  image_alt: "Where Now? location pin illustration"

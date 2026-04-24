@@ -23,29 +23,19 @@
   {% if live %}
   <section class="section">
     <p class="section__label">Live</p>
-    <div class="card-grid">
+    <div class="experiments-grid">
       {% for exp in live %}
-      {% if exp.repo %}
-      <div class="card">
-        <p class="card__title">{{ exp.title }}</p>
-        <p class="card__desc">{{ exp.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-live">Live</span>
-          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
-          {% if exp.link %}<a href="{{ exp.link }}" class="card__link">View →</a>{% endif %}
-          <a href="{{ exp.repo }}" class="card__link">GitHub →</a>
+      <div class="experiment-card">
+        {% if exp.image %}
+        <img src="{{ exp.image }}" alt="{{ exp.image_alt or exp.title }}" class="experiment-card__img">
+        {% endif %}
+        <div class="experiment-card__body">
+          <p class="experiment-card__label">{{ exp.category }}</p>
+          <h3 class="experiment-card__title">{{ exp.title }}</h3>
+          <p class="experiment-card__desc">{{ exp.description }}</p>
+          {% if exp.link %}<a href="{{ exp.link }}" class="arrow-link">View experiment</a>{% endif %}
         </div>
       </div>
-      {% else %}
-      <{% if exp.link %}a href="{{ exp.link }}"{% else %}div{% endif %} class="card">
-        <p class="card__title">{{ exp.title }}</p>
-        <p class="card__desc">{{ exp.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-live">Live</span>
-          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
-        </div>
-      </{% if exp.link %}a{% else %}div{% endif %}>
-      {% endif %}
       {% endfor %}
     </div>
   </section>
@@ -54,29 +44,19 @@
   {% if in_progress %}
   <section class="section">
     <p class="section__label">In progress</p>
-    <div class="card-grid">
+    <div class="experiments-grid">
       {% for exp in in_progress %}
-      {% if exp.repo %}
-      <div class="card">
-        <p class="card__title">{{ exp.title }}</p>
-        <p class="card__desc">{{ exp.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-progress">In progress</span>
-          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
-          {% if exp.link %}<a href="{{ exp.link }}" class="card__link">View →</a>{% endif %}
-          <a href="{{ exp.repo }}" class="card__link">GitHub →</a>
+      <div class="experiment-card">
+        {% if exp.image %}
+        <img src="{{ exp.image }}" alt="{{ exp.image_alt or exp.title }}" class="experiment-card__img">
+        {% endif %}
+        <div class="experiment-card__body">
+          <p class="experiment-card__label">{{ exp.category }}</p>
+          <h3 class="experiment-card__title">{{ exp.title }}</h3>
+          <p class="experiment-card__desc">{{ exp.description }}</p>
+          {% if exp.link %}<a href="{{ exp.link }}" class="arrow-link">View experiment</a>{% endif %}
         </div>
       </div>
-      {% else %}
-      <{% if exp.link %}a href="{{ exp.link }}"{% else %}div{% endif %} class="card">
-        <p class="card__title">{{ exp.title }}</p>
-        <p class="card__desc">{{ exp.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-progress">In progress</span>
-          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
-        </div>
-      </{% if exp.link %}a{% else %}div{% endif %}>
-      {% endif %}
       {% endfor %}
     </div>
   </section>
@@ -85,29 +65,19 @@
   {% if ideas %}
   <section class="section">
     <p class="section__label">Ideas</p>
-    <div class="card-grid">
+    <div class="experiments-grid">
       {% for exp in ideas %}
-      {% if exp.repo %}
-      <div class="card">
-        <p class="card__title">{{ exp.title }}</p>
-        <p class="card__desc">{{ exp.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-idea">Idea</span>
-          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
-          {% if exp.link %}<a href="{{ exp.link }}" class="card__link">View →</a>{% endif %}
-          <a href="{{ exp.repo }}" class="card__link">GitHub →</a>
+      <div class="experiment-card">
+        {% if exp.image %}
+        <img src="{{ exp.image }}" alt="{{ exp.image_alt or exp.title }}" class="experiment-card__img">
+        {% endif %}
+        <div class="experiment-card__body">
+          <p class="experiment-card__label">{{ exp.category }}</p>
+          <h3 class="experiment-card__title">{{ exp.title }}</h3>
+          <p class="experiment-card__desc">{{ exp.description }}</p>
+          {% if exp.link %}<a href="{{ exp.link }}" class="arrow-link">View experiment</a>{% endif %}
         </div>
       </div>
-      {% else %}
-      <div class="card">
-        <p class="card__title">{{ exp.title }}</p>
-        <p class="card__desc">{{ exp.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-idea">Idea</span>
-          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
-        </div>
-      </div>
-      {% endif %}
       {% endfor %}
     </div>
   </section>
@@ -116,29 +86,19 @@
   {% if archived %}
   <section class="section">
     <p class="section__label">Archived</p>
-    <div class="card-grid">
+    <div class="experiments-grid">
       {% for exp in archived %}
-      {% if exp.repo %}
-      <div class="card">
-        <p class="card__title">{{ exp.title }}</p>
-        <p class="card__desc">{{ exp.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-archived">Archived</span>
-          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
-          {% if exp.link %}<a href="{{ exp.link }}" class="card__link">View →</a>{% endif %}
-          <a href="{{ exp.repo }}" class="card__link">GitHub →</a>
+      <div class="experiment-card">
+        {% if exp.image %}
+        <img src="{{ exp.image }}" alt="{{ exp.image_alt or exp.title }}" class="experiment-card__img">
+        {% endif %}
+        <div class="experiment-card__body">
+          <p class="experiment-card__label">{{ exp.category }}</p>
+          <h3 class="experiment-card__title">{{ exp.title }}</h3>
+          <p class="experiment-card__desc">{{ exp.description }}</p>
+          {% if exp.link %}<a href="{{ exp.link }}" class="arrow-link">View experiment</a>{% endif %}
         </div>
       </div>
-      {% else %}
-      <{% if exp.link %}a href="{{ exp.link }}"{% else %}div{% endif %} class="card">
-        <p class="card__title">{{ exp.title }}</p>
-        <p class="card__desc">{{ exp.description }}</p>
-        <div class="card__meta">
-          <span class="tag tag--status-archived">Archived</span>
-          {% if exp.category %}<span class="tag">{{ exp.category }}</span>{% endif %}
-        </div>
-      </{% if exp.link %}a{% else %}div{% endif %}>
-      {% endif %}
       {% endfor %}
     </div>
   </section>
