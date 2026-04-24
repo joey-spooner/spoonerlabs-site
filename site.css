@@ -522,7 +522,7 @@ a:hover {
 }
 
 .arrow-link::after {
-  content: ' →';
+  content: ' \2192';
   opacity: 0.6;
 }
 
