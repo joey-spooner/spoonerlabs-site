@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Work Radar — Spooner Labs</title>
-  <meta name="description" content="A system for tracking job opportunities, scoring fit, and managing the full job search process.">
+  <meta name="description" content="A local-first desktop app for managing a job search end-to-end — Kanban board, AI-generated resumes and cover letters, contact tracking, and fit scoring.">
   <meta property="og:title" content="Work Radar — Spooner Labs">
-  <meta property="og:description" content="A system for tracking job opportunities, scoring fit, and managing the full job search process.">
+  <meta property="og:description" content="A local-first desktop app for managing a job search end-to-end — Kanban board, AI-generated resumes and cover letters, contact tracking, and fit scoring.">
   <meta property="og:type" content="website">
   <link rel="icon" href="/assets/brand/spoonerlabs-icon-clean.ico" sizes="any">
   <link rel="icon" type="image/png" href="/assets/brand/spoonerlabs-icon-clean.png">
@@ -48,18 +48,19 @@
       <div class="project-hero__content">
         <p class="page-header__eyebrow">Project</p>
         <h1 class="project-hero__title">Work Radar</h1>
-        <p class="project-hero__desc">A system for tracking opportunities, scoring fit, and managing the full job search process.</p>
+        <p class="project-hero__desc">A local-first desktop app for managing a job search end-to-end — from discovery through offer or close.</p>
         <div class="project-hero__tags">
           <span class="tag tag--status-live">Live</span>
+          <span class="tag">Desktop</span>
           <span class="tag">AI-assisted</span>
-          <span class="tag">Notion</span>
         </div>
         <div class="project-hero__actions">
+          <a href="https://getworkradar.com" class="btn btn--primary" target="_blank" rel="noopener">View project ↗</a>
           <a href="#notes" class="btn btn--ghost">Read notes →</a>
         </div>
       </div>
       <div class="project-hero__preview">
-        <img src="/assets/images/work-radar.png" alt="Work Radar interface showing the jobs board and scoring view" class="project-hero__img">
+        <img src="/assets/images/work-radar.png" alt="Work Radar jobs board interface" class="project-hero__img">
       </div>
     </div>
   </header>
@@ -72,14 +73,14 @@
       <div class="feature-item">
         <div class="feature-item__icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="3" width="16" height="14" rx="2"/>
-            <path d="M2 7h16"/>
-            <path d="M6 3v4M14 3v4"/>
+            <rect x="2" y="2" width="4" height="16" rx="1"/>
+            <rect x="8" y="2" width="4" height="10" rx="1"/>
+            <rect x="14" y="2" width="4" height="13" rx="1"/>
           </svg>
         </div>
         <div>
           <strong class="feature-item__title">Jobs board</strong>
-          <p class="feature-item__desc">Track roles from any source in one place. Status, timeline, and next steps — all visible at a glance.</p>
+          <p class="feature-item__desc">Drag-and-drop Kanban across every stage — Inbox through Offer. Search with ⌘F. Archive a column in one click.</p>
         </div>
       </div>
 
@@ -90,21 +91,36 @@
           </svg>
         </div>
         <div>
-          <strong class="feature-item__title">AI-assisted</strong>
-          <p class="feature-item__desc">Score opportunities for fit, surface relevant contacts, and draft outreach — without outsourcing the judgment.</p>
+          <strong class="feature-item__title">AI generation</strong>
+          <p class="feature-item__desc">Tailored resumes and cover letters grounded in your bio. Anthropic, OpenAI, or Gemini — your choice. Nothing is invented.</p>
         </div>
       </div>
 
       <div class="feature-item">
         <div class="feature-item__icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="10" cy="7" r="3"/>
-            <path d="M4 18c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+            <circle cx="10" cy="5" r="2.5"/>
+            <path d="M4 18c0-4 2.7-6 6-6s6 2 6 6"/>
+            <path d="M15 9a2 2 0 100-4M18 17c0-2.5-1.3-4.3-3-5"/>
           </svg>
         </div>
         <div>
           <strong class="feature-item__title">Contacts</strong>
-          <p class="feature-item__desc">Log every person and company involved. Track relationships, warm connections, and touchpoints over time.</p>
+          <p class="feature-item__desc">Track recruiters, hiring managers, and connectors alongside the roles they relate to.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 5h4M3 10h10M3 15h7"/>
+            <circle cx="16" cy="15" r="3"/>
+            <path d="M16 13.5v1.5l1 1"/>
+          </svg>
+        </div>
+        <div>
+          <strong class="feature-item__title">Scoring</strong>
+          <p class="feature-item__desc">Three-lens fit score: evidence from your work history, alignment to your ideal role, and practical constraints.</p>
         </div>
       </div>
 
@@ -117,20 +133,7 @@
         </div>
         <div>
           <strong class="feature-item__title">History</strong>
-          <p class="feature-item__desc">Every stage, decision, and follow-up is timestamped. Never lose context on a role you were pursuing months ago.</p>
-        </div>
-      </div>
-
-      <div class="feature-item">
-        <div class="feature-item__icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 15l4-5 3 3 3-4 4 6"/>
-            <path d="M2 18h16"/>
-          </svg>
-        </div>
-        <div>
-          <strong class="feature-item__title">Scoring</strong>
-          <p class="feature-item__desc">Rate each role across criteria that matter to you — scope, team, comp, growth — with adjustable weights.</p>
+          <p class="feature-item__desc">Every stage change, import, outreach draft, and asset generation is logged with a timestamp. Nothing gets lost.</p>
         </div>
       </div>
 
@@ -138,13 +141,12 @@
         <div class="feature-item__icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="14" height="14" rx="2"/>
-            <path d="M7 10h6M7 13h4"/>
-            <circle cx="10" cy="7" r="1" fill="currentColor" stroke="none"/>
+            <path d="M10 7v6M7 10h6"/>
           </svg>
         </div>
         <div>
-          <strong class="feature-item__title">Private &amp; portable</strong>
-          <p class="feature-item__desc">Lives in Notion. No SaaS lock-in, no recruiter-facing dashboard. Your data, fully in your control.</p>
+          <strong class="feature-item__title">Browser extension</strong>
+          <p class="feature-item__desc">Capture a job from any page and send it directly to the board. Confirming an application from the extension moves the card automatically.</p>
         </div>
       </div>
 
@@ -155,8 +157,8 @@
   <section class="section">
     <p class="section__label">Why I built it</p>
     <div class="prose">
-      <p>During an extended job search I couldn't find a tool that treated the process seriously. Most trackers were basic spreadsheets, and the SaaS options were optimized for recruiters, not candidates. They didn't help with the hard parts: evaluating whether a role was actually a fit, remembering who was connected to what, or knowing what deserved attention that week.</p>
-      <p>I wanted something that would let me think clearly about fit, track history rigorously, and use AI selectively — to surface signal, not replace judgment. Work Radar is what I built to run my own search. It's Notion-native so it stays flexible, and because I built it for myself, it's opinionated in exactly the ways I needed.</p>
+      <p>Job search tools are almost all built for recruiters or for volume — tracking applications like tickets, optimizing for throughput. I needed something that helped me think clearly about fit: whether I could credibly do the work, whether I actually wanted to, and whether the practical realities lined up.</p>
+      <p>I also wanted a record that was honest. Every action logged, every stage transition timestamped, every piece of generated content grounded in real work history — not optimized for polish. Work Radar runs locally, keeps nothing in the cloud, and gives full CSV export. It's built to be used seriously, not to game the process.</p>
     </div>
   </section>
 
@@ -168,37 +170,37 @@
       <div class="step">
         <span class="step__num">1</span>
         <strong class="step__title">Capture</strong>
-        <p class="step__desc">Add a role, paste a job description, tag the source. Takes under a minute.</p>
+        <p class="step__desc">Paste a job, upload a CSV of past applications, or send from the browser extension. Data is normalized and deduplicated on the way in.</p>
       </div>
 
       <div class="step">
         <span class="step__num">2</span>
-        <strong class="step__title">Evaluate</strong>
-        <p class="step__desc">AI scores the role against your criteria. You review and adjust weights to match what actually matters.</p>
+        <strong class="step__title">Score</strong>
+        <p class="step__desc">Each opportunity is scored across three lenses: evidence fit (can you do it?), preference fit (do you want it?), constraint fit (can you take it?).</p>
       </div>
 
       <div class="step">
         <span class="step__num">3</span>
-        <strong class="step__title">Track contacts</strong>
-        <p class="step__desc">Link people and companies. Note how you know them, warm connections, and who's already in your network.</p>
+        <strong class="step__title">Work the board</strong>
+        <p class="step__desc">Drag cards through stages. Set next actions and follow-up dates. The board is a view over persistent records — not the source of truth.</p>
       </div>
 
       <div class="step">
         <span class="step__num">4</span>
-        <strong class="step__title">Move through stages</strong>
-        <p class="step__desc">Outreach → screen → interview → offer, with full history at every transition.</p>
+        <strong class="step__title">Generate assets</strong>
+        <p class="step__desc">Produce a tailored resume or cover letter. Output is grounded in your bio — the model can't invent experience you don't have. Files are saved locally.</p>
       </div>
 
       <div class="step">
         <span class="step__num">5</span>
-        <strong class="step__title">Review the board</strong>
-        <p class="step__desc">A dashboard view surfaces what's gone stale, what's active, and where to focus your energy.</p>
+        <strong class="step__title">Track contacts</strong>
+        <p class="step__desc">Link people to roles. Log every touchpoint. Know who you've talked to, when, and what was said.</p>
       </div>
 
       <div class="step">
         <span class="step__num">6</span>
-        <strong class="step__title">Weekly summary</strong>
-        <p class="step__desc">Generate a snapshot of pipeline activity, high-priority roles, and next steps — useful for staying honest with yourself.</p>
+        <strong class="step__title">Review &amp; close</strong>
+        <p class="step__desc">The history log shows where time went and what converted. Archive what's dead. Close what's done. Export everything to CSV whenever you need it.</p>
       </div>
 
     </div>
@@ -217,11 +219,12 @@
     <p class="section__label">Notes from the build</p>
     <div class="prose">
       <ul>
-        <li>Notion's formula fields are more capable than they look but hit limits on complex multi-step scoring — worth knowing before you lean on them heavily.</li>
-        <li>The hardest UX problem was surfacing "what needs attention today" without overwhelming the board overview. Filters saved it.</li>
-        <li>Scoring is opinionated. The default weights are mine; they're easy to change but most people won't. That's probably fine.</li>
-        <li>AI-drafted outreach gets about 60% of the way there. The remaining 40% is judgment about tone, timing, and what the person actually cares about.</li>
-        <li>History is underrated. Being able to look back at why I passed on a role — or why I was excited — turned out to be genuinely useful for calibrating over time.</li>
+        <li>Electron's process separation (main vs. renderer via IPC) is the right constraint — it forces a clean boundary between business logic and UI that pays off quickly when the app gets complex.</li>
+        <li>SQLite via better-sqlite3 is fast and simple. Keeping current state and event history in separate tables was the right call — it made audit logging straightforward and didn't corrupt the board view.</li>
+        <li>The browser extension + local HTTP server pairing works well. The extension is a capture tool, not an automation bot — that distinction matters both technically and ethically.</li>
+        <li>Grounding AI generation in a structured bio file prevents hallucination more reliably than prompt instructions alone. The model can only work with what's there.</li>
+        <li>The hardest product problem was surfacing "what needs attention right now" without cluttering the board. Metadata fields (next action, follow-up date, priority) handled it better than extra columns.</li>
+        <li>React 18 + Tailwind in the renderer works smoothly. Vitest + better-sqlite3 in the main process covered the cases where correctness mattered most — import normalization, scoring, stage transitions.</li>
       </ul>
     </div>
   </section>
